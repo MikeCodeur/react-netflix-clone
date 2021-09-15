@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
 const inquirer = require('inquirer')
 const {
   spawnSync,
@@ -86,6 +85,7 @@ async function startExtraCredit() {
     return `Bonus ${variant}: ${extraCreditTitles[variant - 1]}`
   }
 
+  // eslint-disable-next-line no-unused-vars
   const {variant} = await inquirer.prompt([
     {
       name: 'variant',
