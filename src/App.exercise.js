@@ -1,30 +1,27 @@
-// ⛏️ supprime les 2 imports suivants, nous ne les utiliseront pas  
-import logo from './logo.svg';
-import './App.css';
-// 🐶 importe 'NetflixApp' 
-// 🤖 import {NetflixApp} from 'components/NetflixApp'
+import {NetflixApp} from 'components/NetflixApp'
+// 🐶 importe 'createTheme' 'ThemeProvider'
+// import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+
+// 🐶 créé un theme Material UI qui sera enrichie par la suite
+// 🤖
+// const theme = createTheme({
+//   palette: {
+//     type: 'dark',
+//     primary: {
+//       main: '#111',
+//     },
+//     secondary: {
+//       main: '#000',
+//     },
+//   },
+// })
 
 function App() {
   return (
-    // ⛏️ supprime la 'div' principale et son contenu et retourne à la place 
-    // <NetflixApp />
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    // 🐶 wrappe <NetflixApp /> 
+    // avec <ThemeProvider> et passe 'theme' en prop 'theme'
+      <NetflixApp />
+  )
 }
-// 🐶 edite maintenant le fichier 'components/NetflixApp'
+
 export {App}

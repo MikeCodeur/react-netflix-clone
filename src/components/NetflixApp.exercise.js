@@ -1,55 +1,105 @@
 import React from 'react'
+// 🐶 Dans cet exercice tu vas devoir créer une Barre de Menu avec MUI (MaterialUi).
+// commnce par importer les 3 composants MUI suivants :
+//
+//import AppBar from '@material-ui/core/AppBar'
+//import Toolbar from '@material-ui/core/Toolbar'
+//import Typography from '@material-ui/core/Typography'
+//import './Netflix.css'
 
-// 🐶 créé une structure HTML simple represantant le site de Netflix
-// il y aura :
-// - une barre de menu
-// - un header
-// - un zone de pochette de film (format large)
-// - un zone de pochette de film (format poster)
-// - un footer
-
-// 👨‍✈️ Hugo le chef de projet te détaillera chaque bloque.
 const NetflixApp = () => {
+  // 🐶 Créé un objet 'appBarStyle' qui contiendra du du style pour la 'AppBar'
+  // - background: 'transparent'
+  // - boxShadow: 'none'
+  // Ce style permet d'avoir la fond transparent
+
+  // 🐶 Crée un objet 'margin10' qui contiendra du du style espacer les items du menu
+  // - margin: 10
   return (
     <div>
-      {/* 👨‍✈️ Barre de menu :  créé la barre de menu en créant 7 élements (2 images logo et 5 liens) 
-      La premiere image sera le logo NetFlix, la derniere image le boutton du compte.*/}
+      {/* // ⛏️ supprime cette bare de menu, nous utiliseront MUI */}
       <div>
-        {/* 🐶 créé une <img> avec la source "images/netflix-logo.png" et 'height' de 20px   */}
-        {/* 🐶 créé  5 liens <a> : Acceuil, Séries, Films, Nouveautés, Ma liste*/}
-        {/* 🐶 créé une <img> avec la source "images/netflix-avatar.png" et 'height' de 20px   */}
+        <img src="images/netflix-logo.png" alt="" height="20" />
+        <a href="/">Acceuil</a>
+        <a href="/">Séries </a>
+        <a href="/">Films </a>
+        <a href="/">Nouveautés </a>
+        <a href="/">Ma liste </a>
+        <img src="images/netflix-avatar.png" alt="" height="20" />
       </div>
 
-      {/* 👨‍✈️ Header : Contenant un titre, 2 bouttons, zone description */}
+      {/* 🐶 Crée une Barre de menu en utilisant <AppBar>
+        - Applique lui le style 'appBarStyle'
+        Les 7 items de la barre de menu sont : 
+        - Le logo Netflix
+          🤖 <img className="nav__logo" src="/images/netflix-logo.png" alt="" />
+        - Les 5 items du menu 
+          🤖 utilise cela pour chaue menu 
+          <a href="/le_lien">
+            <Typography style={margin10} variant="h6">
+              Nom de l'item
+            </Typography>
+          </a>
+        - Le logo Avatar :
+          🤖 <img style={{marginLeft: 'auto'}} className="nav__avatar" src="/images/netflix-avatar.png" alt="" />
+       */}
+
+      {/* 🐶 Pour les éléments suivants, nous n'utiliseront pas MUI,
+      nous utliseront des classes CSS classiques de 'Netflix.css' */}
+
+      {/* 🐶 applique la classe 'banner' sur <header> */}
       <header>
+        {/* 🐶 applique la classe 'banner__contents' */}
         <div>
-          {/* 🐶 Créé un titre h1 : La casa de papel */}
+          {/* 🐶 applique la classe 'banner__title' */}
+          <h1>La casa de papel</h1>
+          {/* 🐶 applique la classe 'banner__buttons' */}
           <div>
-            {/* 🐶 Créé un button : Lecture */}
-            {/* 🐶 Créé un button : Ajouter à ma liste */}
+            {/* 🐶 applique la classe 'banner__button' et 'banner__buttonplay' */}
+            <button>Lecture</button>
+            {/* 🐶 applique la classe 'banner__button' et 'banner__buttonInfo' */}
+            <button>Ajouter à ma liste</button>
           </div>
-          {/* 🐶 Créé un titre h1 contenant le texte : Le Professeur recrute une jeune braqueuse et sept autres criminels
+          {/* 🐶 applique la classe 'synopsis' */}
+          <h1>
+            Le Professeur recrute une jeune braqueuse et sept autres criminels
             en vue d'un cambriolage grandiose ciblant la Maison royale de la
-            Monnaie d'Espagne. */}
+            Monnaie d'Espagne.
+          </h1>
         </div>
       </header>
 
-      {/* 👨‍✈️ Zone ligne de films format large */}
+      {/* 🐶 applique la classe 'row' */}
       <div>
-        {/* 🐶 Créé un titre h2 : Films Netflix */}
+        <h2>Films Netflix</h2>
+        {/* 🐶 applique la classe 'row__posters' */}
         <div>
-          {/* 🐶 Créé 4 <img> height à 250 : Alterne avec 'images/sample.jpg' et images/sample1.jpg  */}
+          {/* 🐶 Sur toutes les images
+          - applique la classe 'row__poster' et 'row__posterLarge' 
+          ⛏️ supprime height="250"  */}
+          <img src="images/sample.jpg" alt="" height="250" />
+          <img src="images/sample1.jpg" alt="" height="250" />
+          <img src="images/sample.jpg" alt="" height="250" />
+          <img src="images/sample1.jpg" alt="" height="250" />
         </div>
       </div>
 
-      {/* 👨‍✈️ Zone ligne de films format poster */}
+      {/* 🐶 applique la classe 'row' */}
       <div>
-        {/* 🐶 Créé un titre h2 : Série Netflix */}
+        <h2>Série Netflix</h2>
+        {/* 🐶 applique la classe 'row__posters' */}
         <div>
-          {/* 🐶 Créé 4 <img> height à 300 : Alterne avec 'images/sample-poster.jpg' et images/sample-poster1.jpg  */}
+          {/* 🐶 Sur toutes les images
+          - applique la classe 'row__poster' et 'row__posterLarge' 
+          ⛏️ supprime height="300"  */}
+          <img src="images/sample-poster.jpg" alt="" height="300" />
+          <img src="images/sample-poster1.jpg" alt="" height="300" />
+          <img src="images/sample-poster.jpg" alt="" height="300" />
+          <img src="images/sample-poster1.jpg" alt="" height="300" />
         </div>
       </div>
 
+      {/* 🐶 applique la classe 'footer' */}
       <footer>2021 - Netflix Clone</footer>
     </div>
   )

@@ -6,10 +6,31 @@ import Typography from '@material-ui/core/Typography'
 import './Netflix.css'
 
 const NetflixApp = () => {
-  const appBarStyle = {
+  const [appBarStyle, setAppBarStyle] = React.useState({
     background: 'transparent',
     boxShadow: 'none',
-  }
+  })
+
+  React.useEffect(() => {
+    const onScroll = e => {
+      if (e.target.documentElement.scrollTop >= 100) {
+        setAppBarStyle({
+          background: '#111',
+          transition: 'background .5s ease-out',
+          boxShadow: 'none',
+        })
+      } else {
+        setAppBarStyle({
+          background: 'transparent',
+          transition: 'background .5s ease-out',
+          boxShadow: 'none',
+        })
+      }
+    }
+    window.addEventListener('scroll', onScroll)
+
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
   const margin10 = {margin: 10}
   return (
     <div>
