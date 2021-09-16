@@ -1,24 +1,7 @@
-import {NetflixApp} from 'components/NetflixApp'
-import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+// Pas de final
 
-const theme = createTheme({
-  palette: {
-    type: 'dark',
-    primary: {
-      main: '#111',
-    },
-    secondary: {
-      main: '#000',
-    },
-  },
-})
+export * from './App.exercise'
 
-function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <NetflixApp />
-    </ThemeProvider>
-  )
-}
+// 🚀 Utilisation de ErrorBoundary
+//export * from './App.bonus-2'
 
-export {App}
