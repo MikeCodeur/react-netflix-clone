@@ -3,11 +3,9 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
-import axios from 'axios'
 import {getRandomType, getRandomId} from '../utils/helper'
-import {apiKey, lang, API_URL} from '../config'
+import {clientApi} from '../utils/clientApi'
 import './Netflix.css'
-
 
 const NetflixApp = () => {
   const [headerMovie, setHeaderMovie] = React.useState()
@@ -19,10 +17,7 @@ const NetflixApp = () => {
     if (!queried) {
       return
     }
-    axios
-      .get(
-        `${API_URL}/${type}/${defaultMovieId}?api_key=${apiKey}&language=${lang}`,
-      )
+    clientApi(`${type}/${defaultMovieId}`)
       .then(response => {
         setHeaderMovie(response)
         setQueried(false)
