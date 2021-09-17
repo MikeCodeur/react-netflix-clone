@@ -8,7 +8,7 @@ const clientApi = async endpoint => {
   const page = 1
   // uniquement pour tester api long sur certain endpoint
   // if (endpoint.includes('10759')) {
-  //   await sleep(2000)
+  //    await sleep(3000)
   // }
   
   const startChar = endpoint.includes('?') ? `&` : `?`

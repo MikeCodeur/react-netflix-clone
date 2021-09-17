@@ -1,5 +1,5 @@
-# Composant : Ligne de films
-### 💡 Composant : Ligne de films
+# Fetching et Skeletons
+### 💡 Fetching et Skeletons
 
 ## 📝 Tes notes
 
@@ -7,44 +7,28 @@ Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](h
 
 ## Comprendre
 
-Dans l'application Netflix nous avons des lignes de films / séries. 
+Lors d'appel HTTP il peut se passer plusieurs millisecondes et parfois plus lorsque la connexion est lente. Au lieu d'afficher des barre de chargement, spinner etc ... il est possible de créer des `skeletons.` C'est a dire des squelette de composants sans donnée, le temps que les données arrivent. `Material-UI` propose un composant <Skeleton />
 
-- Les plus gros succès Netflix
-- Tendances actuelles
-- Films d'actions
-- etc ...
+```jsx
+<Skeleton variant="text" />
+<Skeleton variant="circular" width={40} height={40} />
+<Skeleton variant="rectangular" width={210} height={118} />
+```
 
-De plus l'affichage des pochettes parfois vertical, parfois horizontal. Un logo Netflix est superposé sur la pochette de film.
+📑 Le lien vers la documentation de [Skeleton](https://material-ui.com/components/skeleton/)
 
 ## Exercice
 
-👨‍✈️ Hugo le chef de projet nous demande la fonctionnalité suivante : Pourvoir afficher des films / séries de la même manière que sur Netflix, c'est à dire :
+Dans cet exercice tu vas devoir créer deux skeletons. Un pour le Header, un autre pour la ligne de de films.  Le principe et de faire un rendu du composant original *(même styles, classes, structure)* et de remplacer toutes les données distances (api, images etc ...) par un composant Skeleton
 
-- des lignes de films
-- des lignes de séries
-
-filtrer par
-
-- les nouveautés
-- tendances
-- populaires
-- les mieux notée
-- par genre (action, aventure, thriller etc ...)
-
-🐶 Le but de cet exercice va être de développer un composant `NetflixRow` qui gère tous ces cas. Nous utiliserons les API REST suivantes 
-
-- `/movie/latest`
-- `/movie/popular`
-- `/movie/top_rated`
-- `/tv/latest`
-- `/tv/popular`
-- `/tv/top_rated`
-- `/trending/all/day`
+> Modifie `src/utils/clientApi.js` et décommente `await sleep(3000)` pour simuler des API longues
 
 **Fichiers :**
 
-- `src/components/NetflixApp.js`
-- `src/components/NetFlixRow.js`
+- `src/components/skeletons/HeaderSkeleton.js`
+- `src/components/skeletons/RowSkeleton.js`
+- `src/components/NetflixHeader.js`
+- `src/components/NetflixRow.js`
 
 ## Aller plus loin
 
