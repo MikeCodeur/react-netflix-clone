@@ -7,44 +7,40 @@ import {getRandomType, getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {makeStyles} from '@material-ui/core/styles'
 import {Alert, AlertTitle} from '@material-ui/lab'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress'
+import {useFetchData} from '../utils/hooks'
 import './Netflix.css'
 
 const useStyles = makeStyles(theme => ({
   alert: {
     width: '50%',
-    margin : 'auto',
-    marginBotton:'50px'
+    margin: 'auto',
+    marginBotton: '50px',
   },
   progress: {
-    marginLeft : '30px',
+    marginLeft: '30px',
   },
 }))
 
 const NetflixApp = () => {
   const classes = useStyles()
-  const [headerMovie, setHeaderMovie] = React.useState()
+  const {data: headerMovie, error, status, execute} = useFetchData()
   const [type] = React.useState(getRandomType())
   const defaultMovieId = getRandomId(type)
   const [queried, setQueried] = React.useState(true)
-  const [status, setStatus] = React.useState('idle')
 
   React.useEffect(() => {
     if (!queried) {
       return
     }
-    setStatus('fetching')
-    clientApi(`${type}/${defaultMovieId}`)
-      .then(response => {
-        setHeaderMovie(response)
-        setQueried(false)
-        setStatus('done')
-      })
-      .catch(error => {
-        setStatus('error')
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queried])
+    execute(clientApi(`${type}/${defaultMovieId}`))
+    setQueried(false)
+  }, [execute, defaultMovieId, queried, type])
+
+  if (status === 'error') {
+    // sera catcher par ErrorBoundary
+    throw new Error(error.message)
+  }
   return (
     <div>
       <NetflixAppBar />
@@ -56,12 +52,16 @@ const NetflixApp = () => {
         <div className={classes.alert}>
           <Alert severity="error">
             <AlertTitle>Une erreur est survenue</AlertTitle>
-            Réessayez ulterieurement — <strong>Netflix!</strong>
+            Detail : {error.message}
           </Alert>
         </div>
       ) : null}
-      
-      {status === 'fetching' ? <div className={classes.progress}><CircularProgress />  </div>:  null }
+
+      {status === 'fetching' ? (
+        <div className={classes.progress}>
+          <CircularProgress />{' '}
+        </div>
+      ) : null}
       <NetFlixFooter color="secondary" si />
     </div>
   )
