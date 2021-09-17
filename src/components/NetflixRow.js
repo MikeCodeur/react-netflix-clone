@@ -1,3 +1,3 @@
-export * from './NetflixRow.final'
+//export * from './NetflixRow.final'
 
-//export * from './NetflixRow.exercise'
+export * from './NetflixRow.exercise'
