@@ -9,7 +9,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Alert, AlertTitle} from '@material-ui/lab'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import {useFetchData} from '../utils/hooks'
-import {TYPE_MOVIE, TYPE_TV} from '../config'
+import {TYPE_TV} from '../config'
 import './Netflix.css'
 
 const useStyles = makeStyles(theme => ({
@@ -23,10 +23,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixSeries = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
-  const [type] = React.useState(getRandomType())
+  const [type] = React.useState(TYPE_TV)
   const defaultMovieId = getRandomId(type)
   const [queried, setQueried] = React.useState(true)
 
@@ -49,22 +49,22 @@ const NetflixApp = () => {
       <NetflixRow
         wideImage={true}
         watermark={true}
-        type={TYPE_MOVIE}
+        type={TYPE_TV}
         filter="trending"
-        title="Films Netflix"
+        title="Séries tendances Netflix"
       />
       <NetflixRow
         wideImage={false}
         watermark={true}
         type={TYPE_TV}
-        filter="trending"
-        title="Série Netflix"
+        filter="toprated"
+        title="Séries les mieux notées"
       />
 
       <NetflixRow
-        type={TYPE_MOVIE}
-        filter="toprated"
-        title="Les mieux notés"
+        type={TYPE_TV}
+        filter="populaire"
+        title="Les séries populaires"
         watermark={true}
         wideImage={true}
       />
@@ -72,17 +72,17 @@ const NetflixApp = () => {
       <NetflixRow
         type={TYPE_TV}
         filter="genre"
-        param="10759"
-        title="Action & aventure"
+        param="99"
+        title="Les documentaires"
         watermark={true}
         wideImage={true}
       />
 
       <NetflixRow
-        type={TYPE_MOVIE}
+        type={TYPE_TV}
         filter="genre"
-        param="53"
-        title="Les meilleurs Thriller"
+        param="80"
+        title="Les séries criminelles"
         watermark={false}
         wideImage={false}
       />
@@ -105,4 +105,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixSeries}

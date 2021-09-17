@@ -3,6 +3,7 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
+// 🐶 supprime getRandomType nous n'utilisons plus de types aléatoire
 import {getRandomType, getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {makeStyles} from '@material-ui/core/styles'
@@ -23,9 +24,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixMovies = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
+  // 🐶 fixe le bon type 
   const [type] = React.useState(getRandomType())
   const defaultMovieId = getRandomId(type)
   const [queried, setQueried] = React.useState(true)
@@ -53,6 +55,10 @@ const NetflixApp = () => {
         filter="trending"
         title="Films Netflix"
       />
+      {/* 
+        🐶 utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "Les mieux notés"
+      */}
       <NetflixRow
         wideImage={false}
         watermark={true}
@@ -60,7 +66,10 @@ const NetflixApp = () => {
         filter="trending"
         title="Série Netflix"
       />
-
+      {/* 
+        🐶 Utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "Les films pouplaires"
+      */}
       <NetflixRow
         type={TYPE_MOVIE}
         filter="toprated"
@@ -68,7 +77,10 @@ const NetflixApp = () => {
         watermark={true}
         wideImage={true}
       />
-
+      {/* 
+        🐶 Utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "Films Fantastiques"
+      */}
       <NetflixRow
         type={TYPE_TV}
         filter="genre"
@@ -77,7 +89,10 @@ const NetflixApp = () => {
         watermark={true}
         wideImage={true}
       />
-
+      {/* 
+        🐶 Utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "Les films de science fiction"
+      */}
       <NetflixRow
         type={TYPE_MOVIE}
         filter="genre"
@@ -105,4 +120,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixMovies}

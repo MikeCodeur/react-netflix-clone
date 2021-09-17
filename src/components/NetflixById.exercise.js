@@ -3,6 +3,7 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
+// 🐶 supprime 'getRandomType' et 'getRandomId' car nous n'utiliseront plus de films aléatoires
 import {getRandomType, getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {makeStyles} from '@material-ui/core/styles'
@@ -11,6 +12,8 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import {useFetchData} from '../utils/hooks'
 import {TYPE_MOVIE, TYPE_TV} from '../config'
 import './Netflix.css'
+
+// 🐶 importe les hooks 'useParams' et 'useLocation' de "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
   alert: {
@@ -23,10 +26,18 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixById = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
+  // 🐶 utilise le hook 'useParams' pour récuperer les valeurs de 'tvId' et 'movieId'
+  // 🐶 utilise le hook 'useLocation' pour récuperer la valeur de 'pathname'
+  // cela nous permetra de savoir si l'url est /tv/:tvId ou /movie/:movieId
+  // donc de pouvoir determiner le 'type' (TYPE_TV ou TYPE_MOVIE)
+
+  // ⛏️ supprime 'getRandomType()' et met la valeur de type determinée plus haut.
   const [type] = React.useState(getRandomType())
+
+  // 🐶 determine l'id en fonction du type (soit 'tvId' soit 'movieId' )
   const defaultMovieId = getRandomId(type)
   const [queried, setQueried] = React.useState(true)
 
@@ -105,4 +116,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixById as NetflixApp}

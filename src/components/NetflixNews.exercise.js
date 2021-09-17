@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixNews = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
   const [type] = React.useState(getRandomType())
@@ -46,6 +46,10 @@ const NetflixApp = () => {
     <div>
       <NetflixAppBar />
       <NetflixHeader movie={headerMovie?.data} type={type} />
+      {/* 
+        🐶 utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "A venir"
+      */}
       <NetflixRow
         wideImage={true}
         watermark={true}
@@ -53,6 +57,10 @@ const NetflixApp = () => {
         filter="trending"
         title="Films Netflix"
       />
+       {/* 
+        🐶 utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "Nouveauté"
+      */}
       <NetflixRow
         wideImage={false}
         watermark={true}
@@ -105,4 +113,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixNews}

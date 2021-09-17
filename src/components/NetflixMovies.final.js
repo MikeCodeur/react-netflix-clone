@@ -3,13 +3,13 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
-import {getRandomType, getRandomId} from '../utils/helper'
+import {getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {makeStyles} from '@material-ui/core/styles'
 import {Alert, AlertTitle} from '@material-ui/lab'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import {useFetchData} from '../utils/hooks'
-import {TYPE_MOVIE, TYPE_TV} from '../config'
+import {TYPE_MOVIE} from '../config'
 import './Netflix.css'
 
 const useStyles = makeStyles(theme => ({
@@ -23,10 +23,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixMovies = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
-  const [type] = React.useState(getRandomType())
+  const [type] = React.useState(TYPE_MOVIE)
   const defaultMovieId = getRandomId(type)
   const [queried, setQueried] = React.useState(true)
 
@@ -56,24 +56,15 @@ const NetflixApp = () => {
       <NetflixRow
         wideImage={false}
         watermark={true}
-        type={TYPE_TV}
-        filter="trending"
-        title="Série Netflix"
-      />
-
-      <NetflixRow
         type={TYPE_MOVIE}
         filter="toprated"
         title="Les mieux notés"
-        watermark={true}
-        wideImage={true}
       />
 
       <NetflixRow
-        type={TYPE_TV}
-        filter="genre"
-        param="10759"
-        title="Action & aventure"
+        type={TYPE_MOVIE}
+        filter="populaire"
+        title="Les films pouplaires"
         watermark={true}
         wideImage={true}
       />
@@ -81,8 +72,17 @@ const NetflixApp = () => {
       <NetflixRow
         type={TYPE_MOVIE}
         filter="genre"
-        param="53"
-        title="Les meilleurs Thriller"
+        param="14"
+        title="Films Fantastiques"
+        watermark={true}
+        wideImage={true}
+      />
+
+      <NetflixRow
+        type={TYPE_MOVIE}
+        filter="genre"
+        param="878"
+        title="Les films de science fiction"
         watermark={false}
         wideImage={false}
       />
@@ -105,4 +105,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixMovies}

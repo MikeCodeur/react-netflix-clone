@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixSeries = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
   const [type] = React.useState(getRandomType())
@@ -105,4 +105,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixSeries}

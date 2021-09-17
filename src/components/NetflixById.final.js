@@ -3,13 +3,16 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
-import {getRandomType, getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {makeStyles} from '@material-ui/core/styles'
 import {Alert, AlertTitle} from '@material-ui/lab'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import {useFetchData} from '../utils/hooks'
 import {TYPE_MOVIE, TYPE_TV} from '../config'
+import {
+  useParams,
+  useLocation
+} from "react-router-dom";
 import './Netflix.css'
 
 const useStyles = makeStyles(theme => ({
@@ -23,20 +26,26 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixApp = () => {
+const NetflixById = () => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
-  const [type] = React.useState(getRandomType())
-  const defaultMovieId = getRandomId(type)
-  const [queried, setQueried] = React.useState(true)
+  let { tvId, movieId } = useParams()
+  const location = useLocation()
+  const [type] = React.useState( location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE)
+  const [id] = React.useState( type === TYPE_TV ? tvId : movieId)
 
+  const [queried, setQueried] = React.useState(true)
+  console.log('location',location);
+  console.log('location',type);
   React.useEffect(() => {
+    console.log('useEffect');
     if (!queried) {
-      return
+      //return
     }
-    execute(clientApi(`${type}/${defaultMovieId}`))
+    execute(clientApi(`${type}/${id}`))
     setQueried(false)
-  }, [execute, defaultMovieId, queried, type])
+  }, [execute, id, queried, type])
+  
 
   if (status === 'error') {
     // sera catché par ErrorBoundary
@@ -105,4 +114,4 @@ const NetflixApp = () => {
     </div>
   )
 }
-export {NetflixApp}
+export {NetflixById}
