@@ -9,6 +9,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Alert, AlertTitle} from '@material-ui/lab'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import {useFetchData} from '../utils/hooks'
+import {TYPE_MOVIE, TYPE_TV} from '../config'
 import './Netflix.css'
 
 const useStyles = makeStyles(theme => ({
@@ -38,15 +39,53 @@ const NetflixApp = () => {
   }, [execute, defaultMovieId, queried, type])
 
   if (status === 'error') {
-    // sera catcher par ErrorBoundary
+    // sera catché par ErrorBoundary
     throw new Error(error.message)
   }
   return (
     <div>
       <NetflixAppBar />
       <NetflixHeader movie={headerMovie?.data} type={type} />
-      <NetflixRow wideImage={false} title="Films Netflix" />
-      <NetflixRow wideImage={true} title="Série Netflix" />
+      <NetflixRow
+        wideImage={true}
+        watermark={true}
+        type={TYPE_MOVIE}
+        filter="trending"
+        title="Films Netflix"
+      />
+      <NetflixRow
+        wideImage={false}
+        watermark={true}
+        type={TYPE_TV}
+        filter="trending"
+        title="Série Netflix"
+      />
+
+      <NetflixRow
+        type={TYPE_MOVIE}
+        filter="toprated"
+        title="Les mieux notés"
+        watermark={true}
+        wideImage={true}
+      />
+
+      <NetflixRow
+        type={TYPE_TV}
+        filter="genre"
+        param="10759"
+        title="Action & aventure"
+        watermark={true}
+        wideImage={true}
+      />
+
+      <NetflixRow
+        type={TYPE_MOVIE}
+        filter="genre"
+        param="53"
+        title="Les meilleurs Thriller"
+        watermark={false}
+        wideImage={false}
+      />
 
       {status === 'error' ? (
         <div className={classes.alert}>
