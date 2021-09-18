@@ -1,3 +1,3 @@
-export * from './NetflixMovies.final'
+//export * from './NetflixMovies.final'
 
-//export * from './NetflixAppMovies.exercise'
+export * from './NetflixMovies.exercise'

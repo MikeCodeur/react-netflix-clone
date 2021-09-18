@@ -31,20 +31,28 @@ const NetflixById = () => {
   const {data: headerMovie, error, status, execute} = useFetchData()
   let { tvId, movieId } = useParams()
   const location = useLocation()
-  const [type] = React.useState( location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE)
-  const [id] = React.useState( type === TYPE_TV ? tvId : movieId)
-
+  const [type,setType] = React.useState( location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE)
+  const [id,setId] = React.useState( type === TYPE_TV ? tvId : movieId)
   const [queried, setQueried] = React.useState(true)
-  console.log('location',location);
-  console.log('location',type);
+
   React.useEffect(() => {
-    console.log('useEffect');
     if (!queried) {
-      //return
+      return
     }
     execute(clientApi(`${type}/${id}`))
     setQueried(false)
   }, [execute, id, queried, type])
+
+  React.useEffect(() => {
+    const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE
+    setType(type)
+    setId(type === TYPE_TV ? tvId : movieId)
+    setQueried(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }, [location.pathname, movieId, tvId])
   
 
   if (status === 'error') {

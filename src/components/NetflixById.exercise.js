@@ -49,6 +49,16 @@ const NetflixById = () => {
     setQueried(false)
   }, [execute, defaultMovieId, queried, type])
 
+  // 🐶 Utilise à nouveau 'useEffect' pour mettre à jour les 3 states suivants:
+  // - 'type'
+  // - 'id'
+  // - 'queried'
+  // ce qui va ensuite déclancher un nouvelle appel API
+  // 
+  // 🐶 remonte le barre de scrool en haut de la page
+  // 🤖 `window.scrollTo({top: 0, behavior: "smooth" })`
+  // n'oublie pas les dépendances
+
   if (status === 'error') {
     // sera catché par ErrorBoundary
     throw new Error(error.message)
@@ -116,4 +126,4 @@ const NetflixById = () => {
     </div>
   )
 }
-export {NetflixById as NetflixApp}
+export {NetflixById}
