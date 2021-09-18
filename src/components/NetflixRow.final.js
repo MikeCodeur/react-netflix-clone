@@ -54,7 +54,7 @@ const NetflixRow = ({
 
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path
-    return `${imagePath400}${image}`
+    return image ? `${imagePath400}${image}` : null
   }
 
   const watermarkClass = watermark ? 'watermarked' : ''
