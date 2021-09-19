@@ -2,9 +2,9 @@ import React from 'react'
 // 🐶 Dans cet exercice tu vas devoir créer une Barre de Menu avec MUI (MaterialUi).
 // commnce par importer les 3 composants MUI suivants :
 //
-//import AppBar from '@material-ui/core/AppBar'
-//import Toolbar from '@material-ui/core/Toolbar'
-//import Typography from '@material-ui/core/Typography'
+//import AppBar from '@mui/material/AppBar'
+//import Toolbar from '@mui/material/Toolbar'
+//import Typography from '@mui/material/Typography'
 //import './Netflix.css'
 
 const NetflixApp = () => {

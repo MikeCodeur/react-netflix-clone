@@ -27,8 +27,11 @@ Pour le clone de Netflix nous utiliserons Materil-Ui. Non pas qu'il est le plus 
 Il faut donc installer les dépendances 
 
 ```bash
-npm install @material-ui/core --save
-npm install @material-ui/lab --save
+npm install @emotion/react --save
+npm install @emotion/styled --save
+npm install @mui/lab --save
+npm install @mui/material --save
+npm install @mui/styles --save
 ```
 
 > Note : Cela est déjà fait dans le projet
@@ -36,12 +39,12 @@ npm install @material-ui/lab --save
 On peut ensuite créer un thème générale pour tous les composants `Materials-UI.` Pour cela on va wrapper notre application avec le `ThemeProvider`
 
 ```bash
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider} from '@mui/styles'
 import NetFlixApp from './NetflixApp'
 
 const theme = {
   background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-};
+}
 
 function Theming() {
   return (
@@ -54,14 +57,18 @@ function Theming() {
 
 📑 Le lien vers [l](https://material-ui.com/getting-started/installation/)a [documentation du theme](https://material-ui.com/styles/advanced/)
 
+**Fichiers :**
+
+- `src/App.js`
+
 ## Exercice
 
 Dans cet exercice nous allons commencer à styliser notre page en utilisant du CSS classique qui est dans `Netflix.css` , du CSS via le thème de `Material-UI.` ainsique que des composant Material-ui. Le premier composant que nous allons utiliser est le composant `AppBar`
 
 ```jsx
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 //...
 <AppBar>
  <Toolbar>
@@ -76,6 +83,10 @@ import Typography from '@material-ui/core/Typography'
 ```
 
 📑 Le lien vers la [documentation AppBar](https://material-ui.com/components/app-bar/)
+
+**Fichiers :**
+
+- `src/components/NetflixApp.js`
 
 ## Bonus
 

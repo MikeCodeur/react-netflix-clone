@@ -1,6 +1,7 @@
 import {NetflixApp} from 'components/NetflixApp'
-// 🐶 importe 'createTheme' 'ThemeProvider'
-// import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+// 🐶 importe 
+//import { ThemeProvider} from '@mui/styles'
+//import { createTheme } from '@mui/material/styles'
 
 // 🐶 créé un theme Material UI qui sera enrichie par la suite
 // 🤖
