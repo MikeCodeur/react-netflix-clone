@@ -2,8 +2,8 @@ import * as React from 'react'
 import {TYPE_MOVIE, imagePath400} from '../config'
 import {useFetchData} from '../utils/hooks'
 import {clientApi} from '../utils/clientApi'
-import {Alert, AlertTitle} from '@material-ui/lab'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import {Alert, AlertTitle} from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const NetflixRow = ({
   title = '',
