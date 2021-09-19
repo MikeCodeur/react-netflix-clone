@@ -1,5 +1,6 @@
 import {NetflixApp} from 'components/NetflixApp'
-import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+import { ThemeProvider} from '@mui/styles'
+import { createTheme } from '@mui/material/styles'
 import {ErrorBoundary} from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 // 🐶 importe le composant 'Error404' depuis '/components/Error404'

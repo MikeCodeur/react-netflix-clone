@@ -2,7 +2,7 @@ import * as React from 'react'
 import {TYPE_MOVIE, imagePath400} from '../config'
 import {useFetchData} from '../utils/hooks'
 import {clientApi} from '../utils/clientApi'
-import {Alert, AlertTitle} from '@material-ui/lab'
+import {Alert, AlertTitle} from '@mui/material'
 import {RowSkeleton} from './skeletons/RowSkeleton'
 import {Link} from 'react-router-dom'
 
