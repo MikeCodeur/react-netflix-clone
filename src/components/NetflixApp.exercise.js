@@ -6,10 +6,10 @@ import {NetflixHeader} from './NetflixHeader'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 // 🐶 importe les composants MUI
-// import {Alert, AlertTitle} from '@material-ui/lab'
-// import CircularProgress from '@material-ui/core/CircularProgress';
+// import {Alert, AlertTitle} from '@mui/material'
+// import CircularProgress from '@mui/material/CircularProgress';
 // 🐶 importe le Hook 'makeStyles' pour te creer un Hook 'useStyles'
-// import {makeStyles} from '@material-ui/core/styles'
+// import {makeStyles} from '@mui/styles'
 import './Netflix.css'
 
 // 🐶 créé un hook 'useStyles' avec 'makeStyles'

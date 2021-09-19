@@ -1,5 +1,5 @@
 import {NetflixApp} from 'components/NetflixApp'
-import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+import {createTheme, ThemeProvider} from '@mui/styles'
 import {NetflixAppBar} from 'components/NetflixAppBar'
 import {ErrorBoundary} from 'react-error-boundary'
 

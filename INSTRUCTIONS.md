@@ -18,7 +18,7 @@ Dans cet exercice tu vas devoir gérer deux états et ajouter 2 composants `Mate
 utilisation de [CircularProgress](https://material-ui.com/components/progress/)
 
 ```jsx
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 <CircularProgress />
 ```
 
@@ -41,7 +41,7 @@ const clientApi = async endpoint => {
 utilisation de [Alert](https://material-ui.com/components/alert/)
 
 ```jsx
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 <Alert severity="error">
   <AlertTitle>Error</AlertTitle>
   This is an error alert — <strong>check it out!</strong>

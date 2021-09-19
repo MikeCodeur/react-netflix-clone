@@ -1,6 +1,7 @@
 /* eslint-disable no-lone-blocks */
 import {NetflixApp} from 'components/NetflixApp'
-import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+import { ThemeProvider} from '@mui/styles'
+import { createTheme } from '@mui/material/styles'
 // 🐶 importe 'ErrorBoundary'
 //import {ErrorBoundary} from 'react-error-boundary'
 // 🐶 importe 'NetflixAppBar'  nous l'utiliseront dans le composant d'error
