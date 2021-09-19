@@ -1,12 +1,13 @@
 import {NetflixApp} from 'components/NetflixApp'
-import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+import { ThemeProvider} from '@mui/styles'
+import { createTheme, adaptV4Theme } from '@mui/material/styles'
 import {ErrorBoundary} from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 // 🐶 importe le composant 'Error404' depuis '/components/Error404'
 // 🐶 importe le composant 'NetflixById'
 // 🐶 importe -> import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
-const theme = createTheme({
+const theme = createTheme(adaptV4Theme({
   palette: {
     type: 'dark',
     primary: {
@@ -16,7 +17,7 @@ const theme = createTheme({
       main: '#E50914',
     },
   },
-})
+}))
 
 function App() {
   return (

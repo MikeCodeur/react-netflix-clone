@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Skeleton from '@material-ui/lab/Skeleton'
+import Skeleton from '@mui/material/Skeleton'
 
 const RowSkeleton = ({nbElement = 20, title = 'Films', wideImage = true}) => {
   const postersSkeletons = []
@@ -7,7 +7,8 @@ const RowSkeleton = ({nbElement = 20, title = 'Films', wideImage = true}) => {
     postersSkeletons.push(
       <div key={i} className={`row__poster row__posterLarge`}>
         <Skeleton
-          variant="rect"
+        sx={{ bgcolor: 'grey.900' }}
+          variant="rectangular"
           width={wideImage ? 400 : 166}
           height={wideImage ? 225 : 250}
         />

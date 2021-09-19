@@ -1,3 +1,3 @@
-//export * from './NetflixNews.final'
+export * from './NetflixNews.final'
 
-export * from './NetflixNews.exercise'
+//export * from './NetflixNews.exercise'

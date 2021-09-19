@@ -1,5 +1,6 @@
 import {NetflixApp} from 'components/NetflixApp'
-import {createTheme, ThemeProvider} from '@material-ui/core/styles'
+import { ThemeProvider} from '@mui/styles'
+import { createTheme, adaptV4Theme } from '@mui/material/styles'
 import {ErrorBoundary} from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 import Error404 from 'components/Error404'
@@ -9,7 +10,7 @@ import {NetflixMovies} from 'components/NetflixMovies'
 import {NetflixSeries} from 'components/NetflixSeries'
 import {NetflixNews} from 'components/NetflixNews'
 
-const theme = createTheme({
+const theme = createTheme(adaptV4Theme({
   palette: {
     type: 'dark',
     primary: {
@@ -19,7 +20,7 @@ const theme = createTheme({
       main: '#E50914',
     },
   },
-})
+  }))
 
 function App() {
   return (
