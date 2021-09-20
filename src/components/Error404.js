@@ -1,15 +1,27 @@
 import {NetflixAppBar} from 'components/NetflixAppBar'
 import {Link} from 'react-router-dom'
+
 function Error404() {
+  const imageUrl = '/images/bg-lost-in-space.png'
   return (
-    <div>
+    <div style={{
+      backgroundImage: `url('${imageUrl}')`,
+      backgroundSize: 'cover',
+
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      overflow: 'auto',
+    }}>
       <NetflixAppBar />
       <div
         role="alert"
         style={{
           height: '100%',
           textAlign: 'center',
-          margin: '100px 300px',
+          padding: '100px 300px',
           color: '#fff',
         }}
       >
