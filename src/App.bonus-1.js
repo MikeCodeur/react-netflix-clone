@@ -4,6 +4,8 @@ import * as authNetflix from './utils/authNetflixProvider'
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import {AuthApp} from 'AuthApp'
 import {UnauthApp} from 'UnauthApp'
+import {clientAuth} from './utils/clientApi'
+import {useFetchData} from './utils/hooks'
 
 const theme = createTheme({
   palette: {
@@ -17,15 +19,30 @@ const theme = createTheme({
   },
 })
 
+async function getUserByToken() {
+  let user = null
+  const token = await authNetflix.getToken()
+  if (token) {
+    const data = await clientAuth('me', {token})
+    user = data.data.user
+  }
+  return user
+}
+
 function App() {
-  const [authUser, setAuthUser] = React.useState(null)
-  const login = data => authNetflix.login(data).then(user => setAuthUser(user))
+  const {data: authUser, execute, setData} = useFetchData()
+  React.useEffect(() => {
+    execute(getUserByToken())
+  }, [execute])
+
+  const login = data => authNetflix.login(data).then(user => setData(user))
   const register = data =>
-    authNetflix.register(data).then(user => setAuthUser(user))
+    authNetflix.register(data).then(user => setData(user))
   const logout = () => {
     authNetflix.logout()
-    setAuthUser(null)
+    setData(null)
   }
+
   return (
     <ThemeProvider theme={theme}>
       {authUser ? (

@@ -1,165 +1,123 @@
-# React Router
-### 💡 React Router
+# Authentification
+### 💡 Authentification
 
 ## 📝 Tes notes
 
-Detaille ce que tu as appris ici `src/exercise/01.md`ou sur une page [Notion](https://go.mikecodeur.com/course-notes-template)
+Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](https://go.mikecodeur.com/course-notes-template)
 
 ## Comprendre
 
-La base du WEB est basé sur les URL. Il suffit de partager une URL à quelqu'un, sur un site, pour accéder facilement à une ressource. Dans notre application NetFlix, nous pourrions avoir besoin de partager la page avec le détails d'un film ou d'une série. La page de souscription ou le login. Il excite de nombreuses librairies pour gérer le `routing` avec `React` mais la plus utilisé, reconnue et standard est [React Router](https://reactrouter.com/). Ci dessous un exemple d'utilisation
-
-- installation
+Il existe de de nombreuses méthodes pour gérer l'authentification d'un utilisateur. `oauth2`, `openid`, `cas`, `saml` etc ... Il s'agit souvent de de récupérer un `Token` en fonction d'un couple `username/password`. Tous les échanges sont ensuite fait avec ce `Token`. Cela évite d'avoir a échanger en permanence le `username/password`. On passe généralement le `Token` dans le header http. voici un exemple avec `'axios'`
 
 ```jsx
-npm install react-router-dom --save
+const config = {
+  headers: {
+    Authorization:  `Bearer ${token}`
+  },
+}
+return axios.get(`/ressources`,config)
 ```
 
-- exemple :
+📑 Le liens vers la documentation de [configuration du header http avec axios](https://axios-http.com/docs/req_config)
 
-```jsx
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+Gérer l'authentification est les droits peut vite devenir compliqué, c'est la raison pour laquelle ils existe de nombreux service qui le gère pour nous.
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
+- Firebase Authentication
+- AWS Cognito
+- Auth0
+- etc ...
 
-        <hr />
-
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="*" >
-						<Page404/>	
-				  </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
-}
-
-//Composants dans l'aplication
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-    </div>
-  );
-}
-
-function Page404() {
-  return (
-    <div>
-      <h2>Perdu ?</h2>
-    </div>
-  );
-}
-```
-
-📑 Le lien vers [React Router](https://reactrouter.com/web/guides/quick-start)
+Il est pénible pour un utilisateur d'avoir à saisir systématiquement le  `username/password` à chaque connexion. En règle général le `Token` est stocké dans le navigateur (`Cookies`, `LocalStorage`), ce qui permet d'être directement authentifié.
 
 ## Exercice
 
-👨‍✈️ Hugo le chef de projet nous demande d'avoir la possibilité de partager des films ou des séries via des URL de la forme suivante 
-
-- `/movie/:movieId`
-- `/tv/:tvId`
-
-Quand cette URL est partagée, le Header avec le titre, la description, image est affiché. L'utilisateur doit également avoir la possibilité de naviguer librement en **cliquant sur le lien des pochettes**. On doit aussi de pouvoir arriver sur des pages particulière comme :
-
-- `/series` une page dédiées aux séries
-
-Cette page contiendra un header aléatoire mais uniquement sur les séries avec  5 lignes de séries
-
-1. Séries tendances Netflix (`trending`)
-2. Séries les mieux notées (`toprated`)
-3. Les séries populaires (`populaire`)
-4. Les documentaires (`genre 99`)
-5. Les séries criminelles (`genre 80`)
-- `/movies` une page dédiées aux films
-
-Cette page contiendra un header aléatoire mais uniquement sur les films avec  5 lignes de films
-
-1. Films Netflix (`trending`)
-2. Les mieux notés (`toprated`)
-3. Les films populaires (`populaire`)
-4. Les films fantastiques (`genre 14`)
-5. Les films de sciences fictions(`genre 878`)
-- `/news` une page dédiées aux dernière nouveautés
-    1. A venir (`latest`)
-    2. Nouveauté (`latest`)
-    3. laisse la suite comme `NetFlixApp`
-- `/list` un page dédiées aux liste de film ajoutés
-    - sera implémenté plus tard avec la gestion authentification
-
-🐶 Nous allons dupliquer le composant `<NetflixApp/>` dans `<NetflixById>` et adapter l'affichage du `header`.
-
-Nous utiliserons deux `hooks` intéressant pour récupérer les `query params` pour avoir l'id et savoir si on est en mode `series/films`
+👨‍✈️ Hugo le chef de projet nous demande de gérer l'authentification, les utilisateurs non connectés ne pourront plus voir la liste des films et verrons un formulaire d'inscription / connexion. Les équipes qui développent le backend nous on fournis un utilitaire permettant de se connecter aux API d'authentification Netflix `authNetflixProvider.js` et le composant `<LoginRegister>`. Avec cela on peux se connecter, s'enregistrer et se déconnection via :
 
 ```jsx
-import {
-  useParams,
-  useLocation
-} from "react-router-dom";
+import * as authNetflix from 'auth-netflix-provider'
 
-let {tvId} = useParams() //id de la serie
-const location = useLocation() 
-localtion.pathname //-> /tv/1554 ou /movie/5845
+authNetflix.login({username, password})
+authNetflix.register({username, password})
+authNetflix.logout()
+authNetflix.getToken()
 ```
 
-📑 Le lien vers la doc de [useParam](https://reactrouter.com/web/api/Hooks/useparams)
+> `login` et `register` stocke le `token` dans le navigateur (localstorage), `getToken` permet d'accéder à ce `token`, `logout` supprime le `token` du navigateur
 
-📑 Le lien vers la doc de [useLocaltion](https://reactrouter.com/web/api/Hooks/uselocation)
+**Fichiers :**
 
-**Fichiers :** 
-
-- `src/components/NetflixById.js`
-- `src/components/NetflixSeries.js`
-- `src/components/NetflixMovies.js`
-- `src/components/NetflixNews.js`
-- `src/components/NetfliRow.js`
 - `src/App.js`
+- `src/AuthApp.js`
+- `src/UnauthApp.js`
+
+## Bonus
+
+### 1. 🚀 Auto login
+
+👨‍✈️ Hugo le chef de projet veut que lorsque l'utilisateur revient sur la page, il n'ait pas à retaper le login et mot de passe. L'utilitaire fournis par l'équipe backend `authNetflixProvider` nous permet de récupérer le `token` sauvegardé lors de la dernière connexion avec `authNetflix.getToken()`.  L'équipe backend nous informe également quand appelant l'API REST `/me` avec le `Token`, on récupère les informations de l'utilisateur connecté.
+
+1. **Créé une fonction `getUserByToken`**
+
+    Cette fonction  récupère le `token` avec `authNetflix.getToken()` et appel l'API `/me` 
+
+    avec `clientAuth`
+
+    ```jsx
+    import {clientAuth} from './utils/clientApi
+    clientAuth('me',token)
+    ```
+
+    et retourne l'utilisateur connecté.
+
+2. **Utilise notre Hook `useFetchData`** 
+
+    Afin d'uniformiser tous les appels HTTP, on utilise le `hook useFetchData` pour faire appel à `getUser`. 
+
+    > Fait l'appel dans un `useEffect`
+
+**Fichiers :**
+
+- `src/App.js`
+
+### 2. 🚀 Chargement BackDrop
+
+Lorsque l'utilisateur se connecte il y a un petit effet ou l'on voit apparaitre le composant login puis il disparait. Utilise le `status` de `useFetchData` pour afficher un composant de chargement en plein écran 
+
+```jsx
+status === 'fetching'
+```
+
+Exemple d'utilisation de `Backdrop`
+
+```jsx
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
+
+<Backdrop open={true}>
+  <CircularProgress color="primary" />
+</Backdrop>
+```
+
+Condition l'affiche du `backdrop` quand le `status` est a `fetching`
+
+**Fichiers :**
+
+- `src/App.js`
+
+### 3 🚀 **Gérer les messages d'erreur**
+
+Lorsqu'un utilisateur veut créer un compte, il peut y avoir un problème de connexion, idem sur la création de compte. Créé un state `authError` et met à jour la valeur 
+
+```jsx
+authNetflix.register(data).then(user => setData(user)).catch(err => setAuthError(err))
+```
+
+passe ensuite ce state en `prop error` de `<UnauthApp />`
+
+**Fichiers :**
+
+- `src/App.js`
+- `src/UnauthApp.js`
 
 ## 🐜 Feedback
 

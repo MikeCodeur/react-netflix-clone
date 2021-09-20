@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import {Link} from 'react-router-dom'
 
-const NetflixAppBar = () => {
+const NetflixAppBar = ({logout}) => {
   const [appBarStyle, setAppBarStyle] = React.useState({
     background: 'transparent',
     boxShadow: 'none',
@@ -60,10 +60,11 @@ const NetflixAppBar = () => {
           </Typography>
         </Link>
         <img
-          style={{marginLeft: 'auto'}}
+          style={{marginLeft: 'auto',cursor: 'pointer'}}
           className="nav__avatar"
           src="/images/netflix-avatar.png"
           alt=""
+          onClick={logout}
         />
       </Toolbar>
     </AppBar>

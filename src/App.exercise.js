@@ -1,13 +1,17 @@
-import {NetflixApp} from 'components/NetflixApp'
-import { ThemeProvider} from '@mui/styles'
-import { createTheme, adaptV4Theme } from '@mui/material/styles'
-import {ErrorBoundary} from 'react-error-boundary'
-import ErrorFallback from './components/ErrorFallback'
-// 🐶 importe le composant 'Error404' depuis '/components/Error404'
-// 🐶 importe le composant 'NetflixById'
-// 🐶 importe -> import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import * as React from 'react'
+// 🐶 'mocks' permet de simuler le backend netflix avec MSW,
+// ne t'en preocupe pas pour le moment 
+import './mocks'
+// 🐶 'authNetflix' notre outils founis par les devs back qui permet de se connecter
+// 🤖 import * as authNetflix from './utils/authNetflixProvider'
+import {ThemeProvider} from '@mui/styles'
+import {createTheme} from '@mui/material/styles'
+// 🐶 'AuthApp' contient tout ce qu'il y avait avant dans 'App' 
+// il est importé est retourné, nous avons donc le meme comportement qu'avant
+import {AuthApp} from 'AuthApp'
+// 🐶 'UnauthApp' qui contiendra le contenu de l'application en mode non connecté
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
   palette: {
     type: 'dark',
     primary: {
@@ -17,28 +21,31 @@ const theme = createTheme(adaptV4Theme({
       main: '#E50914',
     },
   },
-}))
+})
 
+// 🐶 on veut afficher soit <AuthApp /> soit <UnauthApp /> 
+// en fonction d'un user connecté ou non
 function App() {
+
+  // 🐶 créé un state 'authUser' qui contiendra le 'user' connecté
+
+  // 🐶 créé une fonction 'login' avec un paramètre 'data' (objet avec 'username' et 'password')
+  // cette fonction appellera ensuite la fonction 'login' de 'authNetflix' avec data en parametre
+  // met ensuite à jour 'authUser' avec le resultat de la fonction
+
+  // 🐶 créé une fonction 'register' avec un paramètre 'data' (objet avec 'username' et 'password')
+  // cette fonction appellera ensuite la fonction 'register' de  'authNetflix' avec data en parametre
+  // met ensuite à jour 'authUser' avec le resultat de la fonction
+
+  // 🐶 créé une fonction 'logout' qui appelle la fonction 'logout' de  'authNetflix'
+  // et met à jour 'authUser' à null
+  // note : pour tester la deconnexion on poura cliquer sur le logo avatar (haut droite de la Appbar)
   return (
-    // 🐶 wrappe toute l'application avec <Router>
     <ThemeProvider theme={theme}>
-      <ErrorBoundary FallbackComponent={ErrorFallback} >
-        {/* 
-          🐶 utilise <Switch> et  </Route> pour determiner les routes
-          nous voulons les routes avec les configurations suivantes :
-          
-          1. path '/' exact -> <NetflixApp />
-          2. path '/tv/:tvId' -> <NetflixById />
-          3. path '/tv/:movieId' -> <NetflixById />
-          4. path '/series' -> <NetflixSeries />
-          5. path '/movies' -> <NetflixMovies />
-          6. path '/news' -> <NetflixNews />
-          7. path '/*' -> <Error404 />
-       
-        */}
-        <NetflixApp />
-      </ErrorBoundary>
+      {/* 🐶 conditionne l'affichage de <AuthApp /> <UnauthApp /> en fonction de 'authUser'   */}
+      {/* 🐶 passe le prop 'logout' à  <AuthApp />    */}
+      <AuthApp />
+      {/* 🐶 passe les prop 'login' et 'register'  à  <UnauthApp />    */}
     </ThemeProvider>
   )
 }
