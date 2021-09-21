@@ -1,4 +1,3 @@
-
 # API REST : Gestion des favoris
 ### 💡 API REST : Gestion des favoris
 
@@ -74,7 +73,7 @@ DELETE /bookmark/movie
 ```jsx
 import DeleteIcon from '@mui/icons-material/Delete'
 //.
-<DeleteIcon color="secondary" style={{marginRight: '5px'}} />
+<DeleteIcon color="secondary" style={{marginRight: '5px'}} fontSize={'small'}/>
 ```
 
 📑 Le lien vers la [documentation des icones](https://mui.com/components/material-icons/) 
@@ -128,6 +127,34 @@ React.useEffect(() => {
 **Fichiers :**
 
 - `src/components/NetflixHeader.js`
+
+### 2. 🚀 Route affichage des favoris
+
+👨‍✈️ Hugo souhaite avoir une route dédiée avec la liste de tous les favoris. Il souhaite avoir le même rendu que les autres pages c'est a dire :
+
+- `<NetflixAppBar />`
+- `<NetflixHeader />`
+    - qui contiendra le premier film favori sinon un par défaut
+- Et deux lignes (`row`)
+    - une ligne : *Films favoris*
+    - une ligne : *Séries favorites*
+
+La route à été définie dans le composant `AuthApp` elle est donc accessible et il n'y aura rien a faire dessus
+
+```jsx
+import {NetflixBookmark} from 'components/NetflixBookmark'
+//...
+<Route path="/list">
+  <NetflixBookmark logout={logout} />
+</Route>
+```
+
+Créé un composant `NetflixBookmark` qui fera fera tous les appels nécessaires pour afficher les favoris
+
+**Fichiers :**
+
+- `src/components/NetflixBookmark.js`
+- `src/components/AuthApp.js`
 
 ## 🐜 Feedback
 

@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const NetflixSeries = () => {
+const NetflixSeries = ({logout}) => {
   const classes = useStyles()
   const {data: headerMovie, error, status, execute} = useFetchData()
   const [type] = React.useState(TYPE_TV)
@@ -44,7 +44,7 @@ const NetflixSeries = () => {
   }
   return (
     <div>
-      <NetflixAppBar />
+      <NetflixAppBar logout={logout}/>
       <NetflixHeader movie={headerMovie?.data} type={type} />
       <NetflixRow
         wideImage={true}

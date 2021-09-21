@@ -79,7 +79,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
               className="banner__button banner__buttonInfo"
               onClick={handleDeleteToListClick}
             >
-              <DeleteIcon color="secondary" style={{marginRight: '5px'}} />
+              <DeleteIcon color="secondary" style={{marginRight: '5px'}} fontSize={'small'}/>
               Supprimer de ma liste
             </button>
           ) : (
