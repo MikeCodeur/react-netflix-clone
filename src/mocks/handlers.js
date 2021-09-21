@@ -1,5 +1,5 @@
 import {rest} from 'msw'
-import * as users from './db'
+import * as db from './db'
 import {AUTH_URL} from '../config'
 
 /*pour simuler du delais*/
@@ -10,17 +10,17 @@ const handlers = [
   rest.post(`${AUTH_URL}/login`, async (req, res, ctx) => {
     const {username, password} = req.body
     // await sleep(3000)
-    const user = await users.authenticate({username, password})
+    const user = await db.authenticate({username, password})
     return res(ctx.json({user}))
   }),
 
   rest.post(`${AUTH_URL}/register`, async (req, res, ctx) => {
     const {username, password} = req.body
     const userFields = {username, password}
-    await users.createUser(userFields)
+    await db.createUser(userFields)
     let user
     try {
-      user = await users.authenticate(userFields)
+      user = await db.authenticate(userFields)
     } catch (error) {
       return res(
         ctx.status(400),
@@ -34,6 +34,59 @@ const handlers = [
     const user = await getUser(req)
     const token = getToken(req)
     return res(ctx.json({user: {...user, token}}))
+  }),
+
+  rest.get(`${AUTH_URL}/bookmark`, async (req, res, ctx) => {
+    const user = await getUser(req)
+    const uid = user.id
+    const bookmark = await db.loadBookmarkByUid(uid)
+    return res(ctx.json({bookmark}))
+  }),
+
+  rest.post(`${AUTH_URL}/bookmark/tv`, async (req, res, ctx) => {
+    const user = await getUser(req)
+    const {id} = req.body
+    const uid = user.id
+    try {
+      await db.addSerieToBookmark(id, uid)
+    } catch (error) {
+      return res(
+        ctx.status(400),
+        ctx.json({status: 400, message: error.message}),
+      )
+    }
+    const bookmark = await db.loadBookmarkByUid(uid)
+    return res(ctx.json({bookmark}))
+  }),
+  rest.post(`${AUTH_URL}/bookmark/movie`, async (req, res, ctx) => {
+    const user = await getUser(req)
+    const {id} = req.body
+    const uid = user.id
+    try {
+      await db.addMovieToBookmark(id, uid)
+    } catch (error) {
+      return res(
+        ctx.status(400),
+        ctx.json({status: 400, message: error.message}),
+      )
+    }
+    const bookmark = await db.loadBookmarkByUid(uid)
+    return res(ctx.json({bookmark}))
+  }),
+
+  rest.delete(`${AUTH_URL}/bookmark/movie`, async (req, res, ctx) => {
+    const user = await getUser(req)
+    const {id} = req.body
+    await db.deleteMovieToBookmark(id, user.id)
+    const bookmark = await db.loadBookmarkByUid(id)
+    return res(ctx.json({bookmark}))
+  }),
+  rest.delete(`${AUTH_URL}/bookmark/tv`, async (req, res, ctx) => {
+    const user = await getUser(req)
+    const {id} = req.body
+    await db.deleteSerieToBookmark(id, user.id)
+    const bookmark = await db.loadBookmarkByUid(id)
+    return res(ctx.json({bookmark}))
   }),
 ]
 
@@ -54,7 +107,7 @@ async function getUser(req) {
     error.status = 401
     throw error
   }
-  const user = await users.loadUserById(userId, true)
+  const user = await db.loadUserById(userId, true)
   return user
 }
 

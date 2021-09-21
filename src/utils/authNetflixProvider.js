@@ -2,24 +2,24 @@
  -- Ne pas modifier --
  Exemple d'utilitaire permettant de se connecter au backend Netflix
 */
+import axios from 'axios'
 import {AUTH_URL, localStorageTokenKey} from '../config'
+
 
 async function clientApiNetflix(endpoint, data) {
   const config = {
-    method: 'POST',
-    body: JSON.stringify(data),
     headers: {'Content-Type': 'application/json'},
   }
-
-  return fetch(`${AUTH_URL}/${endpoint}`, config).then(async response => {
-    const data = await response.json()
-    if (response.ok) {
-      return data
-    } else {
-      console.log('clientApiNetflix ko', data)
-      return Promise.reject(data)
-    }
-  })
+  return axios
+    .post(`${AUTH_URL}/${endpoint}`, JSON.stringify(data), config)
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      if (error.response) {
+        return Promise.reject(error.response.data)
+      }
+    })
 }
 
 async function getToken() {
