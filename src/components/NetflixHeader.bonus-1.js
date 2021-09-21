@@ -4,9 +4,18 @@ import {HeaderSkeleton} from './skeletons/HeaderSkeleton'
 import {useFetchData} from '../utils/hooks'
 import {clientNetFlix} from '../utils/clientApi'
 import * as authNetflix from '../utils/authNetflixProvider'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert from '@mui/material/Alert'
+import DeleteIcon from '@mui/icons-material/Delete'
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+})
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
-  const {data, execute} = useFetchData()
+  const {data, error, status, execute} = useFetchData()
+  const [callBookmark, setCallBookmark] = React.useState(false)
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false)
   const title = type === TYPE_MOVIE ? movie?.title : movie?.name
   const imageUrl = `${imagePathOriginal}${movie?.backdrop_path}`
   const banner = {
@@ -26,8 +35,13 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
     getTokenExecute()
   }, [execute])
 
+  React.useEffect(() => {
+    setSnackbarOpen(true)
+  }, [status])
+
   const handleAddToListClick = async () => {
     const token = await authNetflix.getToken()
+    setCallBookmark(true)
     execute(
       clientNetFlix(`bookmark/${type}`, {
         token,
@@ -36,7 +50,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
       }),
     )
   }
-  
   const handleDeleteToListClick = async () => {
     const token = await authNetflix.getToken()
     execute(
@@ -46,8 +59,8 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
         method: 'DELETE',
       }),
     )
+    setCallBookmark(true)
   }
-
   const isInList = data?.bookmark[
     type === TYPE_MOVIE ? 'movies' : 'series'
   ]?.includes(movie?.id)
@@ -66,6 +79,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
               className="banner__button banner__buttonInfo"
               onClick={handleDeleteToListClick}
             >
+              <DeleteIcon color="secondary" style={{marginRight: '5px'}} />
               Supprimer de ma liste
             </button>
           ) : (
@@ -80,6 +94,28 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
         <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
       </div>
       <div className="banner--fadeBottom"></div>
+      {callBookmark && status === 'done' ? (
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={4000}
+          onClose={() => setSnackbarOpen(false)}
+        >
+          <Alert severity="success" sx={{width: '100%'}}>
+            Liste modifiée avec succès
+          </Alert>
+        </Snackbar>
+      ) : null}
+      {callBookmark && status === 'error' ? (
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={4000}
+          onClose={() => setSnackbarOpen(false)}
+        >
+          <Alert severity="error" sx={{width: '100%'}}>
+            Problème lors de l'ajout : {error.message}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </header>
   )
 }

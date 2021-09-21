@@ -1,5 +1,6 @@
-# Authentification
-### 💡 Authentification
+
+# API REST : Gestion des favoris
+### 💡 API REST : Gestion des favoris
 
 ## 📝 Tes notes
 
@@ -7,117 +8,126 @@ Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](h
 
 ## Comprendre
 
-Il existe de de nombreuses méthodes pour gérer l'authentification d'un utilisateur. `oauth2`, `openid`, `cas`, `saml` etc ... Il s'agit souvent de de récupérer un `Token` en fonction d'un couple `username/password`. Tous les échanges sont ensuite fait avec ce `Token`. Cela évite d'avoir a échanger en permanence le `username/password`. On passe généralement le `Token` dans le header http. voici un exemple avec `'axios'`
+Dans une application le front interagis fortement avec le backend. Une fois l'utilisateur authentifié il peut ensuite effectuer des actions qui seront sauvegarder coté backend. Pour cela il est possible de faire des appels HTTP selon la norme API REST, GraphL ou autre. Ici nous utiliseront des API REST. Dans les API REST les paramètres importants à prendre en prendre sont : 
+
+- La ressource (le endpoint)
+- La méthode HTTP (`GET,POST,PUT,DELETE`)
+
+ Exemple d'appel API REST pour une ressource que nous appelleront `articles`
 
 ```jsx
-const config = {
-  headers: {
-    Authorization:  `Bearer ${token}`
-  },
-}
-return axios.get(`/ressources`,config)
+GET /articles
+// liste tous les articles
+POST /articles
+// Créé un nouvel article
+GET /articles/:id
+// récupère une article
+PUT /articles/:id
+// met à jour un article
+DELETE /articles/:id
+// supprime une article
 ```
-
-📑 Le liens vers la documentation de [configuration du header http avec axios](https://axios-http.com/docs/req_config)
-
-Gérer l'authentification est les droits peut vite devenir compliqué, c'est la raison pour laquelle ils existe de nombreux service qui le gère pour nous.
-
-- Firebase Authentication
-- AWS Cognito
-- Auth0
-- etc ...
-
-Il est pénible pour un utilisateur d'avoir à saisir systématiquement le  `username/password` à chaque connexion. En règle général le `Token` est stocké dans le navigateur (`Cookies`, `LocalStorage`), ce qui permet d'être directement authentifié.
 
 ## Exercice
 
-👨‍✈️ Hugo le chef de projet nous demande de gérer l'authentification, les utilisateurs non connectés ne pourront plus voir la liste des films et verrons un formulaire d'inscription / connexion. Les équipes qui développent le backend nous on fournis un utilitaire permettant de se connecter aux API d'authentification Netflix `authNetflixProvider.js` et le composant `<LoginRegister>`. Avec cela on peux se connecter, s'enregistrer et se déconnection via :
+👨‍✈️ Hugo le chef de projet nous informe que les équipes backend viennent de nous proposer un nouvelle version des API REST qui permet de gérer liste de films et séries favorites. Voila la documentation :
 
 ```jsx
-import * as authNetflix from 'auth-netflix-provider'
+GET /bookmark
+// recupère les favoris de l'utilisateur connecté
+// reponse contient un array d'id de films et de series
+{uid: 1, movies: [5, 10, 15], series: [20, 25]}
 
-authNetflix.login({username, password})
-authNetflix.register({username, password})
-authNetflix.logout()
-authNetflix.getToken()
+POST /bookmark/tv
+// ajoute une série dans la liste des series favorites
+
+POST /bookmark/movie
+// ajoute un film dans la liste des series favorites
+
+DELETE /bookmark/tv
+// spprime une série dans la liste des series favorites
+
+DELETE /bookmark/movie
+// spprime un film dans la liste des series favorites
 ```
 
-> `login` et `register` stocke le `token` dans le navigateur (localstorage), `getToken` permet d'accéder à ce `token`, `logout` supprime le `token` du navigateur
+> L'id sera passé dans le `body` de la requête
+
+> Une erreur st retourner en cas de doublons
+
+👨‍✈️ Hugo le chef de projet nous demande d'implémenter la gestion des films et séries favorites. La gestion se fera principalement dans le composant `NetflixHeader`. 
+
+- On doit pouvoir voir si un film est dans notre liste (proposer de le supprimer)
+- On doit pouvoir ajouter le film/série dans la liste
+- On doit pouvoir supprimer le film/série dans la liste
 
 **Fichiers :**
 
-- `src/App.js`
-- `src/AuthApp.js`
-- `src/UnauthApp.js`
+- `src/components/NetflixHeader.js`
 
 ## Bonus
 
-### 1. 🚀 Auto login
+### 1. 🚀 Notification (SnackBars), Erreurs et Icones
 
-👨‍✈️ Hugo le chef de projet veut que lorsque l'utilisateur revient sur la page, il n'ait pas à retaper le login et mot de passe. L'utilitaire fournis par l'équipe backend `authNetflixProvider` nous permet de récupérer le `token` sauvegardé lors de la dernière connexion avec `authNetflix.getToken()`.  L'équipe backend nous informe également quand appelant l'API REST `/me` avec le `Token`, on récupère les informations de l'utilisateur connecté.
+👨‍✈️ Hugo le chef de projet veut un icone de suppression lorsqu'il est possible de supprimer un film série de la liste. On utilisera les icone de `material-ui`
 
-1. **Créé une fonction `getUserByToken`**
+```jsx
+import DeleteIcon from '@mui/icons-material/Delete'
+//.
+<DeleteIcon color="secondary" style={{marginRight: '5px'}} />
+```
 
-    Cette fonction  récupère le `token` avec `authNetflix.getToken()` et appel l'API `/me` 
+📑 Le lien vers la [documentation des icones](https://mui.com/components/material-icons/) 
 
-    avec `clientAuth`
+👨‍✈️ Hugo souhaite aussi pouvoir notifier l'utilisateur si **une erreur est survenu** ou si l'ajout/suppression s'est **dérouler correctement**. Pour cela nous utiliseront les composants `Snackbar` et `MuiAlert`
 
-    ```jsx
-    import {clientAuth} from './utils/clientApi
-    clientAuth('me',token)
-    ```
+```jsx
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert from '@mui/material/Alert'
 
-    et retourne l'utilisateur connecté.
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+}
+//...
+const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+//...
+<Snackbar
+  open={snackbarOpen}
+  autoHideDuration={4000}
+  onClose={() => setSnackbarOpen(false)}
+>
+  <Alert severity="error" sx={{width: '100%'}}>
+	   erreur est survenue
+  </Alert>
+</Snackbar>
+```
 
-2. **Utilise notre Hook `useFetchData`** 
+📑 Le lien vers la [documentation Snackbar](https://mui.com/components/snackbars/) 
 
-    Afin d'uniformiser tous les appels HTTP, on utilise le `hook useFetchData` pour faire appel à `getUser`. 
+Utilise `error` et `status` de `useFetchData`
 
-    > Fait l'appel dans un `useEffect`
+```jsx
+const {data, error, status, execute} = useFetchData()
+```
+
+Base toi sur les `status` et `error` : 
+
+- `status === 'done'` pour afficher le message dans la snackbar : *Liste modifiée avec succès*
+- `status === 'error'` pour afficher le message dans la snackbar : `Problème lors de l'ajout : {error.message}`
+
+> Comme `status` vient de `useFetchData` et qu'il est partagé avec l'appel initial (`'/bookmark'`), créé un state `callBookmark` initialisé à `false` par défaut. Passe le à `true` lors d'un appel ajout/suppression aux favoris. et ajoute une condition d'affichage aux snackbars (`callBookmark && status ===` )
+
+Pense à changer le state de la snackbar sur chaque changement de `status`
+
+```jsx
+React.useEffect(() => {
+    setSnackbarOpen(true)
+}, [status])
+```
 
 **Fichiers :**
 
-- `src/App.js`
-
-### 2. 🚀 Chargement BackDrop
-
-Lorsque l'utilisateur se connecte il y a un petit effet ou l'on voit apparaitre le composant login puis il disparait. Utilise le `status` de `useFetchData` pour afficher un composant de chargement en plein écran 
-
-```jsx
-status === 'fetching'
-```
-
-Exemple d'utilisation de `Backdrop`
-
-```jsx
-import Backdrop from '@mui/material/Backdrop'
-import CircularProgress from '@mui/material/CircularProgress'
-
-<Backdrop open={true}>
-  <CircularProgress color="primary" />
-</Backdrop>
-```
-
-Condition l'affiche du `backdrop` quand le `status` est a `fetching`
-
-**Fichiers :**
-
-- `src/App.js`
-
-### 3 🚀 **Gérer les messages d'erreur**
-
-Lorsqu'un utilisateur veut créer un compte, il peut y avoir un problème de connexion, idem sur la création de compte. Créé un state `authError` et met à jour la valeur 
-
-```jsx
-authNetflix.register(data).then(user => setData(user)).catch(err => setAuthError(err))
-```
-
-passe ensuite ce state en `prop error` de `<UnauthApp />`
-
-**Fichiers :**
-
-- `src/App.js`
-- `src/UnauthApp.js`
+- `src/components/NetflixHeader.js`
 
 ## 🐜 Feedback
 
