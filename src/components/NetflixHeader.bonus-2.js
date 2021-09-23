@@ -1,21 +1,22 @@
 import React from 'react'
 import {imagePathOriginal, TYPE_MOVIE} from '../config'
 import {HeaderSkeleton} from './skeletons/HeaderSkeleton'
-import {useFetchData} from '../utils/hooks'
-import {clientNetFlix} from '../utils/clientApi'
-import * as authNetflix from '../utils/authNetflixProvider'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import DeleteIcon from '@mui/icons-material/Delete'
+import {
+  useBookmark,
+  useAddBookmark,
+  useDeleteBookmark,
+} from '../utils/hooksMovies'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
-  const {data, error, status, execute} = useFetchData()
-  const [callBookmark, setCallBookmark] = React.useState(false)
   const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+  const [mutateBookmarkError, setMutateBookmarkError] = React.useState()
   const title = type === TYPE_MOVIE ? movie?.title : movie?.name
   const imageUrl = `${imagePathOriginal}${movie?.backdrop_path}`
   const banner = {
@@ -27,40 +28,47 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
     height: '448px',
   }
 
-  React.useEffect(() => {
-    async function getTokenExecute() {
-      const token = await authNetflix.getToken()
-      execute(clientNetFlix(`bookmark`, {token}))
-    }
-    getTokenExecute()
-  }, [execute])
+  const data = useBookmark()
 
-  React.useEffect(() => {
-    setSnackbarOpen(true)
-  }, [status])
+  const addMutation = useAddBookmark({
+    onSuccess: () => {
+      console.log('onSuccess')
+      setSnackbarOpen(true)
+      setMutateBookmarkError()
+    },
+    onError: error => {
+      console.log('onError', error)
+      setSnackbarOpen(true)
+      setMutateBookmarkError(error)
+    },
+  })
 
-  const handleAddToListClick = async () => {
-    const token = await authNetflix.getToken()
-    setCallBookmark(true)
-    execute(
-      clientNetFlix(`bookmark/${type}`, {
-        token,
-        data: {id: movie.id},
-        method: 'POST',
-      }),
-    )
+  const deleteMutation = useDeleteBookmark({
+    onSuccess: () => {
+      setSnackbarOpen(true)
+      setMutateBookmarkError()
+    },
+    onError: error => {
+      console.log('onError', error)
+      setSnackbarOpen(true)
+      setMutateBookmarkError(error)
+    },
+  })
+
+  const handleAddToListClick = () => {
+    addMutation.mutate({
+      type,
+      id: movie.id,
+    })
   }
-  const handleDeleteToListClick = async () => {
-    const token = await authNetflix.getToken()
-    execute(
-      clientNetFlix(`bookmark/${type}`, {
-        token,
-        data: {id: movie.id},
-        method: 'DELETE',
-      }),
-    )
-    setCallBookmark(true)
+
+  const handleDeleteToListClick = () => {
+    deleteMutation.mutate({
+      type,
+      id: movie.id,
+    })
   }
+
   const isInList = data?.bookmark[
     type === TYPE_MOVIE ? 'movies' : 'series'
   ]?.includes(movie?.id)
@@ -68,6 +76,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   if (!movie) {
     return <HeaderSkeleton></HeaderSkeleton>
   }
+
   return (
     <header style={banner}>
       <div className="banner__contents">
@@ -79,7 +88,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
               className="banner__button banner__buttonInfo"
               onClick={handleDeleteToListClick}
             >
-              <DeleteIcon color="secondary" style={{marginRight: '5px'}} fontSize={'small'}/>
+              <DeleteIcon
+                color="secondary"
+                style={{marginRight: '5px'}}
+                fontSize={'small'}
+              />
               Supprimer de ma liste
             </button>
           ) : (
@@ -94,7 +107,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
         <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
       </div>
       <div className="banner--fadeBottom"></div>
-      {callBookmark && status === 'done' ? (
+      {!mutateBookmarkError ? (
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={4000}
@@ -105,14 +118,14 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
           </Alert>
         </Snackbar>
       ) : null}
-      {callBookmark && status === 'error' ? (
+      {mutateBookmarkError ? (
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={4000}
           onClose={() => setSnackbarOpen(false)}
         >
           <Alert severity="error" sx={{width: '100%'}}>
-            Problème lors de l'ajout : {error.message}
+            Problème lors de l'ajout : {mutateBookmarkError.message}
           </Alert>
         </Snackbar>
       ) : null}

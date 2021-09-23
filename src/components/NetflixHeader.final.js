@@ -1,12 +1,21 @@
 import React from 'react'
 import {imagePathOriginal, TYPE_MOVIE} from '../config'
 import {HeaderSkeleton} from './skeletons/HeaderSkeleton'
-import {useFetchData} from '../utils/hooks'
+import {useQuery, useMutation, useQueryClient} from 'react-query'
 import {clientNetFlix} from '../utils/clientApi'
 import * as authNetflix from '../utils/authNetflixProvider'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert from '@mui/material/Alert'
+import DeleteIcon from '@mui/icons-material/Delete'
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+})
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
-  const {data, execute} = useFetchData()
+  const queryClient = useQueryClient()
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+  const [mutateBookmarkError, setMutateBookmarkError] = React.useState()
   const title = type === TYPE_MOVIE ? movie?.title : movie?.name
   const imageUrl = `${imagePathOriginal}${movie?.backdrop_path}`
   const banner = {
@@ -18,34 +27,70 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
     height: '448px',
   }
 
-  React.useEffect(() => {
-    async function getTokenExecute() {
-      const token = await authNetflix.getToken()
-      execute(clientNetFlix(`bookmark`, {token}))
-    }
-    getTokenExecute()
-  }, [execute])
+  const {data} = useQuery(`bookmark`, async () => {
+    const token = await authNetflix.getToken()
+    return clientNetFlix(`bookmark`, {token})
+  })
 
-  const handleAddToListClick = async () => {
-    const token = await authNetflix.getToken()
-    execute(
-      clientNetFlix(`bookmark/${type}`, {
+
+  const addMutation = useMutation(
+    async ({type, id}) => {
+      const token = await authNetflix.getToken()
+      return clientNetFlix(`bookmark/${type}`, {
         token,
-        data: {id: movie.id},
+        data: {id},
         method: 'POST',
-      }),
-    )
-  }
-  
-  const handleDeleteToListClick = async () => {
-    const token = await authNetflix.getToken()
-    execute(
-      clientNetFlix(`bookmark/${type}`, {
+      })
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('bookmark')
+        setSnackbarOpen(true)
+        setMutateBookmarkError()
+      },
+      onError: error => {
+        console.log('onError', error)
+        setSnackbarOpen(true)
+        setMutateBookmarkError(error)
+      },
+    },
+  )
+
+  const deleteMutation = useMutation(
+    async ({type, id}) => {
+     
+      const token = await authNetflix.getToken()
+      return clientNetFlix(`bookmark/${type}`, {
         token,
-        data: {id: movie.id},
+        data: {id},
         method: 'DELETE',
-      }),
-    )
+      })
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('bookmark')
+        setSnackbarOpen(true)
+        setMutateBookmarkError()
+      },
+      onError: error => {
+        console.log('onError', error)
+        setSnackbarOpen(true)
+        setMutateBookmarkError(error)
+      },
+    },
+  )
+  const handleAddToListClick = () => {
+    addMutation.mutate({
+      type,
+      id: movie.id,
+    })
+  }
+
+  const handleDeleteToListClick = () => {
+    deleteMutation.mutate({
+      type,
+      id: movie.id,
+    })
   }
 
   const isInList = data?.bookmark[
@@ -55,6 +100,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   if (!movie) {
     return <HeaderSkeleton></HeaderSkeleton>
   }
+
   return (
     <header style={banner}>
       <div className="banner__contents">
@@ -66,6 +112,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
               className="banner__button banner__buttonInfo"
               onClick={handleDeleteToListClick}
             >
+              <DeleteIcon
+                color="secondary"
+                style={{marginRight: '5px'}}
+                fontSize={'small'}
+              />
               Supprimer de ma liste
             </button>
           ) : (
@@ -80,6 +131,28 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
         <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
       </div>
       <div className="banner--fadeBottom"></div>
+      { !mutateBookmarkError ? (
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={4000}
+          onClose={() => setSnackbarOpen(false)}
+        >
+          <Alert severity="success" sx={{width: '100%'}}>
+            Liste modifiée avec succès
+          </Alert>
+        </Snackbar>
+      ) : null}
+      { mutateBookmarkError ? (
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={4000}
+          onClose={() => setSnackbarOpen(false)}
+        >
+          <Alert severity="error" sx={{width: '100%'}}>
+            Problème lors de l'ajout : {mutateBookmarkError.message}
+          </Alert>
+        </Snackbar>
+      ) : null}
     </header>
   )
 }

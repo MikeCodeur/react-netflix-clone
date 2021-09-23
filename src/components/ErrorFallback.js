@@ -1,6 +1,13 @@
 import {NetflixAppBar} from 'components/NetflixAppBar'
+import { useHistory } from "react-router-dom"
 
 function ErrorFallback({error, resetErrorBoundary}) {
+  const history = useHistory();
+
+  const handleClick = () => {
+    history.push("/")
+    resetErrorBoundary()
+  }
   return (
     <div>
       <NetflixAppBar />
@@ -21,7 +28,7 @@ function ErrorFallback({error, resetErrorBoundary}) {
         <div className="banner__buttons">
           <button
             className="banner__button banner__buttonplay"
-            onClick={resetErrorBoundary}
+            onClick={handleClick}
           >
             Accueil
           </button>
