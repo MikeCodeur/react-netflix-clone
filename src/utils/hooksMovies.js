@@ -1,5 +1,8 @@
 // No final
+export * from './hooksMovies.exercise'
 
-export * from './hooksMovies.bonus-2'
+// 🚀 Faire des Hooks personnalisés
+// export * from './hooksMovies.bonus-2'
 
-//export * from './hooksMovies.exercise'
+// 🚀 Rechercher des films 
+//export * from './hooksMovies.bonus-4'

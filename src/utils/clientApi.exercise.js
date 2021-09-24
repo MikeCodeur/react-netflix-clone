@@ -2,7 +2,7 @@ import axios from 'axios'
 import {apiKey, lang, API_URL, AUTH_URL} from '../config'
 
 // utilise 'sleep' pour simuler des api longue
-const sleep = t => new  Promise((resolve) =>setTimeout(resolve, t))
+//const sleep = t => new Promise(resolve => setTimeout(resolve, t))
 
 const clientApi = async endpoint => {
   const page = 1

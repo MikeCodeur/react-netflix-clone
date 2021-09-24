@@ -3,7 +3,7 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
-import { getRandomId} from '../utils/helper'
+import {getRandomId} from '../utils/helper'
 import {useMovie} from '../utils/hooksMovies'
 import {TYPE_TV} from '../config'
 import './Netflix.css'
@@ -11,10 +11,10 @@ import './Netflix.css'
 const NetflixSeries = ({logout}) => {
   const type = TYPE_TV
   const [defaultMovieId] = React.useState(getRandomId(type))
-  const headerMovie = useMovie(type,defaultMovieId)
+  const headerMovie = useMovie(type, defaultMovieId)
   return (
     <div>
-      <NetflixAppBar logout={logout}/>
+      <NetflixAppBar logout={logout} />
       <NetflixHeader movie={headerMovie} type={type} />
       <NetflixRow
         wideImage={true}

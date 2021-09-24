@@ -11,10 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import {useFetchData} from '../utils/hooks'
 // 🐶 importe {useQuery}
 import {TYPE_MOVIE, TYPE_TV} from '../config'
-import {
-  useParams,
-  useLocation
-} from "react-router-dom";
+import {useParams, useLocation} from 'react-router-dom'
 import './Netflix.css'
 
 const useStyles = makeStyles(theme => ({
@@ -32,13 +29,14 @@ const NetflixById = ({logout}) => {
   const classes = useStyles()
   // ⛏️ supprime 'useFetchData' car nous ne l'utiliseront plus ici
   const {data: headerMovie, error, status, execute} = useFetchData()
-  let { tvId, movieId } = useParams()
+  let {tvId, movieId} = useParams()
   const location = useLocation()
-  const [type,setType] = React.useState( location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE)
-  const [id,setId] = React.useState( type === TYPE_TV ? tvId : movieId)
+  const [type, setType] = React.useState(
+    location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
+  )
+  const [id, setId] = React.useState(type === TYPE_TV ? tvId : movieId)
 
-
-  // ⛏️ supprime le hook 'useEffect' car on utilisera 'useQuery' 
+  // ⛏️ supprime le hook 'useEffect' car on utilisera 'useQuery'
   React.useEffect(() => {
     execute(clientApi(`${type}/${id}`))
   }, [execute, id, type])
@@ -50,7 +48,7 @@ const NetflixById = ({logout}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour indentifier la requette
   //  utilise la contactenation 'type' et 'id'
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   //  dans notre cas on utilisera `clientApi(`${type}/${id}`)`
 
   React.useEffect(() => {
@@ -59,10 +57,10 @@ const NetflixById = ({logout}) => {
     setId(type === TYPE_TV ? tvId : movieId)
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth',
     })
   }, [location.pathname, movieId, tvId])
-  
+
   // ⛏️ supprime cette condition et le `throw new Error`
   // cela sera géré automatiquement par la configuration 'react-query'
   // dans les exercice bonus

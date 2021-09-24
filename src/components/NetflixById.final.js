@@ -17,9 +17,9 @@ const NetflixById = ({logout}) => {
     location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
   )
   const [id, setId] = React.useState(type === TYPE_TV ? tvId : movieId)
-  const {
-    data: headerMovie,
-  } = useQuery(`${type}/${id}`, () => clientApi(`${type}/${id}`))
+  const {data: headerMovie} = useQuery(`${type}/${id}`, () =>
+    clientApi(`${type}/${id}`),
+  )
 
   React.useEffect(() => {
     const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE

@@ -1,6 +1,6 @@
 //export * from './NetflixById.final'
 
-//export * from './NetflixById.exercise'
+export * from './NetflixById.exercise'
 
 // 🚀 Faire des Hooks personnalisés
-export * from './NetflixById.bonus-2'
+//export * from './NetflixById.bonus-2'

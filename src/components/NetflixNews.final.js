@@ -13,9 +13,7 @@ const NetflixNews = ({logout}) => {
   const [type] = React.useState(getRandomType())
   const [defaultMovieId] = React.useState(getRandomId(type))
 
-  const {
-    data: headerMovie,
-  } = useQuery(`${type}/${defaultMovieId}`, () =>
+  const {data: headerMovie} = useQuery(`${type}/${defaultMovieId}`, () =>
     clientApi(`${type}/${defaultMovieId}`),
   )
 

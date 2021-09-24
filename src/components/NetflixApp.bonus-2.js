@@ -9,11 +9,10 @@ import {useMovie} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV} from '../config'
 import './Netflix.css'
 
-
 const NetflixApp = ({logout}) => {
   const [type] = React.useState(getRandomType())
   const [defaultMovieId] = React.useState(getRandomId(type))
-  const headerMovie = useMovie(type,defaultMovieId)
+  const headerMovie = useMovie(type, defaultMovieId)
   return (
     <div>
       <NetflixAppBar logout={logout} />

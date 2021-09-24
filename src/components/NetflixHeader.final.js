@@ -32,7 +32,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
     return clientNetFlix(`bookmark`, {token})
   })
 
-
   const addMutation = useMutation(
     async ({type, id}) => {
       const token = await authNetflix.getToken()
@@ -49,7 +48,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
         setMutateBookmarkError()
       },
       onError: error => {
-        console.log('onError', error)
         setSnackbarOpen(true)
         setMutateBookmarkError(error)
       },
@@ -58,7 +56,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
 
   const deleteMutation = useMutation(
     async ({type, id}) => {
-     
       const token = await authNetflix.getToken()
       return clientNetFlix(`bookmark/${type}`, {
         token,
@@ -131,7 +128,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
         <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
       </div>
       <div className="banner--fadeBottom"></div>
-      { !mutateBookmarkError ? (
+      {!mutateBookmarkError ? (
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={4000}
@@ -142,7 +139,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
           </Alert>
         </Snackbar>
       ) : null}
-      { mutateBookmarkError ? (
+      {mutateBookmarkError ? (
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={4000}

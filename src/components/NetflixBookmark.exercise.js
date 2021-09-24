@@ -31,7 +31,7 @@ const NetflixBookmark = ({logout}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour identifier la requette
   //  dans notre cas il s'agira de 'bookmark'
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   //  dans notre cas on utilisera un fonction asynchrone car on a besoin de recuperer le token
   //
   // 🤖
@@ -44,7 +44,7 @@ const NetflixBookmark = ({logout}) => {
 
   // ⛏️ supprime le hook 'useEffect' car on utilisera 'useQuery
   React.useEffect(() => {
-    const id = data?.movies?.[0] ?? 749274
+    const id = data?.bookmark?.movies?.[0] ?? 749274
     executeHeader(clientApi(`${TYPE_MOVIE}/${id}`))
   }, [data, executeHeader])
 
@@ -55,12 +55,12 @@ const NetflixBookmark = ({logout}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour identifier la requette
   //  dans notre cas il s'agira de `${TYPE_MOVIE}/${id}
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   // 🤖
   //clientApi(`${TYPE_MOVIE}/${id}`)
   return (
     <>
-      <NetflixAppBar logout={logout}/>
+      <NetflixAppBar logout={logout} />
       <NetflixHeader movie={headerMovie?.data} type={TYPE_MOVIE} />
       <div className="row">
         <h2>Films favoris</h2>
@@ -92,7 +92,7 @@ const NetflixBookmark = ({logout}) => {
 }
 
 const Card = ({id, type, watermark, wideImage}) => {
-    // ⛏️ supprime 'useFetchData' car nous ne l'utiliseront plus ici
+  // ⛏️ supprime 'useFetchData' car nous ne l'utiliseront plus ici
   const {data, execute} = useFetchData()
 
   // ⛏️ supprime le hook 'useEffect' car on utilisera 'useQuery
@@ -107,13 +107,11 @@ const Card = ({id, type, watermark, wideImage}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour identifier la requette
   //  dans notre cas il s'agira de `${type}/${id}`
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   // 🤖
   //clientApi(`${type}/${id}`))
 
   const [image, setImage] = React.useState('')
-
-
 
   React.useEffect(() => {
     const buildImagePath = data => {

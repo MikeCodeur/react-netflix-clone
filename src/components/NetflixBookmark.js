@@ -1,7 +1,7 @@
 
 //export * from './NetflixBookmark.final'
 
-//export * from './NetflixBookmark.exercise'
+export * from './NetflixBookmark.exercise'
 
 // 🚀 Faire des Hooks personnalisés
-export * from './NetflixBookmark.bonus-2'
+//export * from './NetflixBookmark.bonus-2'

@@ -13,7 +13,7 @@ const NetflixBookmark = ({logout}) => {
     return clientNetFlix(`bookmark`, {token})
   })
 
-  const id = data?.movies?.[0] ?? 749274
+  const id = data?.bookmark.movies?.[0] ?? 749274
   const {data: headerMovie} = useQuery(`${TYPE_MOVIE}/${id}`, () =>
     clientApi(`${TYPE_MOVIE}/${id}`),
   )

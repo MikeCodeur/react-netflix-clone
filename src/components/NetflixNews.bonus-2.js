@@ -11,7 +11,7 @@ import './Netflix.css'
 const NetflixNews = ({logout}) => {
   const [type] = React.useState(getRandomType())
   const [defaultMovieId] = React.useState(getRandomId(type))
-  const headerMovie = useMovie(type,defaultMovieId)
+  const headerMovie = useMovie(type, defaultMovieId)
   return (
     <div>
       <NetflixAppBar logout={logout} />

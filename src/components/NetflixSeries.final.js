@@ -3,7 +3,7 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
-import { getRandomId} from '../utils/helper'
+import {getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {useQuery} from 'react-query'
 import {TYPE_TV} from '../config'
@@ -12,13 +12,13 @@ import './Netflix.css'
 const NetflixSeries = ({logout}) => {
   const type = TYPE_TV
   const [defaultMovieId] = React.useState(getRandomId(type))
-  const {
-    data: headerMovie,
-  } = useQuery(`${type}/${defaultMovieId}`, () => clientApi(`${type}/${defaultMovieId}`))
+  const {data: headerMovie} = useQuery(`${type}/${defaultMovieId}`, () =>
+    clientApi(`${type}/${defaultMovieId}`),
+  )
 
   return (
     <div>
-      <NetflixAppBar logout={logout}/>
+      <NetflixAppBar logout={logout} />
       <NetflixHeader movie={headerMovie?.data} type={type} />
       <NetflixRow
         wideImage={true}

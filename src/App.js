@@ -1,6 +1,9 @@
 //export * from 'App.final'
 
-//export * from 'App.exercise'
+export * from 'App.exercise'
 
-// configuration
-export * from 'App.bonus-1'
+// 🚀 Configuration retry / error 
+//export * from 'App.bonus-1'
+
+// 🚀 Récupérer les erreurs de mutation
+//export * from 'App.bonus-3'

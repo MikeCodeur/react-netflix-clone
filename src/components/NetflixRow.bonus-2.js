@@ -12,8 +12,7 @@ const NetflixRow = ({
   filter = 'populaire',
   watermark = false,
 }) => {
-  
-  const data = useMovieFilter(type,filter, param)
+  const data = useMovieFilter(type, filter, param)
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path
     return image ? `${imagePath400}${image}` : null

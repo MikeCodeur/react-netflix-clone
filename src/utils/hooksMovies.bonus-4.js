@@ -2,9 +2,16 @@ import {useQuery, useMutation, useQueryClient} from 'react-query'
 import {clientApi, clientNetFlix} from './clientApi'
 import * as authNetflix from './authNetflixProvider'
 
+const useSearchMovie = query => {
+  const {data} = useQuery(`search/multi/?query=${query}`, () =>
+    clientApi(`search/multi/?query=${query}`),
+  )
+  return data?.data.results ?? []
+}
+
 const useMovie = (type, id) => {
   const {data} = useQuery(`${type}/${id}`, () => clientApi(`${type}/${id}`))
-  return data?.data /*?? loadingMovie*/
+  return data?.data
 }
 
 const useMovieFilter = (type, filter, param) => {
@@ -44,7 +51,7 @@ const useBookmark = () => {
     const token = await authNetflix.getToken()
     return clientNetFlix(`bookmark`, {token})
   })
-  return data /*?? loadingMovie*/
+  return data
 }
 
 const useAddBookmark = ({
@@ -124,4 +131,5 @@ export {
   useBookmark,
   useAddBookmark,
   useDeleteBookmark,
+  useSearchMovie,
 }

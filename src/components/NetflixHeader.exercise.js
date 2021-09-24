@@ -15,10 +15,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 })
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
-  
   // ⛏️ supprime 'useFetchData' car nous ne l'utiliseront plus ici
   const {data, error, status, execute} = useFetchData()
-  
+
   // 🐶 Utilise le hook 'useQueryClient' qui nous permettra de supprimer
   // les données en cache avec 🤖 `queryClient.invalidateQueries('idquery')`
   // 🤖 const queryClient = useQueryClient()
@@ -63,7 +62,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour identifier la requette
   //  dans notre cas il s'agira de 'bookmark'
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   //  dans notre cas on utilisera un fonction asynchrone car on a besoin de recuperer le token
   //
   // 🤖
@@ -83,7 +82,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   // utilise ce hook pour faire un appel HTTP pour ajouter une bookmark
   // 1. le premier parametre est une fonction permetant de faire l'appel HTTP
   // passe un fontion async avec les caractéristiques suivantes:
-  // - un objet en paramètre avec les propriétés {type, id} 
+  // - un objet en paramètre avec les propriétés {type, id}
   // - appelle `await authNetflix.getToken()` pour récuperer le token
   // - retourne `return clientNetFlix` avec les bon paramètres
   //  a. le endpoint : `bookmark/${type}`
@@ -93,7 +92,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   //  - 'method' : 'POST'
   //
   // 2. Le deuxième paramètre est un objet {onSuccess,onError}
-  //  a. onSucces : une fonction qui supprime la memoire cache, 
+  //  a. onSucces : une fonction qui supprime la memoire cache,
   //    - queryClient.invalidateQueries('bookmark')
   //    - setSnackbarOpen(true)
   //    - setMutateBookmarkError()
@@ -107,7 +106,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   // utilise ce hook pour faire un appel HTTP pour ajouter une bookmark
   // 1. le premier parametre est une fonction permetant de faire l'appel HTTP
   // passe un fontion async avec les caractéristiques suivantes:
-  // - un objet en paramètre avec les propriétés {type, id} 
+  // - un objet en paramètre avec les propriétés {type, id}
   // - appelle `await authNetflix.getToken()` pour récuperer le token
   // - retourne `return clientNetFlix` avec les bon paramètres
   //  a. le endpoint : `bookmark/${type}`
@@ -117,7 +116,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   //  - 'method' : 'DELETE'
   //
   // 2. Le deuxième paramètre est un objet {onSuccess,onError}
-  //  a. onSucces : une fonction qui supprime la memoire cache, 
+  //  a. onSucces : une fonction qui supprime la memoire cache,
   //    - queryClient.invalidateQueries('bookmark')
   //    - setSnackbarOpen(true)
   //    - setMutateBookmarkError()
@@ -125,11 +124,10 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   //    - setSnackbarOpen(true)
   //    - setMutateBookmarkError(error)
 
- 
   // 🐶 'handleAddToListClick' va appeler la fonction 'mutate' de 'useMutation'
   // 📑 https://react-query.tanstack.com/guides/migrating-to-react-query-3#mutationmutate-no-longer-return-a-promise
   const handleAddToListClick = async () => {
-     // ⛏️ supprime le contenu de la fonction (elle n'a plus besoin d'etre async)
+    // ⛏️ supprime le contenu de la fonction (elle n'a plus besoin d'etre async)
     const token = await authNetflix.getToken()
     setCallBookmark(true)
     execute(
@@ -177,7 +175,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
               className="banner__button banner__buttonInfo"
               onClick={handleDeleteToListClick}
             >
-              <DeleteIcon color="secondary" style={{marginRight: '5px'}} fontSize={'small'}/>
+              <DeleteIcon
+                color="secondary"
+                style={{marginRight: '5px'}}
+                fontSize={'small'}
+              />
               Supprimer de ma liste
             </button>
           ) : (

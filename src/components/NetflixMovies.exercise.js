@@ -30,8 +30,8 @@ const NetflixMovies = ({logout}) => {
   // ⛏️ supprime 'useFetchData' car nous ne l'utiliseront plus ici
   const {data: headerMovie, error, status, execute} = useFetchData()
   const type = TYPE_MOVIE
-  const [defaultMovieId]=  React.useState(getRandomId(type))
-  
+  const [defaultMovieId] = React.useState(getRandomId(type))
+
   // ⛏️ supprime le hook 'useEffect' car on utilisera 'useQuery'
   React.useEffect(() => {
     execute(clientApi(`${type}/${defaultMovieId}`))
@@ -44,9 +44,8 @@ const NetflixMovies = ({logout}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour indentifier la requette
   //  utilise la contactenation 'type' et 'defaultMovieId'
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   //  dans notre cas on utilisera `clientApi(`${type}/${defaultMovieId}`)`
-
 
   // ⛏️ supprime cette condition et le `throw new Error`
   // cela sera géré automatiquement par la configuration 'react-query'
@@ -57,7 +56,7 @@ const NetflixMovies = ({logout}) => {
   }
   return (
     <div>
-      <NetflixAppBar logout={logout}/>
+      <NetflixAppBar logout={logout} />
       <NetflixHeader movie={headerMovie?.data} type={type} />
       <NetflixRow
         wideImage={true}

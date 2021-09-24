@@ -32,12 +32,10 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
 
   const addMutation = useAddBookmark({
     onSuccess: () => {
-      console.log('onSuccess')
       setSnackbarOpen(true)
       setMutateBookmarkError()
     },
     onError: error => {
-      console.log('onError', error)
       setSnackbarOpen(true)
       setMutateBookmarkError(error)
     },
@@ -49,7 +47,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
       setMutateBookmarkError()
     },
     onError: error => {
-      console.log('onError', error)
       setSnackbarOpen(true)
       setMutateBookmarkError(error)
     },

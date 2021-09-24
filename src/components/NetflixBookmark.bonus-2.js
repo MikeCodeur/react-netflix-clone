@@ -1,13 +1,13 @@
 import * as React from 'react'
 import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixHeader} from './NetflixHeader'
-import {useMovie , useBookmark} from '../utils/hooksMovies'
+import {useMovie, useBookmark} from '../utils/hooksMovies'
 import {Link} from 'react-router-dom'
 import {TYPE_MOVIE, TYPE_TV, imagePath400} from '../config'
 
 const NetflixBookmark = ({logout}) => {
   const data = useBookmark()
-  const id = data?.movies?.[0] ?? 749274
+  const id = data?.bookmark?.movies?.[0] ?? 749274
   const headerMovie = useMovie(TYPE_MOVIE, id)
 
   return (
