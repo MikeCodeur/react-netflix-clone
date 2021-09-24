@@ -66,6 +66,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
     })
   }
 
+  // const handlePlayClick = () => {
+  //   //window.location.href = movie.homepage;
+  //   window.open(movie.homepage, '_blank');
+  // }
+
   const isInList = data?.bookmark[
     type === TYPE_MOVIE ? 'movies' : 'series'
   ]?.includes(movie?.id)
@@ -79,7 +84,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
       <div className="banner__contents">
         <h1 className="banner__title">{title ?? '...'}</h1>
         <div className="banner__buttons">
-          <button className="banner__button banner__buttonplay">Lecture</button>
+          <a href={movie.homepage} target="_blank" rel="noreferrer">
+            <button className="banner__button banner__buttonplay">
+              Lecture
+            </button>
+          </a>
           {isInList ? (
             <button
               className="banner__button banner__buttonInfo"
