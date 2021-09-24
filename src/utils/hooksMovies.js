@@ -3,8 +3,8 @@ import {clientApi, clientNetFlix} from './clientApi'
 import * as authNetflix from './authNetflixProvider'
 
 const useSearchMovie = query => {
-  const {data} = useQuery(`search/multi/?query=${query}`, () =>
-    clientApi(`search/multi/?query=${query}`),
+  const {data} = useQuery(`search/multi?query=${query}`, () =>
+    clientApi(`search/multi?query=${query}`),
   )
   return data?.data.results ?? []
 }
