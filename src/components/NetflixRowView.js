@@ -37,6 +37,10 @@ const RowCard = ({movie, type, watermark, wideImage}) => {
   }
 
   const watermarkClass = watermark ? 'watermarked' : ''
+
+  if (!movie){
+    return <></>
+  }
   return (
     <Link key={movie.id} to={`/${type}/${movie.id}`}>
       <div className={`row__poster row__posterLarge ${watermarkClass}`}>
