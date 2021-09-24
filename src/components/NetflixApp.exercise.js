@@ -44,7 +44,7 @@ const NetflixApp = ({logout}) => {
   // 1. Le premier paramètre de 'useQuery' est un nom unique pour indentifier la requette
   //  utilise la contactenation 'type' et 'defaultMovieId'
   //
-  // 2. Le deuxieme paramètre est une fonction qui recupère les données 
+  // 2. Le deuxieme paramètre est une fonction qui recupère les données
   //  dans notre cas on utilisera `clientApi(`${type}/${defaultMovieId}`)`
 
   // ⛏️ supprime cette condition et le `throw new Error`
