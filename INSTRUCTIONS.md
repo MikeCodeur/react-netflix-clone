@@ -253,7 +253,7 @@ onError: error => {
 
     `useSearchMovie(query)` qui va appeler l'api suivante : 
 
-    - `search/multi/?query=${query}` avec `useQuery` et `clientApi`
+    - `search/multi?query=${query}` avec `useQuery` et `clientApi`
 2. Créer un composant `<NetflixSearch/>` (`src/components/NetflixSearch`) pour la route `/search/:query`  :
     - Connecter la route au composant dans `AuthApp` (déjà fait)
 
