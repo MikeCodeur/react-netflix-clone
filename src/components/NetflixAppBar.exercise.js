@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+// 🐶 rien à faire pour l'exercice, mais sera utile pour l'exercice bonus-4
 import * as React from 'react'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'

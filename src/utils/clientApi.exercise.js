@@ -1,3 +1,4 @@
+// 🐶 rien à faire pour l'exercice, mais sera utile pour l'exercice bonus-1
 import axios from 'axios'
 import {apiKey, lang, API_URL, AUTH_URL} from '../config'
 

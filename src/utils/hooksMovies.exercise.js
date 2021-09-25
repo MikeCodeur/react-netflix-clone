@@ -1,3 +1,5 @@
+// 🐶 rien à faire pour l'exercice, mais sera utile pour l'exercice bonus 2 et 7
+
 // 🐶 importe les 3 lignes suivantes elles seonrt utiles
 // import {useQuery, useMutation, useQueryClient} from 'react-query'
 // import {clientApi, clientNetFlix} from './clientApi'
