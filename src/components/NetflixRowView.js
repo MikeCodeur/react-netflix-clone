@@ -20,7 +20,7 @@ const NetflixRowView = ({
       <div className="row__posters">
         {data.map(movie => {
           return (
-            <RowCard movie={movie} type={type} watermark={watermark} wideImage={wideImage} />
+            <RowCard key={movie.id} movie={movie} type={type} watermark={watermark} wideImage={wideImage} />
           )
         })}
       </div>
@@ -28,14 +28,11 @@ const NetflixRowView = ({
   )
 }
 
-
 const RowCard = ({movie, type, watermark, wideImage}) => {
-
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path
     return image ? `${imagePath400}${image}` : null
   }
-
   const watermarkClass = watermark ? 'watermarked' : ''
 
   if (!movie){

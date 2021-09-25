@@ -1,5 +1,5 @@
-# Gestion de cache avec React-Query
-### 💡 Gestion de cache avec React-Query
+# Context API
+### 💡 Utilisation du Context API pour gérer les states dans l'application
 
 ## 📝 Tes notes
 
@@ -7,275 +7,168 @@ Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](h
 
 ## Comprendre
 
-Dans une application nous devons souvent gérer deux choses, l'affichage et les données (provenant du backend). Gérer ces états ( `state management` ) peut vite devenir compliqué.  On a d'un coté les états de l'application coté front 
-
-- Le user est-il connecté ?
-- Une erreur est-elle survenue ?
-- Le thème est il en dark mode / Light mode ?
-- etc ...
-
-Et les états des données cotés backend
-
-- La liste des derniers films
-- Les mieux notés
-- Les séries tendances
-- Les favoris (bookmark) de l'utilisateur
-- etc ...
-
-Les applications deviennent de plus en plus complexes et on a tendance à mélanger tous les states alors qu'il est préférable de les séparer. il existe des dizaines d'outils de gestion d'états, mais il ne sont parfois pas dédiées à la gestion des données cotés serveur, avec gestion de la mémoire cache, ce qui veut dire que ce mécanisme est à réimplémenter. Heureusement [React-Query](https://react-query.tanstack.com/)  permet de faire cela :
+Nous gérons d'un coté, l'état (`state management`) de toutes les données du serveur grâce à `react-query` . Mais ce n'est pas suffisant, nous devons aussi gérer l'état de notre application, le user connecté et les diffèrent états des interfaces. il existe de nombreux outils (state manager) pour faire cela. comme `Redux`, `Mobx`, `zustand` etc ... mais depuis l'apparition de l'`API context` et du hook `useContext()` cela nous permet de gérer les états nativement avec React. Ces états sont ensuite accessibles dans toutes l'application sans passer par des props (`props drills pattern`) Rappel sur l'utilisation de l'api `context` et `useContext`
 
 ```jsx
-// Querie
-const bookmark= useQuery('bookmark', clientApi(`/bookmark`))
+const ThemeContext = React.createContext()
 
-// Mutation & Cache
-const cache = useQueryCache()
+<ThemeContext.Provider value={theme}>
+      <Toolbar />
+</ThemeContext.Provider>
 
-const [addBookmark] = useMutation(clientApi(`/bookmark`,filmId,'POST'), {
-	 onSuccess: () => {
-	   // Query Invalidations
-	   cache.invalidateQueries('bookmark')
-	 },
-	})
+function ThemedButton() {
+  const theme = useContext(ThemeContext);
+  return (
+    <button style={{ background: theme.background, color: theme.foreground }}>
+      Je suis stylé par le contexte de thème !
+    </button>
+  );
+}
 ```
 
-📑 Le liens vers les `hooks` 
-
-- [useQuery](https://react-query.tanstack.com/reference/useQueries#_top)
-- [useMutation](https://react-query.tanstack.com/reference/useMutation#_top)
+📑 Le lien vers la doc du [hook useContext](https://fr.reactjs.org/docs/hooks-reference.html#usecontext)
 
 ## Exercice
 
-👨‍✈️ Hugo le chef de projet nous indique que le nombre d'utilisateurs augmente rapidement. Il veut que l'on gère les données en cache ,cela rendra le site plus rapide et évitera les surcharges d'appels vers le backend.
+A l'heure actuelle nous passons `logout` `login` `register` en props de composants en composants. Par exemple :
 
-Ton boulot va d'être de changer tout les appels API (TMDB et Auth) par `react-query`.  Pense à utiliser le même nom de `query` pour les appels identiques. cela nous permettra de supprimer les donnée en cache. par exemple 
+- `logout` passe par : `AuthApp` → `NetflixApp` → `NetflixAppBar`
+- `register` et `login` passe par : `UnauthApp`-> `LoginRegister` → `PopupLogin`
 
-- `useQuery('bookmark')`
-- `useQuery('tv/555')`
-- `useQuery('discover/movies-genres=758')`
+Dans cet exercice tu vas devoir créer un context `AuthContext` qui contiendra  `logout` `login` `register`, `authUser`. On pourra ensuite utiliser le `AuthContext.Provider` dans `App`
 
-Pour la fonctionnalité d'ajout aux favoris utilise le `hook useMutation` et invalide les données en cache avec `cache.invalidateQueries('bookmark')`
+```jsx
+<AuthContext.Provider value={props}>
+    <AuthApp/>
+</AuthContext.Provider>
+//AuthApp et les enfant auront accès a AuthContext
+//const {logout} = React.useContext(AuthContext)
+```
 
 **Fichiers :**
 
-- `src//App.js`
-- `src/components/NetflixAppjs`
-- `src/components/NetflixById.js`
-- `src/components/NetflixHeader.js`
-- `src/components/NetflixMovies.js`
-- `src/components/NetflixRow.js`
-- `src/components/NetflixNews.js`
-- `src/components/NetflixSeries.js`
-- `src/components/NetflixBookmark.js`
+- `src/context/AuthContext.js`
+- `src/App.js`
+- `src/UnauthApp.js`
+- `src/AuthApp.js`
+- `src/components/NetflixAppBar.js`
+- `src/components/LoginRegister.js`
 
 ## Bonus
 
-### 1. 🚀 Configuration retry / error
+### 1. 🚀 hook personnalisé useAuth
 
-Il est possible de configurer finement `React-Query`, comme par exemple rafraichir les données lorsque le navigateur a le focus, gérer les erreurs, le nombre de tentatives sur erreur etc ...
+Au lieu d'avoir à utiliser `React.useContext(AuthContext)` et ensuite vérifier si le context n'est pas `null` (ce qui peut arriver lorsque l'on utilise useContext en dohers du provider), on peut créé un hook `useAuth.` Créé ce `hook` et utilise le partout ou l'on a besoin de faire appel au context pour récupérer `logout` `login` `register`, `authUser`, `authError`
 
-Dans cet exercice tu vas devoir configurer le `QueryClient` dans `App.js`
+**Fichiers :**
 
-📑 [https://react-query.tanstack.com/reference/QueryClient#_top](https://react-query.tanstack.com/reference/QueryClient#_top)
+- `src/context/AuthContext.js`
+- `src/components/NetflixAppBar.js`
+- `src/components/LoginRegister.js`
+- `src/AuthApp.js`
 
-On veut avoir le caractéristiques suivantes sur les `queries`et `mutations`
+### 2. 🚀 AuthProvider
 
-- un délais entre 2 tentatives de 500ms
-- 3 tentatives de connexion par défaut sauf pour :
-    - error 404 ou 401 pas de nouvelles tentatives
-- utilisation de `ErrorBoundary` en cas d'erreur
-- désactiver l'option qui `refetch` sur le focus de la fenêtre
-- 1 seul tentative de reconnexion sur mutation.
-
- 
+A l'heure actuelle nous avons toutes la logique d'authentification de l'utilisateur avec les states : `logout` `login` `register`, `authUser`, `authError,` directement dans `App` ,cela est aussi mélangé avec le code du thème de `Material-ui` et la configuration de `React-Query`. Il est préférable de séparer le code lié au l'authentification dans un composant `AuthProvider` pour une meilleure maintenabilité du code. Dans cet exercice créé un composant `AuthProvider` qui reprend toute la logique d'authentification de App et qui retourne sur le `status === 'done'`
 
 ```jsx
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      useErrorBoundary: true,
-      refetchOnWindowFocus: false,
-      retryDelay : 500,
-      retry: (failureCount, error) => {
-        if (error.status === 404) return false
-        else if (error.status === 401) return false
-        else if (failureCount > 3) return false
-        else return true
-      },
-    },
-    mutations: {
-		 useErrorBoundary: true,
-		 refetchOnWindowFocus: false,
-		 retryDelay : 500,
-		 retry:1,
-		 // mutation options
-	},
-  },
-})
+const value = {authUser, login, register, logout, authError}
+ return <AuthContext.Provider value={value} {...props}/>
 ```
 
-Nous allons devoir adapter la fonction `clientApi` qui est dans  `src//utils/clientApi.js` pour retourner le `status` (pour connaitre le code 401 404 etc ...) et avoir afficher le message d'erreur de l'api TMDB. Pour rappel cette api retourne 
+Utilisation dans `App` :
 
-```json
-{
- "success":false,
- "status_code":34, 
- "status_message":"The resource you requested could not be found."
+```jsx
+<QueryClientProvider client={queryClient}>
+  <ThemeProvider theme={theme}>
+    <AuthProvider>
+      <AppConsumer />
+    </AuthProvider>
+  </ThemeProvider>
+</QueryClientProvider>
+// <AppConsumer /> est le composant qui retourne 
+// <AuthApp/> / <UnauthApp/> en function de authUser
+// accessible avec : const {authUser} = useAuth()
+```
+
+> On pourra également retourner le composant Mui Backdrop qui affiche le chargement sur la `status === 'fetching' || status === 'idle'`
+
+```jsx
+if (status === 'fetching' || status === 'idle') {
+  return (
+    <Backdrop open={true}>
+      <CircularProgress color="primary" />
+    </Backdrop>
+  )
 }
 ```
 
-Adapte la fonction `clientApi` et au lieu de retourner 
+**Fichiers :**
+
+- `src/context/AuthContext.js`
+- `src/AuthApp.js`
+
+### 3. 🚀 AppProviders
+
+Notre `App` commence à contenir de nombreux providers : 
 
 ```jsx
-return axios.get(`${API_URL}/${endpoint}${keyLang}`).
+<QueryClientProvider client={queryClient}>
+  <ThemeProvider theme={theme}>
+    <AuthProvider>
+      <AppConsumer />
+    </AuthProvider>
+  </ThemeProvider>
+</QueryClientProvider>
 ```
 
-catch l'erreur (qui contient le `status` dans `error.response` de `axios`) 
+Nous voudrions avoir un composant `AppProviders` qui regroupe tous les providers et que nous pourrions utiliser de la manière suivante 
 
 ```jsx
-return axios.get(`${API_URL}/${endpoint}${keyLang}`).catch(error => {
-	// retourne err qui est un objet qui contient le 'status' et 'message'
-  return Promise.reject(err)
+<AppProviders>
+  <AppConsumer />
+</AppProviders>
+```
+
+Dans cet exercice créé un composant `AppProviders` qui contiendra tous les providers avec un `children`. Il contera également toute la configuration du `theme mui` et `reactQuery` de tel sorte que l'on puisse utiliser comme ceci : 
+
+```jsx
+function App() {
+  return (
+    <AppProviders>
+      <AppConsumer />
+    </AppProviders>
+  )
+}
+```
+
+**Fichiers :**
+
+- `src/context/index.js`
+- `src/App.js`
+
+### 4. 🚀 useClientNetflixHook
+
+A plusieurs endroit dans le code nous devons avoir accès au `token` pout faire des appel API vers le backend. 
+
+```jsx
+const {data} = useQuery(`bookmark`, async () => {
+  const token = await authNetflix.getToken()
+  return clientNetFlix(`bookmark`, {token})
 })
 ```
 
-La propriété `message` est utilisée sur le composant `ErrorFallback` de `errorBoundary` . Utilise un `spred operérator` 
+Plus l'application va grandir et plus nous aurons d'appel vers le backend en utilisant le `token` .  Pour simplifier créé un hook `useClientNetflix` qui fera appel à `useAuth()` pour récupérer le `token` et retournera un fonction `clientNetFlix` avec le token préconfiguré de tel manière que l'on puisse utiliser directement (sans gérer de token)
 
 ```jsx
-const err = {
-  ...error.response,
-  message: error.response?.data?.status_message,
-}
-return Promise.reject(err)
+const clientNetFlix = useClientNetflix()
+ const {data} = useQuery(`bookmark`, () => clientNetFlix(`bookmark`))
 ```
 
-Pour tester l'erreur utilise cette URL
-
-- [http://localhost:3000/movie/id-inexistant](http://localhost:3000/movie/id-inexistant)
-
 **Fichiers :**
 
-- `src//App.js`
-- `src//utils/clientApi.js`
-
-### 2. 🚀 Faire des Hooks personnalisés
-
-La modification des appels API, la passage de notre hook  `useFechData` à `useQuery` à du être répété dans de nombreux fichiers. A la place il est préférable de centraliser cela dans des `hooks` personnalisés.  Par exemple 
-
-- `useMovie(type, id)`
-- `useMovieGroup(type, filter, param)`
-- `useBookmark()`
-- `useAddBookmark(type, id)`
-- `useDeleteBookmark(type, id)`
-
-**Tu vas devoir créer ces hooks :**
-
-1. Pour les hooks `GET` le code est sensiblement le même que dans les composants qui utilisent `useQuery`.
-
-    Remplace ensuite tous les appels par :
-
-    ```jsx
-    const { data: headerMovie } = useQuery(`${type}/${defaultMovieId}`,
-     () => clientApi(`${type}/${defaultMovieId}`))
-
-    //en ca 
-    const headerMovie = useMovie(type,defaultMovieId)
-    // pense a changer headerMovie.data en headerMovie dans <NetflixHeader>
-    ```
-
-2. Pour les hooks personnalisés qui **utilisent les mutations :**
-
-    Le principe consiste à utiliser `useMutation` et passer les callbacks `onSuccess onError onSettled onMutate` en paramètres pour pouvoir utiliser ces `hooks` de la manière suivante :
-
-    ```jsx
-    const addMutation = useAddBookmark({
-        onSuccess: () => {
-          setSnackbarOpen(true)
-          setMutateBookmarkError()
-        },
-        onError: error => {
-          setSnackbarOpen(true)
-          setMutateBookmarkError(error)
-        },
-      })
-    ```
-
-Note sur tous les composants utilisant ces nouveaux hooks 
-
-> Supprime tous  les  `status === 'error'` car c'est gérer par `errorBoundary`
-
-> Remplace tous les `status === 'loading'` par `!data`
-
-> Remplace tous les `headerMovie.data` par `data`
-
-**Fichiers :**
-
-- `src/utils/hookMovies.js`
-- `src/components/NetflixApp.js`
-- `src/components/NetflixAppjs`
-- `src/components/NetflixById.js`
-- `src/components/NetflixHeader.js`
-- `src/components/NetflixMovies.js`
-- `src/components/NetflixRow.js`
-- `src/components/NetflixNews.js`
-- `src/components/NetflixSeries.js`
-- `src/components/NetflixBookmark.js`
-
-### 3. 🚀 Récupérer les erreurs de mutation
-
-Nous voulons un comportement spécial pour les erreurs de mutations. Nous ne voulons pas utiliser `ErrorBoundary` mais plutôt utiliser le composant `Mui` Alerte  et Snackbar. Il ne faut donc pas mettre `useErrorBoundary: true` pour les mutations.
-
-```jsx
-mutations: {
- useErrorBoundary: false,
- refetchOnWindowFocus: false,
- retryDelay : 500,
- retry:1,
-  // mutation options
-},
-
-// onError sera ensuite pris en compte
-onError: error => {
-  setSnackbarOpen(true)
-  setMutateBookmarkError(error)
-},
-```
-
-> Pour simuler une erreur de mutation, modifie `useAddBookmark` et passe un `token` invalide : par exemple `token:'inexistant'`,
-
-### 4. 🚀 Rechercher des films
-
-👨‍✈️ Hugo le chef de projet nous demande de créer une fonctionnalité de recherche de films / séries. Il souhaite ajouter un champs de recherche dans la `NetflixAppBar`.
-
-**Les étapes pour développer cette fonctionnalité :** 
-
-1. Créer un `hook` personnalisé (`src/utils/hooksMovies`) :
-
-    `useSearchMovie(query)` qui va appeler l'api suivante : 
-
-    - `search/multi/?query=${query}` avec `useQuery` et `clientApi`
-2. Créer un composant `<NetflixSearch/>` (`src/components/NetflixSearch`) pour la route `/search/:query`  :
-    - Connecter la route au composant dans `AuthApp` (déjà fait)
-
-    ```jsx
-    <Route path="/search/:query">
-      <NetflixSearch logout={logout} />
-    </Route>
-    ```
-
-    - Utiliser `useParams` pour récupérer `query`
-    - Appeler `useSearchMovie(query)` pour faire la recherche :
-    - Filtrer les films et séries et afficher deux `rows` : ligne film/ligne séries
-    - url de test : [http://localhost:3000/search/walking](http://localhost:3000/search/walking)
-3. Ajouter le champs de recherche dans la `<NetflixAppBar>` (`src/components/NetFlixAppbar`) :
-    - Base toi sur l'exemple : 📑 [https://mui.com/components/app-bar/#main-content](https://mui.com/components/app-bar/#main-content)
-    - Lors d'un clique sur `'enter'` redirection vers la bonne route : exemple : [http://localhost:3000/search/walking](http://localhost:3000/search/walking)
-
-**Fichiers :**
-
-- `src/utils/hookMovies.js`
-- `src/components/NetFlixAppbar.js`
-- `src/components/NetflixSearch.js`
+- `src/utils/hooksMovies.js`
+- `src/context/AuthContext.js`
 
 ## 🐜 Feedback
 
