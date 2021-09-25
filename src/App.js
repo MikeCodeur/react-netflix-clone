@@ -10,3 +10,6 @@ export * from 'App.exercise'
 
 // 🚀 React Query Dev Tools
 //export * from 'App.bonus-5'
+
+// 🚀  🚀 Suppression cache sur Logout
+//export * from 'App.bonus-6'

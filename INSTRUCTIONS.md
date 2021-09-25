@@ -288,3 +288,30 @@ Ajoute `ReactQueryDevtools` uniquement en `'development'` en composant enfant de
 **Fichiers :**
 
 - `src/App.js`
+
+### 6. 🚀 Suppression cache sur Logout
+
+Dans notre application nous gardons les données en mémoire cache. Par exemple la liste des films / series favoris. `(/bookmark`). Que se passe-t-il si on utilisateur se déconnecte et qu'un nouvel utilisateur se connecte ? Les favoris et autres données seront récupérer de la mémoire cache. C'est pourquoi il faut supprimer les données en cache sur la déconnexion d'un utilisateur. Pour cela on va utiliser `QueryCache`
+
+```jsx
+import { QueryCache } from 'react-query'
+
+const queryCache = new QueryCache({
+   onError: error => {
+     console.log(error)
+   },
+   onSuccess: data => {
+     console.log(data)
+   }
+ })
+
+queryCache.clear()
+```
+
+Dans cet exercice tu vas devoir appeler `queryCache.clear()` lors de l'appel à `logout` 
+
+📑 [https://react-query.tanstack.com/reference/QueryCache#querycacheclear](https://react-query.tanstack.com/reference/QueryCache#querycacheclear)
+
+**Fichiers :**
+
+- `src/App.js`
