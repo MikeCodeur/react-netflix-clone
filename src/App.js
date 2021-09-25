@@ -9,6 +9,7 @@ import {useFetchData} from './utils/hooks'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import {QueryClient, QueryClientProvider} from 'react-query'
+import {ReactQueryDevtools} from 'react-query/devtools'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -90,6 +91,7 @@ function App() {
           <UnauthApp login={login} register={register} error={authError} />
         )}
       </ThemeProvider>
+      {process.env.NODE_ENV === 'development' && (  <ReactQueryDevtools initialIsOpen={false} />)}
     </QueryClientProvider>
   )
 }
