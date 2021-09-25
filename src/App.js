@@ -7,3 +7,6 @@ export * from 'App.exercise'
 
 // 🚀 Récupérer les erreurs de mutation
 //export * from 'App.bonus-3'
+
+// 🚀 React Query Dev Tools
+//export * from 'App.bonus-5'

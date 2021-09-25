@@ -7,7 +7,7 @@ Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](h
 
 ## Comprendre
 
-Dans une application nous devons souvent gérer deux choses, l'affichage et les données (provenant du backend). Gérer ces états ( `state management` ) peut vite devenir compliqué.  On a d'un coté les états de l'application coté front 
+Dans une application nous devons souvent gérer deux choses importantes, l'affichage et les données (provenant du backend). Gérer ces états ( `state management` ) peut vite devenir compliqué.  On a d'un coté les états de l'application coté front 
 
 - Le user est-il connecté ?
 - Une erreur est-elle survenue ?
@@ -36,7 +36,7 @@ const [addBookmark] = useMutation(clientApi(`/bookmark`,filmId,'POST'), {
 	   // Query Invalidations
 	   cache.invalidateQueries('bookmark')
 	 },
-	})
+})
 ```
 
 📑 Le liens vers les `hooks` 
@@ -58,7 +58,7 @@ Pour la fonctionnalité d'ajout aux favoris utilise le `hook useMutation` et inv
 
 **Fichiers :**
 
-- `src//App.js`
+- `src/App.js`
 - `src/components/NetflixAppjs`
 - `src/components/NetflixById.js`
 - `src/components/NetflixHeader.js`
@@ -271,12 +271,20 @@ onError: error => {
     - Base toi sur l'exemple : 📑 [https://mui.com/components/app-bar/#main-content](https://mui.com/components/app-bar/#main-content)
     - Lors d'un clique sur `'enter'` redirection vers la bonne route : exemple : [http://localhost:3000/search/walking](http://localhost:3000/search/walking)
 
+### 5. 🚀 React Query DevTools
+
+Dans une application il peut y avoir des centaines de requetes à analyser. `React Query` propose un outils de développement que l'on peut utiliser lors des phases de développement   `process.env.NODE_ENV === 'development'`.
+
+```jsx
+import { ReactQueryDevtools } from "react-query/devtools";
+
+{process.env.NODE_ENV === 'development' && (
+    <ReactQueryDevtools initialIsOpen={false} />
+)}
+```
+
+Ajoute `ReactQueryDevtools` uniquement en `'development'` en composant enfant de `<QueryClientProvider>`
+
 **Fichiers :**
 
-- `src/utils/hookMovies.js`
-- `src/components/NetFlixAppbar.js`
-- `src/components/NetflixSearch.js`
-
-## 🐜 Feedback
-
-Remplir le formulaire le [formulaire de FeedBack](https://go.mikecodeur.com/cours-react-avis).
+- `src/App.js`
