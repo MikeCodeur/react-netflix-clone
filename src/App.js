@@ -1,9 +1,21 @@
-//export * from './App.final'
+import * as React from 'react'
+import './mocks'
+import {AuthApp} from 'AuthApp'
+import {UnauthApp} from 'UnauthApp'
+import {useAuth} from './context/AuthContext'
+import {AppProviders} from './context'
 
-export * from './App.exercise'
+function App() {
+  return (
+    <AppProviders>
+      <AppConsumer />
+    </AppProviders>
+  )
+}
 
-// 🚀 AuthProvider
-//export * from './App.bonus-2'
+const AppConsumer = () => {
+  const {authUser} = useAuth()
+  return authUser ? <AuthApp /> : <UnauthApp />
+}
 
-// 🚀 AppProviders
-//export * from './App.bonus-3'
+export {App}
