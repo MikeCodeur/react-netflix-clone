@@ -1,6 +1,10 @@
 import {useQuery, useMutation, useQueryClient} from 'react-query'
+// ⛏️ supprimer 'clientNetFlix' car nous utiliseront le hook 'useClientNetflix'
 import {clientApi, clientNetFlix} from './clientApi'
 import * as authNetflix from './authNetflixProvider'
+// 🐶 importe le Hook 'useClientNetflix' car nous l'utiliseront à la place 
+// de 'clientNetFlix' 
+// il permettra de ne plus avoir à se préocuper du Token
 
 const useSearchMovie = query => {
   const {data} = useQuery(`search/multi?query=${query}`, () =>
@@ -47,6 +51,10 @@ const useMovieFilter = (type, filter, param) => {
 }
 
 const useBookmark = () => {
+  // 🐶 utilise  'useClientNetflix' pour récupérer 'clientNetFlix'
+  // Change le deuxième paramètre de 'useQuery'.
+  // Au lieu de lui passer une fonction fléché asynchrone qui récupère le token.
+  // passe lui une fonction fleché normale et fait directement appel à 🤖 `clientNetFlix(`bookmark`)`
   const {data} = useQuery(`bookmark`, async () => {
     const token = await authNetflix.getToken()
     return clientNetFlix(`bookmark`, {token})
@@ -61,10 +69,14 @@ const useAddBookmark = ({
   onMutate = () => {},
 }) => {
   const queryClient = useQueryClient()
+   // 🐶 utilise  'useClientNetflix' pour récupérer 'clientNetFlix'
   const addMutation = useMutation(
+    // ⛏️ supprime 'async' car la fonction n'a plus besoin d'etre asynchrone 
+    // car nous n'avons plus besoin de faire appel à `await authNetflix.getToken()`
     async ({type, id}) => {
       const token = await authNetflix.getToken()
       return clientNetFlix(`bookmark/${type}`, {
+        // ⛏️ supprime 'token' car il est maintenant gérer automatiquement par 'useClientNetflix'
         token,
         data: {id},
         method: 'POST',
@@ -95,12 +107,15 @@ const useDeleteBookmark = ({
   onSettled = () => {},
   onMutate = () => {},
 }) => {
+  // 🐶 utilise  'useClientNetflix' pour récupérer 'clientNetFlix'
   const queryClient = useQueryClient()
-
   const deleteMutation = useMutation(
+     // ⛏️ supprime 'async' car la fonction n'a plus besoin d'etre asynchrone 
+    // car nous n'avons plus besoin de faire appel à `await authNetflix.getToken()`
     async ({type, id}) => {
       const token = await authNetflix.getToken()
       return clientNetFlix(`bookmark/${type}`, {
+        // ⛏️ supprime 'token' car il est maintenant gérer automatiquement par 'useClientNetflix'
         token,
         data: {id},
         method: 'DELETE',

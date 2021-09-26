@@ -26,7 +26,7 @@ function ThemedButton() {
 }
 ```
 
-📑 Le lien vers la doc du [hook useContext](https://fr.reactjs.org/docs/hooks-reference.html#usecontext)
+📑 Le lien vers la doc de [createContext](https://fr.reactjs.org/docs/context.html#reactcreatecontext)  et du [hook useContext](https://fr.reactjs.org/docs/hooks-reference.html#usecontext)
 
 ## Exercice
 

@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import {styled, alpha} from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import {useHistory} from 'react-router-dom'
+// 🐶 importe 'AuthContext'
 
 const Search = styled('div')(({theme}) => ({
   marginRight: '10px',
@@ -50,8 +51,9 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
   },
 }))
-
+// ⛏️ supprime le prop 'logout il sera récuperer de 'AuthContext'
 const NetflixAppBar = ({logout}) => {
+  // 🐶 utilise le Hook useContext pour récupérer {logout} de 'AuthContext'
   const history = useHistory()
 
   const [appBarStyle, setAppBarStyle] = React.useState({

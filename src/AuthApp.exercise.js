@@ -9,8 +9,11 @@ import {NetflixSeries} from 'components/NetflixSeries'
 import {NetflixNews} from 'components/NetflixNews'
 import {NetflixBookmark} from 'components/NetflixBookmark'
 import {NetflixSearch} from 'components/NetflixSearch'
+// 🐶 importe 'AuthContext' 
 
+// ⛏️ supprime le prop 'logout' car il sera récupéré via le context API ('AuthContext')
 function AuthApp({logout}) {
+  // 🐶 Utilise le Hook 'useContext' pour récuperer logout de 'AuthContext'
   return (
     <Router>
       <ErrorBoundary FallbackComponent={ErrorFallback}>

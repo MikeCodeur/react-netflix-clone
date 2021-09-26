@@ -89,7 +89,7 @@ function App() {
     queryCache.clear()
     setData(null)
   }
-  const props = {authUser, login, register, logout}
+  const props = {authUser, authError, login, register, logout}
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>

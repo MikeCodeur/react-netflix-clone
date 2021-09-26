@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
+// 🐶 importe 'AuthContext' 
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -101,7 +102,7 @@ const FormLogin = ({create = false, login, register, logout}) => {
     </form>
   )
 }
-
+// ⛏️ supprime les props 'error, login, register, logout' car il seront récupéré via le context API ('AuthContext')
 function PopupLogin({
   open,
   handleClose,
@@ -112,6 +113,7 @@ function PopupLogin({
   error,
   status,
 }) {
+  // 🐶 utilise useContext pour recupérer {login,logout,register,authError:error}
   const classes = useStyles()
   const [create, setCreate] = React.useState(signup)
   const handleSignUp = () => {

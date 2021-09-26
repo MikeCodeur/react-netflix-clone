@@ -1,3 +1,1 @@
-//export * from './index.exercise'
-
-export * from './index.bonus-3'
+// pas d'exercise ici mais utile pour le bonus-3

@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import {ReactQueryDevtools} from 'react-query/devtools'
 import { QueryCache } from 'react-query'
+// 🐶 importe 'AuthContext' pour wrapper 'AuthApp' et 'UnauthApp'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -88,10 +89,12 @@ function App() {
     queryCache.clear()
     setData(null)
   }
-
+  // 🐶 créé objet contennant : authUser, authError, login, register, logout
+  // il sera passé en 'props' 'value' de <AuthContext.Provider />
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
+       {/* 🐶 wrappe 'Backdrop', 'AuthApp' 'UnauthApp' avec <AuthContext.Provider /> */}
         {status === 'fetching' ? (
           <Backdrop open={true}>
             <CircularProgress color="primary" />

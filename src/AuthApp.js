@@ -1,5 +1,6 @@
 //export * from './AuthApp.final'
 
-//export * from './AuthApp.exercise'
+export * from './AuthApp.exercise'
 
-export * from './AuthApp.bonus-1'
+//🚀 hook personnalisé useAuth
+//export * from './AuthApp.bonus-1'
