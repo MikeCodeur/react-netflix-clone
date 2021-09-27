@@ -83,7 +83,8 @@ addSerie(serie)
 
 **Fichiers :**
 
-- `src/components/NetflixApp.js`
+- `src/components/NetflixbyId.js`
+- `src/context/HistoryMovieContext.js`
 
 ### 2. 🚀 hook useAddToHistory
 
@@ -98,10 +99,6 @@ React.useEffect(() => {
       addMovie(headerMovie)
     }
   }
-<<<<<<< Updated upstream
-=======
-// eslint-disable-next-line react-hooks/exhaustive-deps
->>>>>>> Stashed changes
 },[headerMovie])
 ```
 
@@ -110,6 +107,30 @@ Créé un hook `useAddToHistory` qui permettra une utilisation simplifier de la 
 ```jsx
 useAddToHistory(movie, type)
 ```
+
+**Fichiers :**
+
+- `src/components/NetflixbyId.js`
+- `src/context/HistoryMovieContext.js`
+
+### 3. 🚀 Suppression historique sur déconnexion
+
+Que se passe-t-il si un utilisateur se déconnecte et qu'un nouveau se reconnecte ? Le nouvel utilisateur verra l'historique de l'ancien, ce qui est problématique. Un `AuthContext` existe déjà avec le fonction `Logout.` 
+
+Dans cet exercice tu vas devoir modifier le `reducer` de `HistoryMovieProvider` pour qu'il prennent en compte le type `clear`. et vide les arrays `movies` et `series`
+
+```jsx
+dispatch({
+  type: 'clear',
+})
+```
+
+`HistoryMovieProvider` devra retourner également une fonction `clearHistory`. Ensuite créé un hook `useClearHistory` qui retourne `clearHistory` (utilise `useHistoryMovie` pour y avoir accès). Dans `AuthContext` utilise `useClearHistory` pour vider l'historique lors du `logout`.
+
+**Fichiers :**
+
+- `src/context/HistoryMovieContext.js`
+- `src/context/AuthContext.js`
 
 ## 🐜 Feedback
 

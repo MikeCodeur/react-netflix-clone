@@ -7,3 +7,6 @@ export * from './HistoryMoviesContext.exercise'
 
 // 🚀 hook useAddToHistory
 //export * from './HistoryMoviesContext.bonus-2'
+
+// 🚀 Suppression historique sur déconnexion
+//export * from './HistoryMoviesContext.bonus-3'
