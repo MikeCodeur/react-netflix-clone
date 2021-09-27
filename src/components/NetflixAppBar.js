@@ -8,6 +8,7 @@ import {styled, alpha} from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import {useHistory} from 'react-router-dom'
 import {useAuth} from '../context/AuthContext'
+import {MenuHistory} from './MenuHistory'
 
 const Search = styled('div')(({theme}) => ({
   marginRight: '10px',
@@ -130,7 +131,7 @@ const NetflixAppBar = () => {
             inputProps={{'aria-label': 'search'}}
           />
         </Search>
-
+        <MenuHistory style={{cursor: 'pointer', marginRight:'10px'}} />
         <img
           style={{cursor: 'pointer'}}
           className="nav__avatar"

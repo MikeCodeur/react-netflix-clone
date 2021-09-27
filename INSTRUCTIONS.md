@@ -1,5 +1,5 @@
-# Context API
-### 💡 Utilisation du Context API pour gérer les states dans l'application
+# Context API (historique des visites)
+### 💡 Context API & state management (historique des visites)
 
 ## 📝 Tes notes
 
@@ -7,168 +7,109 @@ Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](h
 
 ## Comprendre
 
-Nous gérons d'un coté, l'état (`state management`) de toutes les données du serveur grâce à `react-query` . Mais ce n'est pas suffisant, nous devons aussi gérer l'état de notre application, le user connecté et les diffèrent états des interfaces. il existe de nombreux outils (state manager) pour faire cela. comme `Redux`, `Mobx`, `zustand` etc ... mais depuis l'apparition de l'`API context` et du hook `useContext()` cela nous permet de gérer les états nativement avec React. Ces états sont ensuite accessibles dans toutes l'application sans passer par des props (`props drills pattern`) Rappel sur l'utilisation de l'api `context` et `useContext`
+Comme pour le `AuthContext`, nous avons besoin de gérer des états dans notre application sans avoir à les passer en props de composant en composant (props drill). Nous n'allons pas utiliser le `AuthContext` qui sert à la logique d'authentification. A la place nous allons créer des contextes spécifiques pour gérer les états  (state management) de nos différentes fonctionnalités de notre application.  On pourrait imaginer a terme avoir quelque chose du genre : 
 
-```jsx
-const ThemeContext = React.createContext()
-
-<ThemeContext.Provider value={theme}>
-      <Toolbar />
-</ThemeContext.Provider>
-
-function ThemedButton() {
-  const theme = useContext(ThemeContext);
-  return (
-    <button style={{ background: theme.background, color: theme.foreground }}>
-      Je suis stylé par le contexte de thème !
-    </button>
-  );
-}
+```html
+- AuthContext
+- Paymentcontext
+- SearchContext
+- etc etc ...
 ```
-
-📑 Le lien vers la doc de [createContext](https://fr.reactjs.org/docs/context.html#reactcreatecontext)  et du [hook useContext](https://fr.reactjs.org/docs/hooks-reference.html#usecontext)
 
 ## Exercice
 
-A l'heure actuelle nous passons `logout` `login` `register` en props de composants en composants. Par exemple :
+👨‍✈️ Hugo le chef de projet nous demande un fonctionnalité d'historique des derniers films et séries visités. Cela permettra à l'utilisateur de retrouver facilement un film qui a déjà été vu ou visité (c'est à dire où l'utilisateur est allé voir la fiche de détails du film/série).  Cette liste des N derniers films/séries sera affichée dans un menu déroulant en haut à droite lors d'un clique sur un icone. Dans cet exercice tu vas devoir créer un composant `MenuHistory`  en utilisant 2 composants de Mui  `:`
 
-- `logout` passe par : `AuthApp` → `NetflixApp` → `NetflixAppBar`
-- `register` et `login` passe par : `UnauthApp`-> `LoginRegister` → `PopupLogin`
+- Menu Customisé : 📑 [https://mui.com/components/menus/#customization](https://mui.com/components/menus/#customization)
+- Card material  : 📑  [https://mui.com/components/cards/#ui-controls](https://mui.com/components/cards/#ui-controls)
 
-Dans cet exercice tu vas devoir créer un context `AuthContext` qui contiendra  `logout` `login` `register`, `authUser`. On pourra ensuite utiliser le `AuthContext.Provider` dans `App`
+Ce composant affichera la liste de l'historique et lors d'un clique sur un item l'utilisateur sera redirigé vers la page du film
+
+> Les données (films / séries) ne seront pas passés en `props` mais récupérer via l'`API Context`.
+
+Un icone placé dans la `NetflixAppBar` permettra de déplier ce composant
 
 ```jsx
-<AuthContext.Provider value={props}>
-    <AuthApp/>
-</AuthContext.Provider>
-//AuthApp et les enfant auront accès a AuthContext
-//const {logout} = React.useContext(AuthContext)
+<MenuHistory style={{cursor: 'pointer', marginRight:'10px'}} />
 ```
+
+Tu vas donc devoir créer un contexte `HistoryMoviesContext` qui permettra d'ajouter des films / séries et d'accéder à ses films / séries. Ce contexte sera utilisé : 
+
+- Dans `MenuHistory` pour lire les dernier films / series visités
+- Dans `NetFlixById` pour ajouter le film/série en cours de visite.
 
 **Fichiers :**
 
-- `src/context/AuthContext.js`
-- `src/App.js`
-- `src/UnauthApp.js`
-- `src/AuthApp.js`
-- `src/components/NetflixAppBar.js`
-- `src/components/LoginRegister.js`
+- `src/context/HistoryMoviesContext.js`
+- `src/components/MenuHistory.js`
+- `src/components/NetFlixById.js`
 
 ## Bonus
 
-### 1. 🚀 hook personnalisé useAuth
+### 1. 🚀 Logique réutilisable useReducer
 
-Au lieu d'avoir à utiliser `React.useContext(AuthContext)` et ensuite vérifier si le context n'est pas `null` (ce qui peut arriver lorsque l'on utilise useContext en dohers du provider), on peut créé un hook `useAuth.` Créé ce `hook` et utilise le partout ou l'on a besoin de faire appel au context pour récupérer `logout` `login` `register`, `authUser`, `authError`
-
-**Fichiers :**
-
-- `src/context/AuthContext.js`
-- `src/components/NetflixAppBar.js`
-- `src/components/LoginRegister.js`
-- `src/AuthApp.js`
-
-### 2. 🚀 AuthProvider
-
-A l'heure actuelle nous avons toutes la logique d'authentification de l'utilisateur avec les states : `logout` `login` `register`, `authUser`, `authError,` directement dans `App` ,cela est aussi mélangé avec le code du thème de `Material-ui` et la configuration de `React-Query`. Il est préférable de séparer le code lié au l'authentification dans un composant `AuthProvider` pour une meilleure maintenabilité du code. Dans cet exercice créé un composant `AuthProvider` qui reprend toute la logique d'authentification de App et qui retourne sur le `status === 'done'`
+Plutôt que d'avoir à gérer les `arrays` d'historique de `series` et `movies` dans les différents endroit de l'application il est préférable de centraliser cette logique dans le Provider. A la place d'avoir à gérer cela dans `NetflixById` 
 
 ```jsx
-const value = {authUser, login, register, logout, authError}
- return <AuthContext.Provider value={value} {...props}/>
+const {series, movies, setMovies, setSeries} = useHistoryMovie()
+//...
+if (type === TYPE_TV) {
+    setSeries([
+      headerMovie,
+      ...series.slice(
+        0,
+        series.length >= MAX_ELEMENTS ? MAX_ELEMENTS - 1 : series.length,
+      ),
+    ])
+  } else {
+    setMovies([
+      headerMovie,
+      ...movies.slice(
+        0,
+        movies.length >= MAX_ELEMENTS ? MAX_ELEMENTS - 1 : movies.length,
+      ),
+    ])
+  }
 ```
 
-Utilisation dans `App` :
+Tu vas devoir créer cette logique dans `HistoryMovieContext.` Pour cela n'utilise plus les states `series` et `movies` mais utilise le hook `useReducer` avec un `reducer` de telle manière que l'on puisse utiliser `useHistoryMovie` de la manière suivante.
 
 ```jsx
-<QueryClientProvider client={queryClient}>
-  <ThemeProvider theme={theme}>
-    <AuthProvider>
-      <AppConsumer />
-    </AuthProvider>
-  </ThemeProvider>
-</QueryClientProvider>
-// <AppConsumer /> est le composant qui retourne 
-// <AuthApp/> / <UnauthApp/> en function de authUser
-// accessible avec : const {authUser} = useAuth()
-```
-
-> On pourra également retourner le composant Mui Backdrop qui affiche le chargement sur la `status === 'fetching' || status === 'idle'`
-
-```jsx
-if (status === 'fetching' || status === 'idle') {
-  return (
-    <Backdrop open={true}>
-      <CircularProgress color="primary" />
-    </Backdrop>
-  )
-}
+const {addSerie, addMovie} = useHistoryMovie()
+//...
+addSerie(movie)
+addSerie(serie)
 ```
 
 **Fichiers :**
 
-- `src/context/AuthContext.js`
-- `src/AuthApp.js`
+- `src/components/NetflixApp.js`
 
-### 3. 🚀 AppProviders
+### 2. 🚀 hook useAddToHistory
 
-Notre `App` commence à contenir de nombreux providers : 
-
-```jsx
-<QueryClientProvider client={queryClient}>
-  <ThemeProvider theme={theme}>
-    <AuthProvider>
-      <AppConsumer />
-    </AuthProvider>
-  </ThemeProvider>
-</QueryClientProvider>
-```
-
-Nous voudrions avoir un composant `AppProviders` qui regroupe tous les providers et que nous pourrions utiliser de la manière suivante 
+Plutôt que d’avoir à gérer un `side effect`, le type etc ...  comme cela 
 
 ```jsx
-<AppProviders>
-  <AppConsumer />
-</AppProviders>
+React.useEffect(() => {
+  if (headerMovie) {
+    if (type === TYPE_TV) {
+      addSerie(headerMovie)
+    } else {
+      addMovie(headerMovie)
+    }
+  }
+<<<<<<< Updated upstream
+=======
+// eslint-disable-next-line react-hooks/exhaustive-deps
+>>>>>>> Stashed changes
+},[headerMovie])
 ```
 
-Dans cet exercice créé un composant `AppProviders` qui contiendra tous les providers avec un `children`. Il contera également toute la configuration du `theme mui` et `reactQuery` de tel sorte que l'on puisse utiliser comme ceci : 
+Créé un hook `useAddToHistory` qui permettra une utilisation simplifier de la forme 
 
 ```jsx
-function App() {
-  return (
-    <AppProviders>
-      <AppConsumer />
-    </AppProviders>
-  )
-}
+useAddToHistory(movie, type)
 ```
-
-**Fichiers :**
-
-- `src/context/index.js`
-- `src/App.js`
-
-### 4. 🚀 useClientNetflixHook
-
-A plusieurs endroit dans le code nous devons avoir accès au `token` pout faire des appel API vers le backend. 
-
-```jsx
-const {data} = useQuery(`bookmark`, async () => {
-  const token = await authNetflix.getToken()
-  return clientNetFlix(`bookmark`, {token})
-})
-```
-
-Plus l'application va grandir et plus nous aurons d'appel vers le backend en utilisant le `token` .  Pour simplifier créé un hook `useClientNetflix` qui fera appel à `useAuth()` pour récupérer le `token` et retournera un fonction `clientNetFlix` avec le token préconfiguré de tel manière que l'on puisse utiliser directement (sans gérer de token)
-
-```jsx
-const clientNetFlix = useClientNetflix()
- const {data} = useQuery(`bookmark`, () => clientNetFlix(`bookmark`))
-```
-
-**Fichiers :**
-
-- `src/utils/hooksMovies.js`
-- `src/context/AuthContext.js`
 
 ## 🐜 Feedback
 
