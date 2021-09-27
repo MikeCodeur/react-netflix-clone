@@ -3,9 +3,9 @@ import * as authNetflix from '../utils/authNetflixProvider'
 import {clientAuth, clientNetFlix} from '../utils/clientApi'
 import {useFetchData} from '../utils/hooks'
 import {QueryCache} from 'react-query'
-
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
+import {useClearHistory} from './HistoryMoviesContext'
 
 const AuthContext = React.createContext()
 const queryCache = new QueryCache({
@@ -37,6 +37,7 @@ async function getUserByToken() {
 
 const AuthProvider = props => {
   const {data: authUser, execute, status, setData} = useFetchData()
+  const clearHistory = useClearHistory()
   React.useEffect(() => {
     execute(getUserByToken())
   }, [execute])
@@ -55,7 +56,9 @@ const AuthProvider = props => {
   const logout = () => {
     authNetflix.logout()
     queryCache.clear()
+    clearHistory()
     setData(null)
+
   }
   if (status === 'fetching' || status === 'idle') {
     return (
