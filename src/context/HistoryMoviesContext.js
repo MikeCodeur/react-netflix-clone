@@ -16,11 +16,11 @@ const reducer = (state, action) => {
         series: [action.payload, ...state.series.slice(0, MAX_ELEMENTS - 1)],
       }
     case 'clear':
-        return {
-          ...state,
-          series: [],
-          movies: [],
-        }
+      return {
+        ...state,
+        series: [],
+        movies: [],
+      }
     default:
       throw new Error('Action non supporté')
   }
@@ -28,23 +28,25 @@ const reducer = (state, action) => {
 
 const HistoryMovieProvider = props => {
   const [state, dispatch] = React.useReducer(reducer, {series: [], movies: []})
-  const addMovie = movie => {
+
+  const addMovie = React.useCallback(movie => {
     dispatch({
       type: 'addMovie',
       payload: movie,
     })
-  }
-  const addSerie = serie => {
+  }, [])
+  const addSerie = React.useCallback(serie => {
     dispatch({
       type: 'addSerie',
       payload: serie,
     })
-  }
-  const clearHistory = () => {
+  }, [])
+  const clearHistory = React.useCallback(() => {
     dispatch({
       type: 'clear',
     })
-  }
+  }, [])
+
   const {series, movies} = state
   const value = {movies, series, addMovie, addSerie, clearHistory}
   return <HistoryMovieContext.Provider value={value} {...props} />
@@ -70,8 +72,7 @@ const useAddToHistory = (movie, type = TYPE_TV) => {
         addMovie(movie)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [movie])
+  }, [addMovie, addSerie, movie, type])
 }
 
 const useClearHistory = () => {
