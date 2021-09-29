@@ -21,18 +21,18 @@ const reducer = (state, action) => {
 
 const HistoryMovieProvider = props => {
   const [state, dispatch] = React.useReducer(reducer, {series: [], movies: []})
-  const addMovie = movie => {
+  const addMovie = React.useCallback(movie => {
     dispatch({
       type: 'addMovie',
       payload: movie,
     })
-  }
-  const addSerie = serie => {
+  }, [])
+  const addSerie = React.useCallback(serie => {
     dispatch({
       type: 'addSerie',
       payload: serie,
     })
-  }
+  }, [])
   const {series, movies} = state
   const value = {movies, series, addMovie, addSerie}
   return <HistoryMovieContext.Provider value={value} {...props} />

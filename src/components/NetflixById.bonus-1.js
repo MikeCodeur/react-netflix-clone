@@ -26,8 +26,7 @@ const NetflixById = ({logout}) => {  let {tvId, movieId} = useParams()
         addMovie(headerMovie)
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[headerMovie])
+  },[addMovie, addSerie, headerMovie, type])
  
 
   React.useEffect(() => {
