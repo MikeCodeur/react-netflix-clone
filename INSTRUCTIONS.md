@@ -1,13 +1,16 @@
 # Style / Material UI
+
 ### 💡 Style / Material UI
 
 ## 📝 Tes notes
 
-Detaille ce que tu as appris ici `INSTRUCTIONS.md`ou sur une page [Notion](https://go.mikecodeur.com/course-notes-template)
+Detaille ce que tu as appris ici
+`INSTRUCTIONS.md`ou sur une page [Notion](https://go.mikecodeur.com/course-notes-template)
 
 ## Comprendre
 
-Il est existe de nombreuses librairies / frameworks CSS front pour React. Ils font font gagner en productivité on peut citer 
+Il est existe de nombreuses librairies / frameworks CSS front pour React. Ils
+font gagner en productivité on peut citer
 
 - Material-UI
 - Ant desing
@@ -20,11 +23,14 @@ Il est existe de nombreuses librairies / frameworks CSS front pour React. Ils fo
 - Rebass
 - et plein d'autres
 
-Pour le clone de Netflix nous utiliserons Materil-Ui. Non pas qu'il est le plus adapté pour ce projet, mais il est tellement répandu qu'il est intéressant de le connaitre.
+Pour le clone de Netflix nous utiliserons Materil-Ui. Non pas qu'il est le plus
+adapté pour ce projet, mais il est tellement répandu qu'il est intéressant de le
+connaitre.
 
-📑 Le lien vers [Material UI](https://material-ui.com/getting-started/installation/)
+📑 Le lien vers
+[Material UI](https://material-ui.com/getting-started/installation/)
 
-Il faut donc installer les dépendances 
+Il faut donc installer les dépendances
 
 ```bash
 npm install @emotion/react --save
@@ -36,7 +42,8 @@ npm install @mui/styles --save
 
 > Note : Cela est déjà fait dans le projet
 
-On peut ensuite créer un thème générale pour tous les composants `Materials-UI.` Pour cela on va wrapper notre application avec le `ThemeProvider`
+On peut ensuite créer un thème générale pour tous les composants `Materials-UI.`
+Pour cela on va wrapper notre application avec le `ThemeProvider`
 
 ```bash
 import { ThemeProvider} from '@mui/styles'
@@ -55,7 +62,8 @@ function Theming() {
 }
 ```
 
-📑 Le lien vers [l](https://material-ui.com/getting-started/installation/)a [documentation du theme](https://material-ui.com/styles/advanced/)
+📑 Le lien vers [l](https://material-ui.com/getting-started/installation/)a
+[documentation du theme](https://material-ui.com/styles/advanced/)
 
 **Fichiers :**
 
@@ -63,26 +71,26 @@ function Theming() {
 
 ## Exercice
 
-Dans cet exercice nous allons commencer à styliser notre page en utilisant du CSS classique qui est dans `Netflix.css` , du CSS via le thème de `Material-UI.` ainsique que des composant Material-ui. Le premier composant que nous allons utiliser est le composant `AppBar`
+Dans cet exercice nous allons commencer à styliser notre page en utilisant du
+CSS classique qui est dans `Netflix.css` , du CSS via le thème de `Material-UI.`
+ainsi que que des composant Material-ui. Le premier composant que nous allons
+utiliser est le composant `AppBar`
 
 ```jsx
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 //...
-<AppBar>
- <Toolbar>
-	<Typography variant="h6">
-		Acceuil
-	</Typography>
-	<Typography variant="h6">
-		Série
-	</Typography>
- </Toolbar>
+;<AppBar>
+  <Toolbar>
+    <Typography variant="h6">Acceuil</Typography>
+    <Typography variant="h6">Série</Typography>
+  </Toolbar>
 </AppBar>
 ```
 
-📑 Le lien vers la [documentation AppBar](https://material-ui.com/components/app-bar/)
+📑 Le lien vers la
+[documentation AppBar](https://material-ui.com/components/app-bar/)
 
 **Fichiers :**
 
@@ -92,9 +100,12 @@ import Typography from '@mui/material/Typography'
 
 ### 1. 🚀 Effet sur la barre de menu (scrool)
 
-Sur le site de NetFlix la barre de menu est transparente lorsque le `scroll` est en haut de la page. Lorsque l'on `scroll` vers le bas. La barre de menu n'est plus transparente et cela s'effectue via une transition.
+Sur le site de NetFlix la barre de menu est transparente lorsque le `scroll` est
+en haut de la page. Lorsque l'on `scroll` vers le bas. La barre de menu n'est
+plus transparente et cela s'effectue via une transition.
 
-Dans cette exercice tu vas devoir changer le style dynamiquement en fonction de la position de la scrollbar.
+Dans cette exercice tu vas devoir changer le style dynamiquement en fonction de
+la position de la scrollbar.
 
 ```jsx
 // style scrool bas
@@ -103,7 +114,7 @@ Dans cette exercice tu vas devoir changer le style dynamiquement en fonction de 
 	transition: 'background .5s ease-out',
 	boxShadow: 'none',
 }
-// style scrool en haut 
+// style scrool en haut
 {
 	background: 'transparent',
 	transition: 'background .5s ease-out',
@@ -113,13 +124,15 @@ Dans cette exercice tu vas devoir changer le style dynamiquement en fonction de 
 
 Pour cela transforme `appBarStyle` en `state` avec les valeurs par defaut.
 
-Utilise ensuite le hook `useEffect` pour ajouter un eventListener sur le changement de position de scrool
+Utilise ensuite le hook `useEffect` pour ajouter un eventListener sur le
+changement de position de scrool
 
 ```jsx
 window.addEventListener('scroll', onScroll)
 ```
 
- Si `e.target.documentElement.scrollTop >= 100` applique le style `scrool` bas sinon l'autre
+Si `e.target.documentElement.scrollTop >= 100` applique le style `scrool` bas
+sinon l'autre
 
 > pense au `cleanup` du hook `useEffect` :
 
@@ -129,4 +142,5 @@ return () => window.removeEventListener('scroll', onScroll)
 
 ## 🐜 Feedback
 
-Remplir le formulaire le [formulaire de FeedBack](https://go.mikecodeur.com/cours-react-avis).
+Remplir le formulaire le
+[formulaire de FeedBack.](https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=02%20Style%20/%20Material%20UI)
