@@ -1,21 +1,25 @@
-import * as React from 'react'
-import './mocks'
-import {AuthApp} from 'AuthApp'
-import {UnauthApp} from 'UnauthApp'
-import {useAuth} from './context/AuthContext'
-import {AppProviders} from './context'
+import logo from './logo.svg'
+import './App.css'
 
 function App() {
   return (
-    <AppProviders>
-      <AppConsumer />
-    </AppProviders>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   )
 }
 
-const AppConsumer = () => {
-  const {authUser} = useAuth()
-  return authUser ? <AuthApp /> : <UnauthApp />
-}
-
-export {App}
+export default App
