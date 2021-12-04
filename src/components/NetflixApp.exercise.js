@@ -9,28 +9,27 @@ import './Netflix.css'
 // 🐶 découpe 'NetflixApp' en 4 composants
 const NetflixAppBar = () => {
   // 🐶 déplace ici tout le code de la barre de menu
-  return (<></>)
+  return <></>
 }
 const NetflixHeader = () => {
   // 🐶 déplace ici tout le code du header
-  return (<></>)
+  return <></>
 }
 const NetFlixFooter = () => {
   // 🐶 déplace ici tout le code du footer
-  return (<></>)
+  return <></>
 }
 // 🐶 NetflixRow prendra 2 props : 'title' et 'wideImage'
 // 'title' permettra d'afficher le titre d'une ligne : exemple 'Films Netflix'
 // 'wideImage' est un boolean qui permet d'afficher un film au format 'large' ou 'poster'
 // pour le moment si 'wideImage' = true, on affiche 'images/sample-poster.jpg' sinon 'images/sample.jpg'
 const NetflixRow = () => {
-    // 🐶 déplace ici tout le code des lignes de films ici
-  return (<></>)
+  // 🐶 déplace ici tout le code des lignes de films ici
+  return <></>
 }
 
 // 🐶 Dans les prochaine section, ces composants seront déplcés dans des fichier
 // pour plus de lisibilité
-
 
 const NetflixApp = () => {
   const [appBarStyle, setAppBarStyle] = React.useState({

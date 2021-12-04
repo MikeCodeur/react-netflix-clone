@@ -1,4 +1,5 @@
 # Découpage composants
+
 ### 💡 Découpage composants
 
 ## 📝 Tes notes
@@ -27,6 +28,10 @@ const NetflixApp = () => {
 
 Découpe `NetflixApp` dans le but de pouvoir plus tard externaliser cers fichier dans des composants. On veut que `NetflixRow` puisse afficher des pochettes au format large ou poster.
 
+**Fichiers :**
+
+- `src/components/NetflixApp.js`
+
 ## 🐜 Feedback
 
-Remplir le formulaire le [formulaire de FeedBack](https://go.mikecodeur.com/cours-react-avis).
+Remplir le formulaire le [formulaire de FeedBack.](https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=03%20Découpage%20composants)
