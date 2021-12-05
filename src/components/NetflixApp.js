@@ -6,7 +6,7 @@ export * from './NetflixApp.exercise'
 //export * from './NetflixApp.bonus-1'
 
 // 🚀 Films et séries aléatoires
-//export * from './NetflixApp.bonus-4'
+//export * from './NetflixApp.bonus-2'
 
 // 🚀 Helper et constantes
 //export * from './NetflixApp.bonus-3'

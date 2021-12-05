@@ -43,20 +43,15 @@ const NetflixApp = () => {
   const [headerMovie, setHeaderMovie] = React.useState()
   const [type] = React.useState(getRandomType())
   const defaultMovieId = getRandomId(type)
-  const [queried, setQueried] = React.useState(true)
-
+  
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     clientApi(`${type}/${defaultMovieId}`)
       .then(response => {
         setHeaderMovie(response)
-        setQueried(false)
       })
       .catch(error => console.error(error))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queried])
+  }, [])
   return (
     <div>
       <NetflixAppBar />

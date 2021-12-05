@@ -24,7 +24,7 @@ const NetflixHeader = () => {
   // color: 'white',
   // objectFit: 'contain',
   // height: '448px',
-  
+
   // 🐶 si 'movie' n'est pas défini, retourne un fragment vide 🤖 <></>
 
   // 🐶 si 'movie' est défini, retourne le header
@@ -60,7 +60,7 @@ const NetflixHeader = () => {
   )
 }
 
-// 🐶 Tu vas devoir gérer le fetch de données avec axios dans 'NetflixApp' 
+// 🐶 Tu vas devoir gérer le fetch de données avec axios dans 'NetflixApp'
 const NetflixApp = () => {
   // 🐶 Créé un state 'headerMovie'
   // 🐶 Créé une constante 'defaultMovieId' avec un id de film par défaut (399566 par exemple)

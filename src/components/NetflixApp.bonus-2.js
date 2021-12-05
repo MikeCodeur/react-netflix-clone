@@ -47,23 +47,20 @@ const NetflixApp = () => {
   const defaultMovieId = type === 'tv' ? tvId : movieId
   const apiKey = '4fc7b001e8a107fe1fddc6b41ed0f4af'
   const lang = 'fr-fr'
-  const [queried, setQueried] = React.useState(true)
+  
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
+    console.log('useEffect');
     axios
       .get(
         `https://api.themoviedb.org/3/${type}/${defaultMovieId}?api_key=${apiKey}&language=${lang}`,
       )
       .then(response => {
         setHeaderMovie(response)
-        setQueried(false)
       })
       .catch(error => console.error(error))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queried])
+  }, [])
   return (
     <div>
       <NetflixAppBar />
