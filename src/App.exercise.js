@@ -1,15 +1,16 @@
 /* eslint-disable no-lone-blocks */
 import {NetflixApp} from 'components/NetflixApp'
-import { ThemeProvider} from '@mui/styles'
-import { createTheme } from '@mui/material/styles'
+import {ThemeProvider} from '@mui/styles'
+import {createTheme} from '@mui/material/styles'
 // 🐶 importe 'ErrorBoundary'
 //import {ErrorBoundary} from 'react-error-boundary'
 // 🐶 importe 'NetflixAppBar'  nous l'utiliseront dans le composant d'error
 //import {NetflixAppBar} from 'components/NetflixAppBar'
 
 // 🐶 créé un composant 'ErrorFallback' avec deux props 'error' et 'resetErrorBoundary'
-// fait un rendu de la page d'erreur : par exemple :  
-{/* <div>
+// fait un rendu de la page d'erreur : par exemple :
+{
+  /* <div>
   <NetflixAppBar />
   <div
     role="alert"
@@ -34,7 +35,8 @@ import { createTheme } from '@mui/material/styles'
       </button>
     </div>
   </div>
-</div> */}
+</div> */
+}
 
 const theme = createTheme({
   palette: {
@@ -51,7 +53,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-    {/* 🐶 wrappe <NetflixApp /> avec <ErrorBoundary>
+      {/* 🐶 wrappe <NetflixApp /> avec <ErrorBoundary>
     passe le prop 'FallbackComponent' avec ErrorFallback' */}
       <NetflixApp />
     </ThemeProvider>

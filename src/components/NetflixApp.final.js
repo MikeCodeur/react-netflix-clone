@@ -26,25 +26,20 @@ const NetflixApp = () => {
   const [headerMovie, setHeaderMovie] = React.useState()
   const [type] = React.useState(getRandomType())
   const defaultMovieId = getRandomId(type)
-  const [queried, setQueried] = React.useState(true)
   const [status, setStatus] = React.useState('idle')
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     setStatus('fetching')
     clientApi(`${type}/${defaultMovieId}`)
       .then(response => {
         setHeaderMovie(response)
-        setQueried(false)
         setStatus('done')
       })
       .catch(error => {
         setStatus('error')
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queried])
+  }, [])
   return (
     <div>
       <NetflixAppBar />
@@ -62,7 +57,7 @@ const NetflixApp = () => {
       ) : null}
       
       {status === 'fetching' ? <div className={classes.progress}><CircularProgress />  </div>:  null }
-      <NetFlixFooter color="secondary" si />
+      <NetFlixFooter />
     </div>
   )
 }
