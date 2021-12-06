@@ -3,7 +3,7 @@ import {TYPE_MOVIE, imagePath400} from '../config'
 import {useFetchData} from '../utils/hooks'
 import {clientApi} from '../utils/clientApi'
 import {Alert, AlertTitle} from '@mui/material'
-// 🐶 importe le composant 'HeaderSkeleton'
+// 🐶 importe le composant 'RowSkeleton'
 // ⛏️ supprime 'CircularProgress'
 import CircularProgress from '@mui/material/CircularProgress'
 
@@ -16,7 +16,6 @@ const NetflixRow = ({
   watermark = false,
 }) => {
   const {data, error, status, execute} = useFetchData()
-  const [queried, setQueried] = React.useState(true)
 
   const endpointLatest = `${type}/latest`
   const endpointPopular = `${type}/popular`
@@ -46,12 +45,8 @@ const NetflixRow = ({
   }
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     execute(clientApi(`${endpoint}`))
-    setQueried(false)
-  }, [endpoint, execute, queried])
+  }, [endpoint, execute])
 
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path
