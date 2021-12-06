@@ -14,8 +14,6 @@ const NetflixRow = ({
   watermark = false,
 }) => {
   const {data, error, status, execute} = useFetchData()
-  const [queried, setQueried] = React.useState(true)
-
   const endpointLatest = `${type}/latest`
   const endpointPopular = `${type}/popular`
   const endpointTopRated = `${type}/top_rated`
@@ -44,12 +42,8 @@ const NetflixRow = ({
   }
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     execute(clientApi(`${endpoint}`))
-    setQueried(false)
-  }, [endpoint, execute, queried])
+  }, [endpoint, execute])
 
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path

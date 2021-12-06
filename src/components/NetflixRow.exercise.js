@@ -14,8 +14,6 @@ import  * as React from 'react'
 const NetflixRow = ({title ='',wideImage = true}) => {
   // 🐶 Utilise le Hook 'useFetchData' (avec {data, error, status, execute})
   
-  // 🐶 créé un state 'queried' un boolean pour savoir si la requette est envoyée
-
   // 🐶 determine le bon 'endpoint' qui permet de faire le bon appel API
   // utilise le prop 'filter' pour determiner le bon enpoint.
   // 

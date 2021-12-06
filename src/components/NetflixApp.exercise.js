@@ -28,15 +28,11 @@ const NetflixApp = () => {
   const {data: headerMovie, error, status, execute} = useFetchData()
   const [type] = React.useState(getRandomType())
   const defaultMovieId = getRandomId(type)
-  const [queried, setQueried] = React.useState(true)
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     execute(clientApi(`${type}/${defaultMovieId}`))
-    setQueried(false)
-  }, [execute, defaultMovieId, queried, type])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (status === 'error') {
     // sera catché par ErrorBoundary
