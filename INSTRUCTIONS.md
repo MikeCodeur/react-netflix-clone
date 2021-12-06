@@ -1,4 +1,5 @@
 # Fetching et Skeletons
+
 ### 💡 Fetching et Skeletons
 
 ## 📝 Tes notes
@@ -22,6 +23,7 @@ Lors d'appel HTTP il peut se passer plusieurs millisecondes et parfois plus lors
 Dans cet exercice tu vas devoir créer deux skeletons. Un pour le Header, un autre pour la ligne de de films.  Le principe et de faire un rendu du composant original *(même styles, classes, structure)* et de remplacer toutes les données distances (api, images etc ...) par un composant Skeleton
 
 > Modifie `src/utils/clientApi.js` et décommente `await sleep(3000)` pour simuler des API longues
+> 
 
 **Fichiers :**
 
@@ -30,10 +32,6 @@ Dans cet exercice tu vas devoir créer deux skeletons. Un pour le Header, un aut
 - `src/components/NetflixHeader.js`
 - `src/components/NetflixRow.js`
 
-## Aller plus loin
-
-📑 Le lien vers la doc [https://www.w3schools.com/html/html_css.asp](https://www.w3schools.com/html/html_css.asp)
-
 ## 🐜 Feedback
 
-Remplir le formulaire le [formulaire de FeedBack](https://go.mikecodeur.com/cours-react-avis).
+Remplir le formulaire le [formulaire de FeedBack.](https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=07%20Fetching%20et%20Skeletons)

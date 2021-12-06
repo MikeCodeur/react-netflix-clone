@@ -3,6 +3,7 @@ import Skeleton from '@mui/material/Skeleton'
 
 const styles = {
   banner: {
+    backgroundColor : '#1C2833',
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     color: 'white',
