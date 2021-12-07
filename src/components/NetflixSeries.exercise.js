@@ -41,6 +41,11 @@ const NetflixSeries = () => {
     <div>
       <NetflixAppBar />
       <NetflixHeader movie={headerMovie?.data} type={type} />
+      {/* 
+        🐶 utilise les bons 'props' pour respacter les spécifications de   
+        👨‍✈️ Hugo le chef de projet : "Séries tendances Netflix "
+        continue jusqu'a la fin
+      */}
       <NetflixRow
         wideImage={true}
         watermark={true}

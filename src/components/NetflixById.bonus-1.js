@@ -41,10 +41,6 @@ const NetflixById = () => {
     const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE
     setType(type)
     setId(type === TYPE_TV ? tvId : movieId)
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
   }, [location.pathname, movieId, tvId])
 
   if (status === 'error') {
