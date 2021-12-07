@@ -2,5 +2,8 @@
 
 export * from './NetflixById.exercise'
 
-//1. 🚀 Path Param
+//🚀 Path Param
 //export * from './NetflixById.bonus-1'
+
+//🚀 Scroll Top
+//export * from './NetflixById.bonus-3'
