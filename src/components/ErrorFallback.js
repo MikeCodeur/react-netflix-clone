@@ -1,11 +1,11 @@
 import {NetflixAppBar} from 'components/NetflixAppBar'
-import { useHistory } from "react-router-dom"
+import { useNavigate  } from "react-router-dom"
 
 function ErrorFallback({error, resetErrorBoundary}) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    history.push("/")
+    navigate("/")
     resetErrorBoundary()
   }
   return (

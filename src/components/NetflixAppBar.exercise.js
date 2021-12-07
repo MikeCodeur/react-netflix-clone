@@ -9,9 +9,9 @@ import {Link} from 'react-router-dom'
 // import SearchIcon from '@mui/icons-material/Search'
 // import {styled, alpha} from '@mui/material/styles'
 // import InputBase from '@mui/material/InputBase'
-// 🐶 importe le hook 'useHistory', il permettra de rediriger
+// 🐶 importe le hook 'useNavigate', il permettra de rediriger
 // vers la page resultat de recherche
-//import { useHistory } from "react-router-dom"
+//import { useNavigate } from "react-router-dom"
 
 // 🐶 Décommente les composant styled 'Search' 'SearchIconWrapper', 'StyledInputBase'
 // ci-dessous, il sont pris des exemple de composant de recherche de Mui
@@ -61,7 +61,7 @@ import {Link} from 'react-router-dom'
 // }))
 
 const NetflixAppBar = ({logout}) => {
-  // 🐶 utilise le hook 'useHistory' pour avoir accés à 'history'
+  // 🐶 utilise le hook 'useNavigate' pour avoir accés à 'navigate'
 
   // 🐶 créé un state 'query' qui contiendra la valeur du champs input de recherche
   // exemple : 'walking'

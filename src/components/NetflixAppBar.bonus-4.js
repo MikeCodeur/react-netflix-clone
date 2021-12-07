@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search'
 import {styled, alpha} from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
-import {useHistory} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 const Search = styled('div')(({theme}) => ({
   marginRight: '10px',
@@ -52,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }))
 
 const NetflixAppBar = ({logout}) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const [appBarStyle, setAppBarStyle] = React.useState({
     background: 'transparent',
@@ -82,7 +82,7 @@ const NetflixAppBar = ({logout}) => {
 
   const handleKeyPress = e => {
     if (e.keyCode === 13) {
-      history.push(`/search/${query}`)
+      navigate(`/search/${query}`)
     }
   }
 
