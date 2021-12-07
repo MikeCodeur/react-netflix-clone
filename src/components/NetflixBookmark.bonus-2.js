@@ -20,7 +20,7 @@ const NetflixBookmark = ({logout}) => {
   }, [execute])
 
   React.useEffect(() => {
-    const id = data?.movies?.[0] ?? 749274
+    const id = data?.bookmark?.movies?.[0] ?? 749274
     executeHeader(clientApi(`${TYPE_MOVIE}/${id}`))
   }, [data, executeHeader])
 
