@@ -98,7 +98,7 @@ const NetflixAppBar = ({logout}) => {
   // on souhaite detecter la touche 'enter'
   const handleKeyPress = e => {
     // 🐶 conditionne la redirection vers :
-    // history.push(`/search/${query}`)
+    // navigate(`/search/${query}`)
     // - si la touche préssée est la touche 'enter'
     // base toi sur le code
     // `e.keyCode === 13`
