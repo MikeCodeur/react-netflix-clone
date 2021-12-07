@@ -1,12 +1,11 @@
 import * as React from 'react'
 // 🐶 'mocks' permet de simuler le backend netflix avec MSW,
-// ne t'en preocupe pas pour le moment 
+// ne t'en preocupe pas pour le moment
 import './mocks'
 // 🐶 'authNetflix' notre outils founis par les devs back qui permet de se connecter
 // 🤖 import * as authNetflix from './utils/authNetflixProvider'
-import {ThemeProvider} from '@mui/styles'
-import {createTheme} from '@mui/material/styles'
-// 🐶 'AuthApp' contient tout ce qu'il y avait avant dans 'App' 
+import {createTheme, ThemeProvider} from '@mui/material/styles'
+// 🐶 'AuthApp' contient tout ce qu'il y avait avant dans 'App'
 // il est importé est retourné, nous avons donc le meme comportement qu'avant
 import {AuthApp} from 'AuthApp'
 // 🐶 'UnauthApp' qui contiendra le contenu de l'application en mode non connecté
@@ -23,10 +22,9 @@ const theme = createTheme({
   },
 })
 
-// 🐶 on veut afficher soit <AuthApp /> soit <UnauthApp /> 
+// 🐶 on veut afficher soit <AuthApp /> soit <UnauthApp />
 // en fonction d'un user connecté ou non
 function App() {
-
   // 🐶 créé un state 'authUser' qui contiendra le 'user' connecté
 
   // 🐶 créé une fonction 'login' avec un paramètre 'data' (objet avec 'username' et 'password')
