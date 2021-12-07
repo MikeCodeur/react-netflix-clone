@@ -39,22 +39,17 @@ const NetflixById = () => {
 
   // 🐶 determine l'id en fonction du type (soit 'tvId' soit 'movieId' )
   const defaultMovieId = getRandomId(type)
-  const [queried, setQueried] = React.useState(true)
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     execute(clientApi(`${type}/${defaultMovieId}`))
-    setQueried(false)
-  }, [execute, defaultMovieId, queried, type])
+  }, [execute, defaultMovieId, type])
 
   // 🐶 Utilise à nouveau 'useEffect' pour mettre à jour les 3 states suivants:
   // - 'type'
   // - 'id'
   // - 'queried'
   // ce qui va ensuite déclancher un nouvelle appel API
-  // 
+  //
   // 🐶 remonte le barre de scrool en haut de la page
   // 🤖 `window.scrollTo({top: 0, behavior: "smooth" })`
   // n'oublie pas les dépendances

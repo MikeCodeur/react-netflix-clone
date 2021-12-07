@@ -3,7 +3,7 @@ import {NetflixAppBar} from './NetflixAppBar'
 import {NetflixRow} from './NetflixRow'
 import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
-import {getRandomType, getRandomId} from '../utils/helper'
+import {getRandomId} from '../utils/helper'
 import {clientApi} from '../utils/clientApi'
 import {makeStyles} from '@mui/styles'
 import {Alert, AlertTitle} from '@mui/material'
@@ -28,15 +28,11 @@ const NetflixSeries = () => {
   const {data: headerMovie, error, status, execute} = useFetchData()
   const [type] = React.useState(TYPE_TV)
   const defaultMovieId = getRandomId(type)
-  const [queried, setQueried] = React.useState(true)
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     execute(clientApi(`${type}/${defaultMovieId}`))
-    setQueried(false)
-  }, [execute, defaultMovieId, queried, type])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [execute, type])
 
   if (status === 'error') {
     // sera catché par ErrorBoundary

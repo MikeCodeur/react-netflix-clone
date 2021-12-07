@@ -15,7 +15,6 @@ const NetflixRow = ({
   watermark = false,
 }) => {
   const {data, error, status, execute} = useFetchData()
-  const [queried, setQueried] = React.useState(true)
 
   const endpointLatest = `${type}/upcoming`
   const endpointPopular = `${type}/popular`
@@ -45,12 +44,8 @@ const NetflixRow = ({
   }
 
   React.useEffect(() => {
-    if (!queried) {
-      return
-    }
     execute(clientApi(`${endpoint}`))
-    setQueried(false)
-  }, [endpoint, execute, queried])
+  }, [endpoint, execute])
 
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path
@@ -76,13 +71,10 @@ const NetflixRow = ({
       <div className="row__posters">
         {data.data.results.map(movie => {
           return (
-            <Link key={movie.id} to={`/${type}/${movie.id}`} >
-            <div
-              
-              className={`row__poster row__posterLarge ${watermarkClass}`}
-            >
-              <img src={buildImagePath(movie)} alt={movie.name} />
-            </div>
+            <Link key={movie.id} to={`/${type}/${movie.id}`}>
+              <div className={`row__poster row__posterLarge ${watermarkClass}`}>
+                <img src={buildImagePath(movie)} alt={movie.name} />
+              </div>
             </Link>
           )
         })}
