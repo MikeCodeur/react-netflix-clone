@@ -42,7 +42,7 @@ const NetflixAppBar = () => {
         </a>
         <a href="/series">
           <Typography style={margin10} variant="h6">
-            Serie
+            Series
           </Typography>
         </a>
         <a href="/movies">
