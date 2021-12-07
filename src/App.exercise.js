@@ -1,11 +1,11 @@
 import {NetflixApp} from 'components/NetflixApp'
-import { ThemeProvider} from '@mui/styles'
-import { createTheme } from '@mui/material/styles'
+import {ThemeProvider} from '@mui/styles'
+import {createTheme} from '@mui/material/styles'
 import {ErrorBoundary} from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 // 🐶 importe le composant 'Error404' depuis '/components/Error404'
 // 🐶 importe le composant 'NetflixById'
-// 🐶 importe -> import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+// 🐶 importe -> import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 const theme = createTheme({
   palette: {
@@ -23,9 +23,9 @@ function App() {
   return (
     // 🐶 wrappe toute l'application avec <Router>
     <ThemeProvider theme={theme}>
-      <ErrorBoundary FallbackComponent={ErrorFallback} >
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
         {/* 
-          🐶 utilise <Switch> et  </Route> pour determiner les routes
+          🐶 utilise <Routes> et  </Routes> pour determiner les routes
           nous voulons les routes avec les configurations suivantes :
           
           1. path '/' exact -> <NetflixApp />
