@@ -4,7 +4,7 @@ import {createTheme} from '@mui/material/styles'
 import {ErrorBoundary} from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 // 🐶 importe le composant 'Error404' depuis '/components/Error404'
-// 🐶 importe le composant 'NetflixById'
+// 🐶 importe le composant 'NetflixMovies', 'NetflixSeries','NetflixNews', 'NetflixById'
 // 🐶 importe -> import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 const theme = createTheme({
@@ -28,7 +28,7 @@ function App() {
           🐶 utilise <Routes> et  </Routes> pour determiner les routes
           nous voulons les routes avec les configurations suivantes :
           
-          1. path '/' exact -> <NetflixApp />
+          1. path '/' -> <NetflixApp />
           2. path '/tv/:tvId' -> <NetflixById />
           3. path '/tv/:movieId' -> <NetflixById />
           4. path '/series' -> <NetflixSeries />
