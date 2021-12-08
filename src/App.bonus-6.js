@@ -10,7 +10,6 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import {ReactQueryDevtools} from 'react-query/devtools'
-import { QueryCache } from 'react-query'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,14 +34,6 @@ const queryClient = new QueryClient({
   },
 })
 
-const queryCache = new QueryCache({
-  onError: error => {
-    console.log(error)
-  },
-  onSuccess: data => {
-    console.log(data)
-  }
-})
 
 const theme = createTheme({
   palette: {
@@ -85,7 +76,7 @@ function App() {
       .catch(err => setAuthError(err))
   const logout = () => {
     authNetflix.logout()
-    queryCache.clear()
+    queryClient.clear()
     setData(null)
   }
 

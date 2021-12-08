@@ -1,4 +1,4 @@
-// 🐶 rien à faire pour l'exercice, mais sera utile pour l'exercice bonus-1
+// 🐶 sera utile pour l'exercice bonus-1
 import axios from 'axios'
 import {apiKey, lang, API_URL, AUTH_URL} from '../config'
 
@@ -10,6 +10,19 @@ const clientApi = async endpoint => {
   const startChar = endpoint.includes('?') ? `&` : `?`
   //await sleep(5000)
   const keyLang = `${startChar}api_key=${apiKey}&language=${lang}&page=${page}`
+  // 🐶 gère le catch pour extraire le message
+  // .catch(error => {
+  //   if (error.response) {
+  //     const err = {
+  //       ...error.response,
+  //       message: error.response?.data?.status_message,
+  //     }
+  //     return Promise.reject(err)
+  //   } else {
+  //     return Promise.reject(error)
+  //   }
+  // })
+
   return axios.get(`${API_URL}/${endpoint}${keyLang}`)
 }
 
