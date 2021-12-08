@@ -2,7 +2,7 @@ import {NetflixApp} from 'components/NetflixApp'
 import {ErrorBoundary} from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 import Error404 from 'components/Error404'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import {NetflixById} from 'components/NetflixById'
 import {NetflixMovies} from 'components/NetflixMovies'
 import {NetflixSeries} from 'components/NetflixSeries'
@@ -17,35 +17,20 @@ function AuthApp({logout}) {
   return (
     <Router>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Switch>
-          <Route path="/" exact={true}>
-            <NetflixApp logout={logout} />
-          </Route>
-          <Route path="/tv/:tvId">
-            <NetflixById logout={logout} />
-          </Route>
-          <Route path="/movie/:movieId">
-            <NetflixById logout={logout} />
-          </Route>
-          <Route path="/movies">
-            <NetflixMovies logout={logout} />
-          </Route>
-          <Route path="/series">
-            <NetflixSeries logout={logout} />
-          </Route>
-          <Route path="/news">
-            <NetflixNews logout={logout} />
-          </Route>
-          <Route path="/list">
-            <NetflixBookmark logout={logout} />
-          </Route>
-          <Route path="/search/:query">
-            <NetflixSearch logout={logout} />
-          </Route>
-          <Route path="*">
-            <Error404 />
-          </Route>
-        </Switch>
+      <Routes>
+          <Route path="/" element={<NetflixApp logout={logout} />} />
+          <Route path="/tv/:tvId" element={<NetflixById logout={logout} />} />
+          <Route
+            path="/movie/:movieId"
+            element={<NetflixById logout={logout} />}
+          />
+          <Route path="/movies" element={<NetflixMovies logout={logout} />} />
+          <Route path="/series" element={<NetflixSeries logout={logout} />} />
+          <Route path="/news" element={<NetflixNews logout={logout} />} />
+          <Route path="/list" element={<NetflixBookmark logout={logout} />} />
+          <Route path="*" element={<Error404 />} />
+          <Route path="/search/:query" element={<NetflixSearch logout={logout} />} />
+        </Routes>
       </ErrorBoundary>
     </Router>
   )
