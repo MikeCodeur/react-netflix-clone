@@ -6,7 +6,7 @@ const branch =
 console.log(`Building for branch "${branch}"`)
 
 if (branch.startsWith('exercises/')) {
-  spawnSync('node ./scripts/build-variants', {stdio: 'inherit'})
+  //spawnSync('node ./scripts/build-variants', {stdio: 'inherit'})
 } else {
   spawnSync('npx react-scripts build --profile', {stdio: 'inherit'})
 }
