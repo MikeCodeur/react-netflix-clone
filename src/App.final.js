@@ -10,7 +10,6 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import {ReactQueryDevtools} from 'react-query/devtools'
-import {QueryCache} from 'react-query'
 import {AuthContext} from './context/AuthContext'
 
 const queryClient = new QueryClient({
@@ -33,15 +32,6 @@ const queryClient = new QueryClient({
       retry: 1,
       // mutation options
     },
-  },
-})
-
-const queryCache = new QueryCache({
-  onError: error => {
-    console.log(error)
-  },
-  onSuccess: data => {
-    console.log(data)
   },
 })
 
@@ -86,7 +76,7 @@ function App() {
       .catch(err => setAuthError(err))
   const logout = () => {
     authNetflix.logout()
-    queryCache.clear()
+    queryClient.clear()
     setData(null)
   }
   const props = {authUser, authError, login, register, logout}
@@ -99,9 +89,9 @@ function App() {
               <CircularProgress color="primary" />
             </Backdrop>
           ) : authUser ? (
-            <AuthApp/>
+            <AuthApp />
           ) : (
-            <UnauthApp/>
+            <UnauthApp />
           )}
         </AuthContext.Provider>
       </ThemeProvider>
