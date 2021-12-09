@@ -57,6 +57,7 @@ utilisé :
 **Fichiers :**
 
 - `src/context/HistoryMoviesContext.js`
+- `src/context/index.js`
 - `src/components/MenuHistory.js`
 - `src/components/NetFlixById.js`
 
@@ -70,7 +71,7 @@ cette logique dans le Provider. A la place d'avoir à gérer cela dans
 `NetflixById`
 
 ```jsx
-const {series, movies, setMovies, setSeries} = useNavigateMovie()
+const {series, movies, setMovies, setSeries} = useHistoryMovie()
 //...
 if (type === TYPE_TV) {
   setSeries([
@@ -93,15 +94,18 @@ if (type === TYPE_TV) {
 
 Tu vas devoir créer cette logique dans `HistoryMovieContext.` Pour cela
 n'utilise plus les states `series` et `movies` mais utilise le hook `useReducer`
-avec un `reducer` de telle manière que l'on puisse utiliser `useNavigateMovie`
-de la manière suivante.
+avec un `reducer` de telle manière que l'on puisse utiliser `useHistoryMovie` de
+la manière suivante.
 
 ```jsx
-const {addSerie, addMovie} = useNavigateMovie()
+const {addSerie, addMovie} = useHistoryMovie()
 //...
-addSerie(movie)
+addMovie(movie)
 addSerie(serie)
 ```
+
+> pense à : `useCallback` pour retourner `addMovie` `addSerie` de
+> `HistoryMovieProvider`
 
 **Fichiers :**
 
@@ -154,7 +158,7 @@ dispatch({
 
 `HistoryMovieProvider` devra retourner également une fonction `clearHistory`.
 Ensuite créé un hook `useClearHistory` qui retourne `clearHistory` (utilise
-`useNavigateMovie` pour y avoir accès). Dans `AuthContext` utilise
+`useHistoryMovie` pour y avoir accès). Dans `AuthContext` utilise
 `useClearHistory` pour vider l'historique lors du `logout`.
 
 **Fichiers :**
@@ -165,4 +169,4 @@ Ensuite créé un hook `useClearHistory` qui retourne `clearHistory` (utilise
 ## 🐜 Feedback
 
 Remplir le formulaire le
-[formulaire de FeedBack](https://go.mikecodeur.com/cours-react-avis).
+[formulaire de FeedBack.](<https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=13%20Context%20API%20(historique%20des%20visites)>)

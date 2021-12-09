@@ -2,20 +2,12 @@ import * as React from 'react'
 import * as authNetflix from '../utils/authNetflixProvider'
 import {clientAuth, clientNetFlix} from '../utils/clientApi'
 import {useFetchData} from '../utils/hooks'
-import {QueryCache} from 'react-query'
+import {useQueryClient} from 'react-query'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 // 🐶 importe le hook  'useClearHistory'
 
 const AuthContext = React.createContext()
-const queryCache = new QueryCache({
-  onError: error => {
-    console.log(error)
-  },
-  onSuccess: data => {
-    console.log(data)
-  },
-})
 
 const useAuth = () => {
   const context = React.useContext(AuthContext)
@@ -36,6 +28,7 @@ async function getUserByToken() {
 }
 
 const AuthProvider = props => {
+  const queryclient = useQueryClient()
   const {data: authUser, execute, status, setData} = useFetchData()
   // 🐶 utilise 'useClearHistory' pour avoir accès à 'clearHistory'
   React.useEffect(() => {
@@ -55,7 +48,7 @@ const AuthProvider = props => {
       .catch(err => setAuthError(err))
   const logout = () => {
     authNetflix.logout()
-    queryCache.clear()
+    queryclient.clear()
     // 🐶 appelle la fonction 'clearHistory'
     setData(null)
   }
@@ -74,7 +67,9 @@ const AuthProvider = props => {
 }
 
 const useClientNetflix = () => {
-  const {authUser:{token}} = useAuth()
+  const {
+    authUser: {token},
+  } = useAuth()
   return (endpoint, data) => clientNetFlix(endpoint, {...data, token})
 }
 
