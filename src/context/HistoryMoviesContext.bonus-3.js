@@ -16,11 +16,11 @@ const reducer = (state, action) => {
         series: [action.payload, ...state.series.slice(0, MAX_ELEMENTS - 1)],
       }
     case 'clear':
-        return {
-          ...state,
-          series: [],
-          movies: [],
-        }
+      return {
+        ...state,
+        series: [],
+        movies: [],
+      }
     default:
       throw new Error('Action non supporté')
   }
@@ -50,18 +50,18 @@ const HistoryMovieProvider = props => {
   return <HistoryMovieContext.Provider value={value} {...props} />
 }
 
-const useHistoryMovie = () => {
+const useNavigateMovie = () => {
   const context = React.useContext(HistoryMovieContext)
   if (!context) {
     throw new Error(
-      "useHistoryMovie() s'utilise avec <HistoryMovieContext.Provider>",
+      "useNavigateMovie() s'utilise avec <HistoryMovieContext.Provider>",
     )
   }
   return context
 }
 
 const useAddToHistory = (movie, type = TYPE_TV) => {
-  const {addMovie, addSerie} = useHistoryMovie()
+  const {addMovie, addSerie} = useNavigateMovie()
   React.useEffect(() => {
     if (movie) {
       if (type === TYPE_TV) {
@@ -75,13 +75,13 @@ const useAddToHistory = (movie, type = TYPE_TV) => {
 }
 
 const useClearHistory = () => {
-  const {clearHistory} = useHistoryMovie()
+  const {clearHistory} = useNavigateMovie()
   return clearHistory
 }
 
 export {
   HistoryMovieContext,
-  useHistoryMovie,
+  useNavigateMovie,
   HistoryMovieProvider,
   useAddToHistory,
   useClearHistory,

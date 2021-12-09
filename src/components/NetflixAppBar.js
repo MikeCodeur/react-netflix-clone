@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search'
 import {styled, alpha} from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
-import {useHistory} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {useAuth} from '../context/AuthContext'
 import {MenuHistory} from './MenuHistory'
 
@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 const NetflixAppBar = () => {
   const {logout} = useAuth()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const [appBarStyle, setAppBarStyle] = React.useState({
     background: 'transparent',
@@ -85,7 +85,7 @@ const NetflixAppBar = () => {
 
   const handleKeyPress = e => {
     if (e.keyCode === 13) {
-      history.push(`/search/${query}`)
+      navigate(`/search/${query}`)
     }
   }
 
@@ -131,7 +131,7 @@ const NetflixAppBar = () => {
             inputProps={{'aria-label': 'search'}}
           />
         </Search>
-        <MenuHistory style={{cursor: 'pointer', marginRight:'10px'}} />
+        <MenuHistory style={{cursor: 'pointer', marginRight: '10px'}} />
         <img
           style={{cursor: 'pointer'}}
           className="nav__avatar"

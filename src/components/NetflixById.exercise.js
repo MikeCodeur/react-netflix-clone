@@ -6,7 +6,7 @@ import {NetflixHeader} from './NetflixHeader'
 import {TYPE_MOVIE, TYPE_TV} from '../config'
 import {useParams, useLocation} from 'react-router-dom'
 import {useMovie} from '../utils/hooksMovies'
-// 🐶 importe le Hook 'useHistoryMovie' il sera utile pour ajouter le film/serie
+// 🐶 importe le Hook 'useNavigateMovie' il sera utile pour ajouter le film/serie
 // affiché dans la page, dans le contexte 'HistoryMoviesContext'
 import './Netflix.css'
 
@@ -18,9 +18,9 @@ const NetflixById = ({logout}) => {
   )
   const [id, setId] = React.useState(type === TYPE_TV ? tvId : movieId)
   const headerMovie = useMovie(type, id)
-  
-  // 🐶 utilise le hook 'useHistoryMovie' pour acceder à  {series, movies, setMovies, setSeries}
-  
+
+  // 🐶 utilise le hook 'useNavigateMovie' pour acceder à  {series, movies, setMovies, setSeries}
+
   // 🐶 créé une constante qui correspondra on nombre d'elements max dans l'historique (sera utilisé plus tard)
   // 🤖 `const MAX_ELEMENTS = 3`
 
@@ -32,7 +32,7 @@ const NetflixById = ({logout}) => {
   // 📑 https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Spread_syntax
   // note 2 : limite le nombre d'éléments copié avec `slice()` et MAX_ELEMENTS
   // 📑 https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
-  // exemple : 
+  // exemple :
 
   React.useEffect(() => {
     const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE

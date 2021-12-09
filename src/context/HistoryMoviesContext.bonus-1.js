@@ -38,14 +38,14 @@ const HistoryMovieProvider = props => {
   return <HistoryMovieContext.Provider value={value} {...props} />
 }
 
-const useHistoryMovie = () => {
+const useNavigateMovie = () => {
   const context = React.useContext(HistoryMovieContext)
   if (!context) {
     throw new Error(
-      "useHistoryMovie() s'utilise avec <HistoryMovieContext.Provider>",
+      "useNavigateMovie() s'utilise avec <HistoryMovieContext.Provider>",
     )
   }
   return context
 }
 
-export {HistoryMovieContext, useHistoryMovie, HistoryMovieProvider}
+export {HistoryMovieContext, useNavigateMovie, HistoryMovieProvider}

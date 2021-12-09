@@ -17,8 +17,8 @@ import SkipNextIcon from '@mui/icons-material/SkipNext'
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb'
 import {TYPE_MOVIE, TYPE_TV, imagePath400} from '../config'
 import {useTheme} from '@mui/material/styles'
-import {useHistory} from 'react-router-dom'
-import {useHistoryMovie} from '../context/HistoryMoviesContext'
+import {useNavigate} from 'react-router-dom'
+import {useNavigateMovie} from '../context/HistoryMoviesContext'
 
 const StyledMenu = styled(props => (
   <Menu
@@ -64,7 +64,7 @@ const StyledMenu = styled(props => (
 }))
 
 function MenuHistory({style}) {
-  const {series, movies} = useHistoryMovie()
+  const {series, movies} = useNavigateMovie()
 
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
@@ -115,7 +115,7 @@ function MenuHistory({style}) {
 
 function MenuHistoryCard({movie, type, wideImage = true}) {
   const theme = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
   const buildImagePath = data => {
     const image = wideImage ? data?.backdrop_path : data?.poster_path
     return image ? `${imagePath400}${image}` : null
@@ -124,7 +124,7 @@ function MenuHistoryCard({movie, type, wideImage = true}) {
   const description = movie?.overview.substring(0, 30) + ' ...'
 
   const handleClick = () => {
-    history.push(`/${type}/${movie.id}`)
+    navigate(`/${type}/${movie.id}`)
   }
   return (
     <Card sx={{display: 'flex'}}>

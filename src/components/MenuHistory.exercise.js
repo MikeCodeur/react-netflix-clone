@@ -26,8 +26,8 @@ import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb'
 import {useTheme} from '@mui/material/styles'
 // 🐶 importe :
 //import {TYPE_MOVIE, TYPE_TV, imagePath400} from '../config'
-//import {useHistory} from 'react-router-dom'
-//import {useHistoryMovie} from '../context/HistoryMoviesContext'
+//import {useNavigate} from 'react-router-dom'
+//import {useNavigateMovie} from '../context/HistoryMoviesContext'
 
 const StyledMenu = styled(props => (
   <Menu
@@ -73,7 +73,7 @@ const StyledMenu = styled(props => (
 }))
 
 function MenuHistory({style}) {
-  // 🐶 utilise le hook 'useHistoryMovie' pour récuperer {series, movies}
+  // 🐶 utilise le hook 'useNavigateMovie' pour récuperer {series, movies}
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = event => {
@@ -111,9 +111,9 @@ function MenuHistory({style}) {
         </MenuItem>
         {/* 🐶 afficher le dernier MenuItem si il n'y a pas d'historique (series et movies vide)  */}
         <MenuItem onClick={handleClose} disableRipple>
-            <DoNotDisturbIcon />
-            Pas d'historique
-          </MenuItem>
+          <DoNotDisturbIcon />
+          Pas d'historique
+        </MenuItem>
       </StyledMenu>
     </div>
   )
@@ -121,9 +121,9 @@ function MenuHistory({style}) {
 // 🐶 créé les props 'movie', 'type', 'wideImage'
 function MenuHistoryCard() {
   const theme = useTheme()
-  // 🐶 utilise le hook 'useHistory' de 'react-router-dom' il premettra
+  // 🐶 utilise le hook 'useNavigate' de 'react-router-dom' il premettra
   // de faire une redirection vers la page du film lors d'un clique sur la Card
-  // 🤖 const history = useHistory()
+  // 🤖 const navigate = useNavigate()
 
   // 🐶 décommente la fonction 'buildImagePath' elle sera utilisé
   //  pour construire l'url de l'image
@@ -141,7 +141,7 @@ function MenuHistoryCard() {
   const description = ''
 
   // 🐶 créé une fonction 'handleClick' qui redirigera vers la page film/serie
-  // 🤖 utilise `history.push()` 'type' et 'movie.id'
+  // 🤖 utilise `navigate()` 'type' et 'movie.id'
   return (
     <Card sx={{display: 'flex'}}>
       <Box sx={{display: 'flex', flexDirection: 'column'}}>

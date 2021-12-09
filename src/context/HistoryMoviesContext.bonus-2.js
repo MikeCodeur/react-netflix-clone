@@ -39,18 +39,18 @@ const HistoryMovieProvider = props => {
   return <HistoryMovieContext.Provider value={value} {...props} />
 }
 
-const useHistoryMovie = () => {
+const useNavigateMovie = () => {
   const context = React.useContext(HistoryMovieContext)
   if (!context) {
     throw new Error(
-      "useHistoryMovie() s'utilise avec <HistoryMovieContext.Provider>",
+      "useNavigateMovie() s'utilise avec <HistoryMovieContext.Provider>",
     )
   }
   return context
 }
 
 const useAddToHistory = (movie, type = TYPE_TV) => {
-  const {addMovie, addSerie} = useHistoryMovie()
+  const {addMovie, addSerie} = useNavigateMovie()
   React.useEffect(() => {
     if (movie) {
       if (type === TYPE_TV) {
@@ -65,7 +65,7 @@ const useAddToHistory = (movie, type = TYPE_TV) => {
 
 export {
   HistoryMovieContext,
-  useHistoryMovie,
+  useNavigateMovie,
   HistoryMovieProvider,
   useAddToHistory,
 }

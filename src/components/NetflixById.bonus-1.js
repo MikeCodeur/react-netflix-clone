@@ -6,10 +6,11 @@ import {NetflixHeader} from './NetflixHeader'
 import {TYPE_MOVIE, TYPE_TV} from '../config'
 import {useParams, useLocation} from 'react-router-dom'
 import {useMovie} from '../utils/hooksMovies'
-import {useHistoryMovie} from '../context/HistoryMoviesContext'
+import {useNavigateMovie} from '../context/HistoryMoviesContext'
 import './Netflix.css'
 
-const NetflixById = ({logout}) => {  let {tvId, movieId} = useParams()
+const NetflixById = ({logout}) => {
+  let {tvId, movieId} = useParams()
   const location = useLocation()
   const [type, setType] = React.useState(
     location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
@@ -17,7 +18,7 @@ const NetflixById = ({logout}) => {  let {tvId, movieId} = useParams()
   const [id, setId] = React.useState(type === TYPE_TV ? tvId : movieId)
   const headerMovie = useMovie(type, id)
 
-  const {addMovie, addSerie} = useHistoryMovie()
+  const {addMovie, addSerie} = useNavigateMovie()
   React.useEffect(() => {
     if (headerMovie) {
       if (type === TYPE_TV) {
@@ -26,8 +27,7 @@ const NetflixById = ({logout}) => {  let {tvId, movieId} = useParams()
         addMovie(headerMovie)
       }
     }
-  },[addMovie, addSerie, headerMovie, type])
- 
+  }, [addMovie, addSerie, headerMovie, type])
 
   React.useEffect(() => {
     const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE
