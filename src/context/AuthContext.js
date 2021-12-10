@@ -3,10 +3,8 @@ import * as authNetflix from '../utils/authNetflixProvider'
 import {clientAuth, clientNetFlix} from '../utils/clientApi'
 import {useFetchData} from '../utils/hooks'
 import {useQueryClient} from 'react-query'
-import Backdrop from '@mui/material/Backdrop'
-import CircularProgress from '@mui/material/CircularProgress'
 import {useClearHistory} from './HistoryMoviesContext'
-
+import LoadingFullScreen from '../components/LoadingFullScreen'
 const AuthContext = React.createContext()
 
 const useAuth = () => {
@@ -52,12 +50,9 @@ const AuthProvider = props => {
     clearHistory()
     setData(null)
   }
+
   if (status === 'fetching' || status === 'idle') {
-    return (
-      <Backdrop open={true}>
-        <CircularProgress color="primary" />
-      </Backdrop>
-    )
+    return <LoadingFullScreen />
   }
   if (status === 'done') {
     const value = {authUser, login, register, logout, authError}

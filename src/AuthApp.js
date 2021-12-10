@@ -13,11 +13,11 @@ import {NetflixSearch} from 'components/NetflixSearch'
 import {useAuth} from './context/AuthContext'
 
 function AuthApp() {
-  const {logout} =  useAuth()
+  const {logout} = useAuth()
   return (
     <Router>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Routes>
+        <Routes>
           <Route path="/" element={<NetflixApp logout={logout} />} />
           <Route path="/tv/:tvId" element={<NetflixById logout={logout} />} />
           <Route
@@ -29,11 +29,16 @@ function AuthApp() {
           <Route path="/news" element={<NetflixNews logout={logout} />} />
           <Route path="/list" element={<NetflixBookmark logout={logout} />} />
           <Route path="*" element={<Error404 />} />
-          <Route path="/search/:query" element={<NetflixSearch logout={logout} />} />
+          <Route
+            path="/search/:query"
+            element={<NetflixSearch logout={logout} />}
+          />
         </Routes>
       </ErrorBoundary>
     </Router>
   )
 }
 
-export {AuthApp}
+//export {AuthApp}
+export default AuthApp
+//React.lazy requiert un export default

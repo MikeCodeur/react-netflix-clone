@@ -1,6 +1,6 @@
-# Context API (historique des visites)
+# Performance
 
-### 💡 Context API & state management (historique des visites)
+### 💡 Optimiser les performances de notre application
 
 ## 📝 Tes notes
 
@@ -9,164 +9,89 @@ Detaille ce que tu as appris ici
 
 ## Comprendre
 
-Comme pour le `AuthContext`, nous avons besoin de gérer des états dans notre
-application sans avoir à les passer en props de composant en composant (props
-drill). Nous n'allons pas utiliser le `AuthContext` qui sert à la logique
-d'authentification. A la place nous allons créer des contextes spécifiques pour
-gérer les états (state management) de nos différentes fonctionnalités de notre
-application. On pourrait imaginer a terme avoir quelque chose du genre :
+Quand on développe une application web, il y a l'aspect fonctionnel mais aussi
+l'aspect performance à prendre on compte.
 
-```html
-- AuthContext - Paymentcontext - SearchContext - etc etc ...
-```
+> _Selon une étude, une site qui se charge en 5 secondes à un taux de rebond
+> multiplié par 2 par rapport à un site qui se charge en 1 seconde. 1 seconde de
+> chargement supplémentaire peut engendrer un perte de 7% du taux de conversion
+> (achat, lead etc ...)_
+
+Les applications React (SPA) sont des applications qui contiennent toute la
+structure de l'application dans un seul `bundle` (gros fichier JS de
+l'application) , a l'inverse des applications PHP par exemple qui elle effectue
+le rendu de chaque page.
+
+Plus on ajoute de dépendances à notre projet plus la taille du `bundle` va
+augmenter et peut peser parfois plusieurs MO. Ce qui rend le chargement initial
+long.
+
+De plus l'utilisateur n'a probablement pas besoin de toute les pages des le
+début. Pour améliorer le temps de chargement et l'affichage de la première page
+([FMP](https://developer.mozilla.org/fr/docs/Glossary/first_meaningful_paint))
+on utilise le `code splitting`. Cela consiste à découper le `bundle` de notre
+application
+
+📑 Lien vers la doc de
+[React sur le code splitting](https://reactjs.org/docs/code-splitting.html)
 
 ## Exercice
 
-👨‍✈️ Hugo le chef de projet nous demande un fonctionnalité d'historique des
-derniers films et séries visités. Cela permettra à l'utilisateur de retrouver
-facilement un film qui a déjà été vu ou visité (c'est à dire où l'utilisateur
-est allé voir la fiche de détails du film/série). Cette liste des N derniers
-films/séries sera affichée dans un menu déroulant en haut à droite lors d'un
-clique sur un icone. Dans cet exercice tu vas devoir créer un composant
-`MenuHistory` en utilisant 2 composants de Mui `:`
+Dans cette exercice tu vas devoir optimiser les performances en découpant
+l'application en deux bundle différents.
 
-- Menu Customisé : 📑
-  [https://mui.com/components/menus/#customization](https://mui.com/components/menus/#customization)
-- Card material : 📑
-  [https://mui.com/components/cards/#ui-controls](https://mui.com/components/cards/#ui-controls)
+- Un bundle pour le login /regsiter form (`UnAuthApp`)
+- Un bundle pour le reste (`AuthApp`)
 
-Ce composant affichera la liste de l'historique et lors d'un clique sur un item
-l'utilisateur sera redirigé vers la page du film
+Le but étant de pouvoir afficher le plus rapidement possible la fenêtre de
+connexion / inscription
 
-> Les données (films / séries) ne seront pas passés en `props` mais récupérer
-> via l'`API Context`.
+Pour cela on va utiliser `React.lazy` et `React.Suspense`
 
-Un icone placé dans la `NetflixAppBar` permettra de déplier ce composant
+📑 Lien vers
+[React.Lazy](https://reactjs.org/docs/code-splitting.html#reactlazy)
+
+> `React.Lazy` à besoin d'export par défaut, nous avons donc modifié `UnauthApp`
+> et `AuthApp`
 
 ```jsx
-<MenuHistory style={{cursor: 'pointer', marginRight: '10px'}} />
+//export {UnauthApp}
+//import {UnauthApp} from 'UnauthApp'
+
+export default UnauthApp
+import UnauthApp from 'UnauthApp'
 ```
 
-Tu vas donc devoir créer un contexte `HistoryMoviesContext` qui permettra
-d'ajouter des films / séries et d'accéder à ses films / séries. Ce contexte sera
-utilisé :
-
-- Dans `MenuHistory` pour lire les dernier films / series visités
-- Dans `NetFlixById` pour ajouter le film/série en cours de visite.
+> Nous avons déplacé le rendu de la page de chargement (`AuthContext`) fait avec
+> un composant `<Backdrop>` et `<CircularProgress>` de material-ui dans un
+> composant `<LoadingFullScreen>` pour pouvoir le réutiliser plus tard
 
 **Fichiers :**
 
-- `src/context/HistoryMoviesContext.js`
-- `src/context/index.js`
-- `src/components/MenuHistory.js`
-- `src/components/NetFlixById.js`
+- `src/components/App.js`
 
 ## Bonus
 
-### 1. 🚀 Logique réutilisable useReducer
+### 1. 🚀 Générer le Root Node
 
-Plutôt que d'avoir à gérer les `arrays` d'historique de `series` et `movies`
-dans les différents endroit de l'application il est préférable de centraliser
-cette logique dans le Provider. A la place d'avoir à gérer cela dans
-`NetflixById`
-
-```jsx
-const {series, movies, setMovies, setSeries} = useHistoryMovie()
-//...
-if (type === TYPE_TV) {
-  setSeries([
-    headerMovie,
-    ...series.slice(
-      0,
-      series.length >= MAX_ELEMENTS ? MAX_ELEMENTS - 1 : series.length,
-    ),
-  ])
-} else {
-  setMovies([
-    headerMovie,
-    ...movies.slice(
-      0,
-      movies.length >= MAX_ELEMENTS ? MAX_ELEMENTS - 1 : movies.length,
-    ),
-  ])
-}
-```
-
-Tu vas devoir créer cette logique dans `HistoryMovieContext.` Pour cela
-n'utilise plus les states `series` et `movies` mais utilise le hook `useReducer`
-avec un `reducer` de telle manière que l'on puisse utiliser `useHistoryMovie` de
-la manière suivante.
-
-```jsx
-const {addSerie, addMovie} = useHistoryMovie()
-//...
-addMovie(movie)
-addSerie(serie)
-```
-
-> pense à : `useCallback` pour retourner `addMovie` `addSerie` de
-> `HistoryMovieProvider`
+Plutôt que d’avoir le nœud `root` dans le code HTML, voyez si vous pouvez créer
+celui-ci en utilisant également JavaScript.
 
 **Fichiers :**
 
-- `src/components/NetflixbyId.js`
-- `src/context/HistoryMovieContext.js`
+- `src/components/NetflixApp.js`
 
-### 2. 🚀 hook useAddToHistory
+### 2. 🚀 Bonus 2
 
-Plutôt que d’avoir à gérer un `side effect`, le type etc ... comme cela
+2Plutôt que d’avoir le nœud `root` dans le code HTML, voyez si vous pouvez créer
+celui-ci en utilisant également JavaScript.
 
-```jsx
-React.useEffect(() => {
-  if (headerMovie) {
-    if (type === TYPE_TV) {
-      addSerie(headerMovie)
-    } else {
-      addMovie(headerMovie)
-    }
-  }
-}, [headerMovie])
-```
+## Aller plus loin
 
-Créé un hook `useAddToHistory` qui permettra une utilisation simplifier de la
-forme
-
-```jsx
-useAddToHistory(movie, type)
-```
-
-**Fichiers :**
-
-- `src/components/NetflixbyId.js`
-- `src/context/HistoryMovieContext.js`
-
-### 3. 🚀 Suppression historique sur déconnexion
-
-Que se passe-t-il si un utilisateur se déconnecte et qu'un nouveau se reconnecte
-? Le nouvel utilisateur verra l'historique de l'ancien, ce qui est
-problématique. Un `AuthContext` existe déjà avec le fonction `Logout.`
-
-Dans cet exercice tu vas devoir modifier le `reducer` de `HistoryMovieProvider`
-pour qu'il prennent en compte le type `clear`. et vide les arrays `movies` et
-`series`
-
-```jsx
-dispatch({
-  type: 'clear',
-})
-```
-
-`HistoryMovieProvider` devra retourner également une fonction `clearHistory`.
-Ensuite créé un hook `useClearHistory` qui retourne `clearHistory` (utilise
-`useHistoryMovie` pour y avoir accès). Dans `AuthContext` utilise
-`useClearHistory` pour vider l'historique lors du `logout`.
-
-**Fichiers :**
-
-- `src/context/HistoryMovieContext.js`
-- `src/context/AuthContext.js`
+📑 Le lien vers la doc
+[https://www.w3schools.com/html/html_css.asp](https://www.w3schools.com/html/html_css.asp)
 
 ## 🐜 Feedback
 
 Remplir le formulaire le
-[formulaire de FeedBack.](<https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=13%20Context%20API%20(historique%20des%20visites)>)
+[formulaire de FeedBack.](https://www.google.com/url?q=https://go.mikecodeur.com/cours-react-avis?entry.1430994900%3DReact%2520NetFlix%2520Clone%26entry.533578441%3D14%2520Performance&sa=D&source=editors&ust=1639124216256000&usg=AOvVaw0m9NtE_0nrumQjwF20hcmG)

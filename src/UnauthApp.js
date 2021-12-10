@@ -25,12 +25,11 @@ function UnauthApp() {
       />
 
       <div>
-        <LoginRegister
-          open={true}
-        />
+        <LoginRegister open={true} />
       </div>
     </div>
   )
 }
-
-export {UnauthApp}
+//export {UnauthApp}
+export default UnauthApp
+//React.lazy requiert un export default
