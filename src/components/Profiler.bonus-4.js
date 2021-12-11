@@ -1,8 +1,18 @@
 import React from 'react'
+import {clientAuth} from 'utils/clientApi'
 
+let pile = []
 const logProfiler = data => {
-  console.log('%c profiler', 'color: LightCoral', data)
+  if (!pile.length) {
+    return
+  }
+  console.log('%c profiler', 'color: LightCoral', pile)
+  clientAuth('monitoring', {data: pile})
+  pile = []
 }
+
+setInterval(logProfiler, 10000)
+
 function Profiler({phases = [], ...props}) {
   const handleRender = (
     id, // la prop "id" du Profiler dont l’arborescence vient d’être mise à jour
@@ -14,7 +24,7 @@ function Profiler({phases = [], ...props}) {
     interactions, // Un Set des interactions qui constituent cette mise à jour) => {
   ) => {
     if (!phases.length || phases.includes(phase)) {
-      logProfiler({
+      pile.push({
         id,
         phase,
         actualDuration,

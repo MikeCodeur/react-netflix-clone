@@ -1,7 +1,6 @@
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 function LoadingFullScreen() {
-  const imageUrl = '/images/bg-lost-in-space.png'
   return (
     <div
       style={{

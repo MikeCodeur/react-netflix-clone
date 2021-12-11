@@ -103,13 +103,8 @@ const FormLogin = ({create = false, login, register, logout}) => {
   )
 }
 
-function PopupLogin({
-  open,
-  handleClose,
-  signup = false,
-  status,
-}) {
-  const {login,logout,register,authError:error} = useAuth()
+function PopupLogin({open, handleClose, signup = false, status}) {
+  const {login, logout, register, authError: error} = useAuth()
   const classes = useStyles()
   const [create, setCreate] = React.useState(signup)
   const handleSignUp = () => {

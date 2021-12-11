@@ -1,6 +1,6 @@
 //export * from './App.final'
 
-//export * from './App.exercice'
+export * from './App.exercice'
 
 //🚀 Pré-chargement de composants
-export * from './App.bonus-1'
+//export * from './App.bonus-1'
