@@ -15,16 +15,11 @@ module.exports = {
     basedir: require.resolve('jest'),
   }),
 
-  // this testPathIgnorePatterns config just makes things work with the way we
-  // have to do things for this workshop to work. You shouldn't need this in
-  // your own jest config. NOTE: This is the *entire* reason we need a custom
-  // jest config. Otherwise we'd be able to use regular react-scripts
-  // so in your apps, react-scripts should work just fine.
   testPathIgnorePatterns: [
     '/node_modules/',
     'exercise\\.js$',
     'final\\.js$',
-    'extra-\\d+\\.js$',
+    'bonus-\\d+\\.js$',
   ],
   setupFiles: [require.resolve('whatwg-fetch')],
   // some of the exercise branches don't have setupTests.js
