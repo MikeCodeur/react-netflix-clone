@@ -1,6 +1,28 @@
-//export * from './App.final'
+import * as React from 'react'
+import './mocks'
+import {useAuth} from './context/AuthContext'
+import {AppProviders} from './context'
+import LoadingFullScreen from './components/LoadingFullScreen'
+const UnauthApp = React.lazy(() => import('./UnauthApp'))
+const AuthApp = React.lazy(() =>
+  import(/* webpackPrefetch: true */ './AuthApp'),
+)
 
-export * from './App.exercice'
+function App() {
+  return (
+    <AppProviders>
+      <AppConsumer />
+    </AppProviders>
+  )
+}
 
-//🚀 Pré-chargement de composants
-//export * from './App.bonus-1'
+const AppConsumer = () => {
+  const {authUser} = useAuth()
+  return (
+    <React.Suspense fallback={<LoadingFullScreen />}>
+      {authUser ? <AuthApp /> : <UnauthApp />}
+    </React.Suspense>
+  )
+}
+
+export {App}

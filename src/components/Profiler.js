@@ -1,12 +1,41 @@
-//No final
+import React from 'react'
+import {clientAuth} from 'utils/clientApi'
 
-export * from './Profiler.exercice'
+let pile = []
+const logProfiler = data => {
+  if (!pile.length) {
+    return
+  }
+  console.log('%c profiler', 'color: LightCoral', pile)
+  clientAuth('monitoring', {data: pile})
+  pile = []
+}
 
-//🚀 Profiler une Application
-//export * from './Profiler.bonus-3'
+setInterval(logProfiler, 10000)
 
-//🚀 Envoies les informations vers le backend
-//export * from './Profiler.bonus-4'
-
-//🚀 Trace les films ou séries visités
-//export * from './Profiler.bonus-5'
+function Profiler({appData, phases = [], ...props}) {
+  const handleRender = (
+    id, // la prop "id" du Profiler dont l’arborescence vient d’être mise à jour
+    phase, // soit "mount" (si on est au montage) soit "update" (pour une mise à jour)
+    actualDuration, // temps passé à faire le rendu de la mise à jour finalisée
+    baseDuration, // temps estimé du rendu pour l’ensemble du sous-arbre sans mémoïsation
+    startTime, // horodatage du début de rendu de cette mise à jour par React
+    commitTime, // horodatage de la finalisation de cette mise à jour par React
+    interactions, // Un Set des interactions qui constituent cette mise à jour) => {
+  ) => {
+    if (!phases.length || phases.includes(phase)) {
+      pile.push({
+        appData,
+        id,
+        phase,
+        actualDuration,
+        baseDuration,
+        startTime,
+        commitTime,
+        interactions,
+      })
+    }
+  }
+  return <React.Profiler onRender={handleRender} {...props} />
+}
+export {Profiler}
