@@ -1,6 +1,16 @@
-//export * from './test-utils.final'
+import * as React from 'react'
+import {render as renderReactTestingLib} from '@testing-library/react'
+import {HistoryMovieProvider} from '../context/HistoryMoviesContext'
+import {AppProviders} from 'context'
 
-export * from './test-utils.exercise'
+const wrapperHistoryContext = ({children}) => {
+  return <HistoryMovieProvider>{children}</HistoryMovieProvider>
+}
 
-//🚀 Optimisation de test-utils
-//export * from './test-utils.bonus-2'
+function render(ui, {...options} = {}) {
+  return renderReactTestingLib(ui, {wrapper: AppProviders, ...options})
+}
+
+export * from '@testing-library/react'
+// surcharge de render
+export {render, wrapperHistoryContext}
