@@ -4,7 +4,7 @@ import {
   useClearHistory,
   useNavigateMovie,
   useAddToHistory,
-} from '../../context/HistoryMoviesContext'
+} from '../HistoryMoviesContext'
 
 import {TYPE_MOVIE} from 'config'
 import {TYPE_TV} from 'config'
