@@ -6,7 +6,7 @@ function LoadingFullScreen() {
       style={{
         //backgroundImage: `url('${imageUrl}')`,
         backgroundSize: 'cover',
-
+        backgroundColor: '#000',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -25,7 +25,7 @@ function LoadingFullScreen() {
         }}
       >
         <Backdrop open={true}>
-          <CircularProgress color="primary" />
+          <CircularProgress color="secondary" />
         </Backdrop>
       </div>
     </div>

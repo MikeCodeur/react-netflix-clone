@@ -57,11 +57,11 @@ const useAddBookmark = ({
   onError = () => {},
   onSettled = () => {},
   onMutate = () => {},
-}) => {
+} = {}) => {
   const clientNetFlix = useClientNetflix()
   const queryClient = useQueryClient()
   const addMutation = useMutation(
-     ({type, id}) => {
+    ({type, id}) => {
       return clientNetFlix(`bookmark/${type}`, {
         data: {id},
         method: 'POST',
@@ -95,7 +95,7 @@ const useDeleteBookmark = ({
   const clientNetFlix = useClientNetflix()
   const queryClient = useQueryClient()
   const deleteMutation = useMutation(
-     ({type, id}) => {
+    ({type, id}) => {
       return clientNetFlix(`bookmark/${type}`, {
         data: {id},
         method: 'DELETE',

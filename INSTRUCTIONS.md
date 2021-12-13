@@ -1,6 +1,6 @@
-# Tests unitaires
+# Tests de Hooks et Components
 
-### 💡 Tests unitaires
+### 💡 Tests de Hooks et Components
 
 ## 📝 Tes notes
 
@@ -9,87 +9,115 @@ Detaille ce que tu as appris ici
 
 ## Comprendre
 
-Dans une application il y a de nombreuses fonctions que nous réutilisons dans
-différentes parties de notre application (_helpers, formatage de date,
-manipulation d'objet ou d'array etc ..._). Un changement, un bug dans une de ces
-fonctions peut impacter de nombreuses parties de l'application. Il est très
-utilise de tester ce genre de fonctions avec des tests unitaires car cela nous
-permettra de détecter rapidement une régression.
+Nous allons maintenant devoir tester nos composants. Comme nous utilisons
+beaucoup de composant qui dépendent du Context API, si nous faisont le rendu
+`render(<LoginRegister open={true}></LoginRegister>)` nous obtiendrons souvent
+un message du genre `useAuth() s'utilise avec <AuthContext.provider>`. C'est
+normal ces composant utilisent des hooks qui doivent etre wrapper de
+`Context.Provider`.
+[React Testing Library](https://testing-library.com/docs/react-testing-library/setup#custom-render)
+nous donne une option pour wrapper les composants dans le render.
 
-Pour faire nos tests unitaires dans notre application nous utiliserons
-[JEST](https://jestjs.io/fr/) qui est inclus et configuré dans le
-[CRA](https://create-react-app.dev/docs/running-tests/)
+```jsx
+import React from 'react'
+import {render} from '@testing-library/react'
+import {ThemeProvider} from 'my-ui-lib'
+import {TranslationProvider} from 'my-i18n-lib'
+import defaultStrings from 'i18n/en-x-default'
+
+const AllTheProviders = ({children}) => {
+  return (
+    <ThemeProvider theme="light">
+      <TranslationProvider messages={defaultStrings}>
+        {children}
+      </TranslationProvider>
+    </ThemeProvider>
+  )
+}
+
+const customRender = (ui, options) =>
+  render(ui, {wrapper: AllTheProviders, ...options})
+
+// re-export everything
+export * from '@testing-library/react'
+
+// override render method
+export {customRender as render}
+```
 
 ## Exercice
 
-Dans cet exercice tu vas devoir tester des fonctions du helpers ce qui ne
-devrait pas trop être compliqué. Ensuite tu vas devoir tester les fonctions
-d'appel d'api (`clientAuth`, `clientNetflix`)
+Dans cet exercice nous allons tester le composant `LoginRegister`. ce composant
+fait appel a d'autres composants dépendants du context.
 
-Pour cela nous allons utiliser [msw](https://mswjs.io/) qui nous permet de
-mocker les appels HTTP. comme nous l'utilisons déjà dans ce projet, la
-configuration et presque identique pour les tests.
-
-```jsx
-server.use(
-  rest.get(`${AUTH_URL}/${endpoint}`, async (req, res, ctx) => {
-    return res(ctx.json(resultRequest))
-  }),
-)
-const result = await axios.get(endpoint)
-expect(result.data).toEqual(resultRequest)
-```
+Dans un premier tu vas devoir créer un fichier `test-utils.js` qui wrappe tous
+les providers de notre Applications. Reprend la configuration et les provider du
+fichier `/context/index.js`.
 
 **Fichiers :**
 
-- `src/utils/__tests__/Helper.js`
-- `src/utils/__tests__/clientApi.js`
+- `src/context/index.js`
+- `src/test/test-utils.js`
+- `src/composants/__tests__/LoginRegister.js`
 
 ## Bonus
 
-### 1. 🚀 Tester les erreurs d'authentification
+### 1. 🚀 Teste de Hooks personnalisés
 
-Cette fois ci nous allons tester `clientNetflix` qui retourne un message
-d'erreur en cas de problème d'authentification. `"Authentification incorrecte"`.
-pour tester ce cas nous allons `mocker` et retourner un code 401
+Nous allons maintenant tester nos hooks personnalisés. Dans
+`HistoryMoviesContext` nous avons `useNavigateMovie`, `useClearHistory`,
+`useAddToHistory`. Nous allons tester ces 3 hooks. Tu vas devoir tester ces 3
+hooks en utilisant `'@testing-library/react-hooks'` et `renderHook`. Pense à
+créer un wrapper pour qui contient `<HistoryMovieProvider>`
 
-```jsx
-server.use(
-  rest.post(`${AUTH_URL}/${endpoint}`, async (req, res, ctx) => {
-    return res(ctx.status(401), ctx.json(resultRequest))
-  }),
-)
-```
-
-Il est possible que lors de nos tests les fonctions fassent appel à des modules
-externe. dans notre cas nous faisons appel à `authNetflix.logout()` qui fait une
-suppression dans le `localstorage` (ce qui est supporté par `jsdom`). mais dans
-certain cas cela pourrait ne pas être supporté. Il faudrait alors mocker ces
-modules avec `jest.mock`.
-
-Dans cet exercice tu vas devoir tester le code 401 et vérifier que nous avons
-bien les message d'erreur `"Authentification incorrecte"` et utilise `jest.mock`
-pour t'assurer que `authNetflix.logout()` a bien été appeler une fois .
-
-Teste aussi une erreur 400 et vérifie que l'on récupère le message retouné par
-le serveur
+📝
+[https://react-hooks-testing-library.com/usage/basic-hooks](https://react-hooks-testing-library.com/usage/basic-hooks)
 
 **Fichiers :**
 
-- `src/utils/__tests__/clientApi.js`
+- `src/context/__tests__/hooksHistoryMovies.js`
 
-### 2. 🚀 setupTests.js
+### 2. 🚀 Optimisation de test-utils
 
-`Jest` nous permet de centraliser de la configuration et de l'initialisation
-dans un fichier `setupTests`. Regarde dans le fichier `jest.config` il y a la
-configuration `setupFilesAfterEnv: fs.existsSync('src/setupTests.js')`
+Comme nous allons réutiliser souvent les même `wrappers` et la même
+configuration, centralise la configuration dans `test-utils.js`. Déplace le
+wrapper et exporte le de `test-utils.js`
 
-Ce qui veut dire que l'on peut mettre de la configuration commue aux tests ici
+```jsx
+const wrapperHistoryContext = ({children}) => {
+  return <HistoryMovieProvider>{children}</HistoryMovieProvider>
+}
+```
 
-Dans cet exercice déplace dans `setupTests` les fonctions `beforeAll afterAll`
-`afterEach` qui initialise le server `msw`
+Note également comme le Wrapper est le même que `AppProviders` de
+`src/context/index.js`
+
+```jsx
+function render(ui, {...options} = {}) {
+  const wrapper = ({children}) => {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <HistoryMovieProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </HistoryMovieProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    )
+  }
+  return renderReactTestingLib(ui, {wrapper, ...options})
+}
+```
+
+Importe donc `AppProviders` dans `test-utils.js` et utilise le comme wrapper
+directement
+
+F**ichiers :**
+
+- `src/test/test-utils.js`
+- `src/context/__tests__/hooksHistoryMovies.js`
 
 ## 🐜 Feedback
 
 Remplir le formulaire le
-[formulaire de FeedBack.](https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=15%20Tests%20Unitaires)
+[formulaire de FeedBack.](https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=16%20Tests%20Hooks%20Component)
