@@ -18,7 +18,7 @@ const NetflixBookmark = ({logout}) => {
         <NetflixHeader movie={headerMovie} type={TYPE_MOVIE} />
         <div className="row">
           <h2>Films favoris</h2>
-          <div className="row__posters">
+          <div className="row__posters" role="listitem" aria-label={TYPE_MOVIE}>
             {data?.bookmark.movies.map(id => {
               return (
                 <Card
@@ -35,7 +35,7 @@ const NetflixBookmark = ({logout}) => {
 
         <div className="row">
           <h2>Séries favorites</h2>
-          <div className="row__posters">
+          <div className="row__posters" role="listitem" aria-label={TYPE_TV}>
             {data?.bookmark.series.map(id => {
               return <Card key={id} id={id} type={TYPE_TV} />
             })}

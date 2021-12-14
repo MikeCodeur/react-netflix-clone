@@ -38,7 +38,7 @@ const FormLogin = ({create = false, login, register, logout}) => {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <TextField
-        id="filled-basic"
+        id="email"
         label="Email ou numéro de téléphone"
         variant="filled"
         color="secondary"
@@ -47,7 +47,7 @@ const FormLogin = ({create = false, login, register, logout}) => {
         style={{opacity: '1'}}
       />
       <TextField
-        id="filled-basic"
+        id="password"
         type="password"
         label="Mot de passe"
         variant="filled"

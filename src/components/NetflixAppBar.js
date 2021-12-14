@@ -133,6 +133,8 @@ const NetflixAppBar = () => {
         </Search>
         <MenuHistory style={{cursor: 'pointer', marginRight: '10px'}} />
         <img
+          role="button"
+          aria-label="logout"
           style={{cursor: 'pointer'}}
           className="nav__avatar"
           src="/images/netflix-avatar.png"

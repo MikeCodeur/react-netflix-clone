@@ -10,17 +10,22 @@ const NetflixRowView = ({
   type = TYPE_MOVIE,
   watermark = false,
 }) => {
- 
   if (!data) {
     return <RowSkeleton title={title} wideImage={wideImage} />
   }
   return (
     <div className="row">
       <h2>{title}</h2>
-      <div className="row__posters">
+      <div className="row__posters" role="listitem" aria-label={type}>
         {data.map(movie => {
           return (
-            <RowCard key={movie.id} movie={movie} type={type} watermark={watermark} wideImage={wideImage} />
+            <RowCard
+              key={movie.id}
+              movie={movie}
+              type={type}
+              watermark={watermark}
+              wideImage={wideImage}
+            />
           )
         })}
       </div>
@@ -35,7 +40,7 @@ const RowCard = ({movie, type, watermark, wideImage}) => {
   }
   const watermarkClass = watermark ? 'watermarked' : ''
 
-  if (!movie){
+  if (!movie) {
     return <></>
   }
   return (
