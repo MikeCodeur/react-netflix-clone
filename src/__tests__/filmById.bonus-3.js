@@ -7,7 +7,6 @@ import {
   resultsMovies,
   bookmark,
 } from 'test/test-utils'
-import userEvent from '@testing-library/user-event'
 import {
   AUTH_URL,
   API_URL,
@@ -17,7 +16,6 @@ import {
 import {App} from 'App'
 import * as authNetflix from '../utils/authNetflixProvider'
 import {server, rest} from 'mocks'
-import {TYPE_MOVIE} from 'config'
 
 afterEach(async () => {
   await authNetflix.logout()
@@ -37,13 +35,6 @@ beforeEach(() => {
     }),
     rest.get(`${AUTH_URL}/bookmark`, async (req, res, ctx) => {
       return res(ctx.json({bookmark}))
-    }),
-    rest.post(`${AUTH_URL}/bookmark/:type`, async (req, res, ctx) => {
-      const {id} = req.body
-      const {type} = req.params
-      const newbookmark = {...bookmark}
-      newbookmark[type === TYPE_MOVIE ? 'movies' : 'series']?.push(id)
-      return res(ctx.json({bookmark: newbookmark}))
     }),
     rest.get(`${API_URL}/*`, async (req, res, ctx) => {
       return res(ctx.json(resultsMovies))
