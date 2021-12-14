@@ -96,12 +96,12 @@ const NetflixAppBar = () => {
         <img className="nav__logo" src="/images/netflix-logo.png" alt="" />
         <Link to="/">
           <Typography style={margin10} variant="h6">
-            Acceuil
+            Accueil
           </Typography>
         </Link>
         <Link to="/series">
           <Typography style={margin10} variant="h6">
-            Serie
+            Series
           </Typography>
         </Link>
         <Link to="/movies">

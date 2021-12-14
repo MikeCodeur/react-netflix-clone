@@ -29,7 +29,7 @@ const NetflixApp = ({logout}) => {
         watermark={true}
         type={TYPE_TV}
         filter="trending"
-        title="Série Netflix"
+        title="Séries Netflix"
       />
 
       <NetflixRow

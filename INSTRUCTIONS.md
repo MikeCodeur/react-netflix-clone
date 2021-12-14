@@ -1,6 +1,6 @@
-# Tests de Hooks et Components
+# Tests d'intégrations
 
-### 💡 Tests de Hooks et Components
+### 💡 Tests d'intégrations
 
 ## 📝 Tes notes
 
@@ -9,115 +9,98 @@ Detaille ce que tu as appris ici
 
 ## Comprendre
 
-Nous allons maintenant devoir tester nos composants. Comme nous utilisons
-beaucoup de composant qui dépendent du Context API, si nous faisont le rendu
-`render(<LoginRegister open={true}></LoginRegister>)` nous obtiendrons souvent
-un message du genre `useAuth() s'utilise avec <AuthContext.provider>`. C'est
-normal ces composant utilisent des hooks qui doivent etre wrapper de
-`Context.Provider`.
-[React Testing Library](https://testing-library.com/docs/react-testing-library/setup#custom-render)
-nous donne une option pour wrapper les composants dans le render.
+Dans une application nous avons à tester unitairement les fonctions, c'est a
+dire de manière isolée, indépendamment du reste de notre application (_ce sont
+les tests unitaires_). Mais une application est un assemblage de diverses
+briques : fonctions, librairies, etc ... Qui va s'assurer que tout fonctionne
+tout au long de l'évolution du projet ? Qui va s'assurer que si quelqu'un
+modifie un hook isolé cela ne va pas engendrer une régression sur une
+fonctionnalité: (Login par exemple) Probablement les équipes de tests, le chef
+de projet etc ... Toutes ces opération prennent du temps. A la place nous
+pouvions créer des tests d'intégrations qui vérifient de grandes fonctionnalités
+de notre application. A chaque évolution de notre code, ces tests seront
+exécutés et l'on sera immédiatement averti en cas de régression. Le but est donc
+de tester notre application en faisant le rendu des composant de plus haut
+niveau. Dans notre cas App
 
 ```jsx
-import React from 'react'
-import {render} from '@testing-library/react'
-import {ThemeProvider} from 'my-ui-lib'
-import {TranslationProvider} from 'my-i18n-lib'
-import defaultStrings from 'i18n/en-x-default'
-
-const AllTheProviders = ({children}) => {
-  return (
-    <ThemeProvider theme="light">
-      <TranslationProvider messages={defaultStrings}>
-        {children}
-      </TranslationProvider>
-    </ThemeProvider>
-  )
-}
-
-const customRender = (ui, options) =>
-  render(ui, {wrapper: AllTheProviders, ...options})
-
-// re-export everything
-export * from '@testing-library/react'
-
-// override render method
-export {customRender as render}
+test("rendu de l'app", async () => {
+  render(<App></App>)
+  //expect().toBeInTheDocument()
+})
 ```
 
 ## Exercice
 
-Dans cet exercice nous allons tester le composant `LoginRegister`. ce composant
-fait appel a d'autres composants dépendants du context.
+Dans cet exercice tu vas devoir tester le rendu de `<App>`.Comme l'application
+est dépendante de nombreux Providers, pense à utiliser notre Wrapper qui
+contient tous les providers.
 
-Dans un premier tu vas devoir créer un fichier `test-utils.js` qui wrappe tous
-les providers de notre Applications. Reprend la configuration et les provider du
-fichier `/context/index.js`.
+Dans ce premier cas de teste nous volons nous assurer que si un utilisateur non
+connecté arrive, il accède correctement à la page de `Login` et lorsqu'il clique
+sur `nouveau sur Netflix ?` il voit le composant Register.
 
 **Fichiers :**
 
-- `src/context/index.js`
-- `src/test/test-utils.js`
-- `src/composants/__tests__/LoginRegister.js`
+- `src/__tests__/App.js`
 
 ## Bonus
 
-### 1. 🚀 Teste de Hooks personnalisés
+### 1. 🚀 User connecté / Mock fetch request
 
-Nous allons maintenant tester nos hooks personnalisés. Dans
-`HistoryMoviesContext` nous avons `useNavigateMovie`, `useClearHistory`,
-`useAddToHistory`. Nous allons tester ces 3 hooks. Tu vas devoir tester ces 3
-hooks en utilisant `'@testing-library/react-hooks'` et `renderHook`. Pense à
-créer un wrapper pour qui contient `<HistoryMovieProvider>`
+Dans cet exercice tu vas devoir simuler un utilisateur connecté. Pour cela nous
+allons créer un objet `user` et le placer dans le `localStorage` pour déclencher
+l'_autologin_.
 
-📝
-[https://react-hooks-testing-library.com/usage/basic-hooks](https://react-hooks-testing-library.com/usage/basic-hooks)
+```jsx
+const user = {id: '1', username: 'fakeUsername', token: 'FAKE_TOKEN'}
+window.localStorage.setItem(localStorageTokenKey, user.token)
+```
+
+L'auto-login fait un appel HTTP vers `${AUTH_URL}/me` comme nous somme dans un
+environnement de test nous allons devoir mocker tous les appels HTTP
+
+```jsx
+server.use(
+  rest.get(`${AUTH_URL}/me`, async (req, res, ctx) => {
+    return res(ctx.json({user}))
+  }),
+)
+```
+
+Mock également les `endpoints` suivants :
+
+- ``${API_URL}/movie/:id` retourne`sampleMovie`
+- ``${API_URL}/tv/:id` retourne`sampleMovie`
+- ``${API_URL}/*` retourne `resultsMovies` un array de `sampleMovie`
+
+> 💡Tu trouveras `sampleMovie` et `resultsMovies` dans `src/test/data` et tu
+> pourras les importer directement via
+> `import {sampleMovie, resultsMovies, } from 'test/test-utils'`
+
+Contenu du test :
+
+- Teste la non présence de `Connexion` et `Inscrivez vous` dans la page.
+- Teste la présence de la barre de menu en testant chaque élément : `Accueil` ,
+  `Series` etc ...
+- Teste la présence des sections de films : `Films Netflix` / `Séries Netflix` /
+  `Les mieux notés` etc ...
+- Teste la présence du Footer via le rôle `contentinfo`
 
 **Fichiers :**
 
-- `src/context/__tests__/hooksHistoryMovies.js`
+- `src/__tests__/App.js`
 
-### 2. 🚀 Optimisation de test-utils
+### 2. 🚀 Teste d'autres routes connectées
 
-Comme nous allons réutiliser souvent les même `wrappers` et la même
-configuration, centralise la configuration dans `test-utils.js`. Déplace le
-wrapper et exporte le de `test-utils.js`
+Nous allons maintenant tester une route connecté
 
-```jsx
-const wrapperHistoryContext = ({children}) => {
-  return <HistoryMovieProvider>{children}</HistoryMovieProvider>
-}
-```
+## Aller plus loin
 
-Note également comme le Wrapper est le même que `AppProviders` de
-`src/context/index.js`
-
-```jsx
-function render(ui, {...options} = {}) {
-  const wrapper = ({children}) => {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <HistoryMovieProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </HistoryMovieProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    )
-  }
-  return renderReactTestingLib(ui, {wrapper, ...options})
-}
-```
-
-Importe donc `AppProviders` dans `test-utils.js` et utilise le comme wrapper
-directement
-
-F**ichiers :**
-
-- `src/test/test-utils.js`
-- `src/context/__tests__/hooksHistoryMovies.js`
+📑 Le lien vers la doc
+[https://www.w3schools.com/html/html_css.asp](https://www.w3schools.com/html/html_css.asp)
 
 ## 🐜 Feedback
 
 Remplir le formulaire le
-[formulaire de FeedBack.](https://go.mikecodeur.com/cours-react-avis?entry.1430994900=React%20NetFlix%20Clone&entry.533578441=16%20Tests%20Hooks%20Component)
+[formulaire de FeedBack](https://go.mikecodeur.com/cours-react-avis).

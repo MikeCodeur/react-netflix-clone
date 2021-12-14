@@ -27,7 +27,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
     objectFit: 'contain',
     height: '448px',
   }
-
   const data = useBookmark()
 
   const addMutation = useAddBookmark({
@@ -65,12 +64,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
       id: movie.id,
     })
   }
-
-  // const handlePlayClick = () => {
-  //   //window.location.href = movie.homepage;
-  //   window.open(movie.homepage, '_blank');
-  // }
-
   const isInList = data?.bookmark[
     type === TYPE_MOVIE ? 'movies' : 'series'
   ]?.includes(movie?.id)
@@ -80,7 +73,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}) => {
   }
 
   return (
-    <header style={banner}>
+    <header style={banner} aria-label="banner">
       <div className="banner__contents">
         <h1 className="banner__title">{title ?? '...'}</h1>
         <div className="banner__buttons">
