@@ -4,8 +4,8 @@
 
 ## 📝 Tes notes
 
-Detaille ce que tu as appris ici
-`INSTRUCTIONS.md`ou sur une page [Notion](https://go.mikecodeur.com/course-notes-template)
+Detaille ce que tu as appris ici `INSTRUCTIONS.md`
+ou sur une page [Notion](https://go.mikecodeur.com/course-notes-template)
 
 ## Comprendre
 
@@ -18,7 +18,8 @@ permettra de détecter rapidement une régression.
 
 Pour faire nos tests unitaires dans notre application nous utiliserons
 [JEST](https://jestjs.io/fr/) qui est inclus et configuré dans le
-[CRA](https://create-react-app.dev/docs/running-tests/)
+[CRA](https://create-react-app.dev/docs/running-tests/) et
+[React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
 ## Exercice
 
