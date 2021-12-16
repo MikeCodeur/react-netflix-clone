@@ -1,5 +1,7 @@
 import * as React from 'react'
 // 🐶 importe {render, screen, waitForElementToBeRemoved} depuis 'test/test-utils'
+// va dans 'test/test-utils' pour creer le wrapper
+
 // 🐶 importe 'userEvent'
 // 🐶 importe le composant à tester : LoginRegister
 
