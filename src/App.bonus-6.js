@@ -34,12 +34,11 @@ const queryClient = new QueryClient({
   },
 })
 
-
 const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#767676',
+      main: '#E50914',
     },
     secondary: {
       main: '#E50914',
@@ -93,7 +92,9 @@ function App() {
           <UnauthApp login={login} register={register} error={authError} />
         )}
       </ThemeProvider>
-      {process.env.NODE_ENV === 'development' && (  <ReactQueryDevtools initialIsOpen={false} />)}
+      {process.env.NODE_ENV === 'development' && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
     </QueryClientProvider>
   )
 }
