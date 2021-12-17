@@ -1,3 +1,4 @@
+import React from 'react'
 import {NetflixAppBar} from 'components/NetflixAppBar'
 import {useNavigate} from 'react-router-dom'
 

@@ -5,7 +5,7 @@ import {NetFlixFooter} from './NetFlixFooter'
 import {NetflixHeader} from './NetflixHeader'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {useMovie} from '../utils/hooksMovies'
-
+import {Helmet} from 'react-helmet-async'
 import {TYPE_MOVIE, TYPE_TV} from '../config'
 import './Netflix.css'
 
@@ -15,6 +15,10 @@ const NetflixApp = ({logout}) => {
   const headerMovie = useMovie(type, defaultMovieId)
   return (
     <div>
+      {/* <Helmet>
+        <title>Vos films (accueil)</title>
+        <meta name="description" content="Nested component" />
+      </Helmet> */}
       <NetflixAppBar logout={logout} />
       <NetflixHeader movie={headerMovie} type={type} />
       <NetflixRow

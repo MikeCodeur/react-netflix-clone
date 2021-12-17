@@ -8,6 +8,7 @@ import {useParams, useLocation} from 'react-router-dom'
 import {useMovie} from '../utils/hooksMovies'
 import {useAddToHistory} from '../context/HistoryMoviesContext'
 import {Profiler} from './Profiler'
+import {Helmet} from 'react-helmet-async'
 import './Netflix.css'
 
 const NetflixById = ({logout}) => {
@@ -30,9 +31,13 @@ const NetflixById = ({logout}) => {
       behavior: 'smooth',
     })
   }, [location.pathname, movieId, tvId])
-
+  const title = type === TYPE_MOVIE ? headerMovie?.title : headerMovie?.name
   return (
     <div>
+      <Helmet>
+        <title>Vos films {title ?? ''}</title>
+        <meta name="description" content={headerMovie?.overview ?? ''} />
+      </Helmet>
       <Profiler id="Film by Id" appData={{type, id: headerMovie?.id}}>
         <NetflixAppBar logout={logout} />
 

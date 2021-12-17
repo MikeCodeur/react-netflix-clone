@@ -1,9 +1,10 @@
+import React from 'react'
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import {QueryClient, QueryClientProvider} from 'react-query'
 import {ReactQueryDevtools} from 'react-query/devtools'
 import {AuthProvider} from './AuthContext'
 import {HistoryMovieProvider} from './HistoryMoviesContext'
-
+import {HelmetProvider} from 'react-helmet-async'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -42,14 +43,16 @@ const theme = createTheme({
 const AppProviders = ({children}) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <HistoryMovieProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </HistoryMovieProvider>
-      </ThemeProvider>
-      {process.env.NODE_ENV === 'development' && (
-        <ReactQueryDevtools initialIsOpen={false} />
-      )}
+      <HelmetProvider>
+        <ThemeProvider theme={theme}>
+          <HistoryMovieProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </HistoryMovieProvider>
+        </ThemeProvider>
+        {process.env.NODE_ENV === 'development' && (
+          <ReactQueryDevtools initialIsOpen={false} />
+        )}
+      </HelmetProvider>
     </QueryClientProvider>
   )
 }
