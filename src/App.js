@@ -25,4 +25,3 @@ const AppConsumer = () => {
   )
 }
 
-export {App}

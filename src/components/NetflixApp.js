@@ -61,4 +61,3 @@ const NetflixApp = ({logout}) => {
     </div>
   )
 }
-export {NetflixApp}
