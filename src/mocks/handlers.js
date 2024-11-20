@@ -1,7 +1,7 @@
 import {rest} from 'msw'
 import * as db from './db'
 import {AUTH_URL} from '../config'
-
+import {Buffer} from 'buffer'
 /*pour simuler du delais*/
 // eslint-disable-next-line no-unused-vars
 const sleep = t => new Promise(resolve => setTimeout(resolve, t))
