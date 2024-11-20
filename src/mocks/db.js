@@ -1,7 +1,7 @@
 /* fichier simulant un backend qui stock des données
   ici nous sauvegarderons les données dans le localStorage
 */
-import crypto from 'crypto'
+import CryptoJS from 'crypto-js'
 const localStorageKey = 'netflix-clone-users'
 
 function loadUsers() {
@@ -55,7 +55,8 @@ function validateUser({username, password}) {
 }
 
 function hashcode(data) {
-  return crypto.createHash('md5').update(data).digest('hex')
+  const hash = CryptoJS.MD5(data).toString()
+  return hash
 }
 
 async function authenticate({username, password}) {
@@ -63,7 +64,12 @@ async function authenticate({username, password}) {
   const id = hashcode(username)
   const user = (await loadUserById(id)) || {}
   if (user.passwordHash === hashcode(password)) {
-    return {...clean(user), token: Buffer.from(user.id).toString('base64')}
+    return {
+      ...clean(user),
+      token: CryptoJS.enc.Base64.stringify(
+        CryptoJS.enc.Utf8.parse(user.id.toString()),
+      ),
+    }
   }
   const error = new Error("Nom d' utilisateur ou mot de passe incorrect")
   error.status = 400
