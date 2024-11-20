@@ -1,11 +1,12 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import './index.css'
 import {App} from './App'
 import reportWebVitals from './reportWebVitals'
 //🐶 importe le composant <Profiler/>
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root')) // Use createRoot
+root.render(
   <React.StrictMode>
     {/* 🐶 Wrappe 'App' avec <React.Profiler onRender={(...args) => console.log(...args)} > 
         dans un premier temps pour tester*/}
@@ -13,7 +14,6 @@ ReactDOM.render(
     {/* 🐶 Ensuite Wrappe 'App' avec le composant Profiler */}
     <App />
   </React.StrictMode>,
-  document.getElementById('root'),
 )
 
 // If you want to start measuring performance in your app, pass a function
