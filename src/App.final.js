@@ -1,6 +1,6 @@
 import {NetflixApp} from 'components/NetflixApp'
-import { ThemeProvider} from '@mui/styles'
-import { createTheme } from '@mui/material/styles'
+import {ThemeProvider} from '@mui/styles'
+import {createTheme} from '@mui/material/styles'
 
 const theme = createTheme({
   palette: {
