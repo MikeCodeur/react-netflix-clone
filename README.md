@@ -39,8 +39,9 @@
 ## Configuration requise
 
 - [git][git] v2.13 ou supérieure
-- [NodeJS][node] `12 || 14 || 15 || 16`
+- [NodeJS][node] `>=18`
 - [npm][npm] v6 ou supérieure
+- [pnpm](https://pnpm.io/fr/)
 
 Ces executables doivent etre inclus votre `PATH`. Pour vérifier qu'ils sont
 corretement installés et configuré vous pouvez executer :
@@ -49,6 +50,7 @@ corretement installés et configuré vous pouvez executer :
 git --version
 node --version
 npm --version
+pnpm --version
 ```
 
 En cas de difficulté pour modifier la variable d'environnement PATH sur votre
@@ -67,30 +69,12 @@ pouvez executer cette commande pour pour demarrer la configuration du projet :
 ```
 git clone https://github.com/MikeCodeur/react-netflix-clone
 cd react-netflix-clone
-npm run init
+pnpm install
 ```
-
-La plupart des problèmes de la commande `npm run init` sont dus aux varialbes
-d'environnement PATH
 
 Si vous avez une erreur, lisez le message d'erreur et essayer de corriger. Si
 vous ne trouvez pas de solution vous pouvez [ouvrir un ticket][issue] en donnant
 le résultat de la console
-
-Si le script de setup pose problème vous pouvez simplement executer les deux
-commandes suivantes :
-
-```
-npm install
-npm run validate
-```
-
-Si vous maitriser [Docker](https://www.docker.com/products/docker-desktop) 🐳
-vous pouvez démarrer le projet :
-
-```
-docker-compose up
-```
 
 Il est recommandé de faire les exercices en local, mais en cas de difficulté il
 est egalement possible de démarrer le projet sur
@@ -101,7 +85,7 @@ est egalement possible de démarrer le projet sur
 Pour demarrer l'application, exécuter:
 
 ```shell
-npm start
+pnpm dev
 ```
 
 ## Changer d'exercice
@@ -109,7 +93,7 @@ npm start
 Changer d'exercice, exécuter:
 
 ```shell
-node go
+npx go
 ```
 
 L'application est basé sur react-create-app et
@@ -117,12 +101,6 @@ L'application est basé sur react-create-app et
 
 Vous pouvez aussi acceder au déploiement
 [déploiement sur Netlify](https://react-prerequis-debutant.mikecodeur.com/).
-
-## Executer les tests
-
-```shell
-npm test
-```
 
 Cela va démarrer [Jest](https://jestjs.io/). Les tests sont là pour vous aider a
 atteindre la version finale, mais _parfois_ vous pouvez réuissir l'exercice and
